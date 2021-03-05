@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
-public class PersonaDaoJDBC implements Validar{
+public class PersonaDaoJDBC {
     private static final String SQL_SELECT = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado " 
             + "FROM Personas";
             
@@ -139,7 +139,7 @@ public class PersonaDaoJDBC implements Validar{
             stmt.setString(8, persona.getTercer_Nombre() );
             stmt.setString(9, persona.getPrimer_Apellido() );
             stmt.setString(10, persona.getSegundo_Apellido() );
-            stmt.setBinaryStream(11, persona.getFoto() );
+            stmt.setBlob(11, persona.getFoto() );
             stmt.setInt(12, persona.getEstadoVoto() );
             stmt.setBoolean(13, persona.isEstado());
 
@@ -172,7 +172,7 @@ public class PersonaDaoJDBC implements Validar{
             stmt.setString(7, persona.getTercer_Nombre() );
             stmt.setString(8, persona.getPrimer_Apellido() );
             stmt.setString(9, persona.getSegundo_Apellido() );
-            stmt.setBinaryStream(10, persona.getFoto() );
+            stmt.setBlob(10, persona.getFoto() );
             stmt.setInt(11, persona.getEstadoVoto() );
             stmt.setBoolean(12, persona.isEstado());
             stmt.setString(13, persona.getId_Persona());
@@ -207,7 +207,7 @@ public class PersonaDaoJDBC implements Validar{
         return rows;
     }
 
-    @Override
+
     public int validar(Persona per) {
         int r = 0;
         Connection conn = null;
@@ -220,9 +220,10 @@ public class PersonaDaoJDBC implements Validar{
             stmt.setString(1, per.getId_Persona());
             stmt.setString(2, per.getPassword_());
             rs = stmt.executeQuery();
-            
+             System.out.println("NO VALIDADA");
             while(rs.next()){
             r=r+1;
+                System.out.println("Validacion correcta");
             per.setId_Persona(rs.getString("idPersona"));
             per.setPassword_(rs.getString("Contra"));
             
@@ -240,8 +241,8 @@ public class PersonaDaoJDBC implements Validar{
             ex.printStackTrace(System.out);
             return 0;
         } finally {
-            Conexion.close(stmt);
-            Conexion.close(conn);
+//           Conexion.close(stmt);
+//           Conexion.close(conn);
         }
         
     }

@@ -26,6 +26,11 @@ private boolean Estado;
         this.id_Persona = id_Persona;
     }
 
+    public Persona(String id_Persona, String Password_) {
+        this.id_Persona = id_Persona;
+        this.Password_ = Password_;
+    }
+
     public Persona(int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;

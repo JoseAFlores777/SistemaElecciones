@@ -1,0 +1,5 @@
+web/ServletControlador.class
+dominio/Persona.class
+datos/Conexion.class
+datos/PersonaDaoJDBC.class
+datos/Validar.class

@@ -6,6 +6,7 @@ import datos.PersonaDaoJDBC;
 import dominio.Persona;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.System.out;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +26,9 @@ public class ServletControlador extends HttpServlet{
                     this.editarPersona(request, response);
                     break;
                 case "eliminar":
-                    this.eliminarCliente(request, response);
+                    this.eliminarPersona(request, response);
                     break;
+
                 default:
                     this.accionDefault(request, response);
             }
@@ -41,8 +43,10 @@ public class ServletControlador extends HttpServlet{
         System.out.println("personas = " + personas);
         HttpSession sesion = request.getSession();
         sesion.setAttribute("personas", personas);
+//
+        response.sendRedirect("clientes.jsp");
 
-        response.sendRedirect("personas.jsp");
+     
     }
 
 
@@ -53,8 +57,8 @@ public class ServletControlador extends HttpServlet{
         String id_Persona = request.getParameter("idPersona");
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
         request.setAttribute("persona", persona);
-//        String jspEditar = "/WEB-INF/paginas/cliente/editarCliente.jsp";
-//        request.getRequestDispatcher(jspEditar).forward(request, response);
+        String jspEditar = "/WEB-INF/paginas/cliente/editarCliente.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
     }
 
     @Override
@@ -64,10 +68,15 @@ public class ServletControlador extends HttpServlet{
         if (accion != null) {
             switch (accion) {
                 case "insertar":
-                    this.insertarCliente(request, response);
+                    this.insertarPersona(request, response);
                     break;
                 case "modificar":
-                    this.modificarCliente(request, response);
+                    this.modificarPersona(request, response);
+                    break;
+                case "Ingresar":
+                    System.out.println("AQUI ESTOY");
+                     out.print("<script>alert('el usuario no existe')</script>");
+                    this.validarPersona(request, response);
                     break;
                 default:
                     this.accionDefault(request, response);
@@ -138,7 +147,7 @@ public class ServletControlador extends HttpServlet{
         this.accionDefault(request, response);
     }
     
-        private void eliminarCliente(HttpServletRequest request, HttpServletResponse response)
+        private void eliminarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //recuperamos los valores del formulario editarPersona
         String id_Persona = request.getParameter("idPersona");
@@ -154,6 +163,30 @@ public class ServletControlador extends HttpServlet{
         //Redirigimos hacia accion por default
         this.accionDefault(request, response);
     }
-    
-    
+        
+        
+        
+    private void validarPersona(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String id_Persona = request.getParameter("idPersona");
+        String Password_ = request.getParameter("Contra");
+        
+        System.out.println(id_Persona);
+        System.out.println(Password_);
+        Persona persona = new Persona(id_Persona,Password_);
+        
+        int Ingreso = new PersonaDaoJDBC().validar(persona);
+        System.out.println(Ingreso);
+        if (Ingreso==1) {
+            
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("credencial", persona);
+            
+request.getRequestDispatcher("Principal.jsp").forward(request, response);
+            
+        }else{
+         request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+    }
 }
