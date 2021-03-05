@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
-public class PersonaDaoJDBC {
+public class PersonaDaoJDBC implements Validar{
     private static final String SQL_SELECT = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado " 
             + "FROM Personas";
             
@@ -24,6 +24,9 @@ public class PersonaDaoJDBC {
             
 
     private static final String SQL_DELETE = "DELETE FROM Personas WHERE idPersona = ?";
+    
+    
+    private static final String SQL_VALIDAR = "SELECT * FROM Personas WHERE idPersona=? AND Contra=?";
     
     
     
@@ -203,7 +206,46 @@ public class PersonaDaoJDBC {
         }
         return rows;
     }
-    
+
+    @Override
+    public int validar(Persona per) {
+        int r = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_VALIDAR);
+            stmt.setString(1, per.getId_Persona());
+            stmt.setString(2, per.getPassword_());
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+            r=r+1;
+            per.setId_Persona(rs.getString("idPersona"));
+            per.setPassword_(rs.getString("Contra"));
+            
+            }
+            
+            if (r==1) {
+                return 1;
+            }else{
+            return 0;
+            }
+           
+            
+        } catch (SQLException ex) {
+        
+            ex.printStackTrace(System.out);
+            return 0;
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        
+    }
+
     
     
 }
