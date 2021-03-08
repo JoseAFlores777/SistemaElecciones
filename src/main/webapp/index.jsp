@@ -33,9 +33,9 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+				<div class="login100-form-title" style="background-image: url(images/votos.png);">
 					<span class="login100-form-title-1">
-						Ingresa
+						Ingresar
 					</span>
 				</div>
 
@@ -47,7 +47,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input m-b-18" data-validate = "Es necesaria su clave">
-						<span class="label-input100">Clave</span>
+						<span class="label-input100">Contraseña</span>
 						<input class="input100" type="password" name="Contra" placeholder="Ingrese su Contraseña">
 						<span class="focus-input100"></span>
 					</div>

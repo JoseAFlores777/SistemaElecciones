@@ -215,7 +215,9 @@ public class PersonaDaoJDBC {
         ResultSet rs = null;
         
         try {
+             
             conn = Conexion.getConnection();
+            System.out.println("123");
             stmt = conn.prepareStatement(SQL_VALIDAR);
             stmt.setString(1, per.getId_Persona());
             stmt.setString(2, per.getPassword_());
