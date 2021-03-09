@@ -1,4 +1,5 @@
 web/ServletControlador.class
+web/ControladorMenus.class
 dominio/Persona.class
 datos/Conexion.class
 datos/PersonaDaoJDBC.class
