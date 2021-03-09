@@ -1,21 +1,31 @@
+
+
 <html lang="es">
 
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
-        <meta name="author" content="AdminKit">
-        <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-        <link rel="shortcut icon" href="adminkit-main/static/img/icons/icon-48x48.png" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+        <jsp:include page="/Estructura-Menu/Head-metas.jsp"/>
+
         <title>Mi Perfil</title>
-
-        <link href="adminkit-main/static/css/app.css" rel="stylesheet">
     </head>
 
     <body>
+
+        <div class="wrapper">
+            <jsp:include page="/Estructura-Menu/Sidebar.jsp"/>
+
+
+            <div class="main">
+
+                <jsp:include page="/Estructura-Menu/NavBar.jsp"/>
+
+                <main class="content">
+
+
+                    <%--Inicio de Contenido--%>
+
+
+                    <div class="container-fluid p-0">
     <%--Inicio de Titulo de Página--%>
     <body>
         <div class="row mb-2 mb-xl-3">
@@ -34,5 +44,74 @@
             </div>
         </div>
             <%--Fin de Titulo de Página--%>
+
+                        <div class="card">
+
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+
+
+
+                    <%--Final de Contenido--%>
+
+
+                </main>
+                <footer class="footer">
+                    <jsp:include page="/Estructura-Menu/footer.jsp"/>  
+                </footer>
+
+            </div>
+
+        </div>
+
+
+
+        <jsp:include page="/Estructura-Menu/html-scripts.jsp"/>  
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
