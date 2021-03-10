@@ -45,7 +45,7 @@
 
                         <div class="card" style="padding-top: 20px;">
                           
-                            <button type="button" class="btn btn-pill btn-success" style="margin: 20px;"><i class="far fa-plus-square"></i> Agregar</button>
+                            <button type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</button>
 						
 
                             <table id="example" class="table display" style="margin-top:100%;">
