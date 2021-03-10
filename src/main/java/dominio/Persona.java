@@ -7,8 +7,11 @@ import java.io.InputStream;
 public class Persona {
 private String id_Persona;
 private int id_Tipo;
+private String id_Tipo_Des;
 private int id_Mesa;
+private String id_Mesa_Des;
 private int id_Partido;
+private int id_Partido_Nom;
 private String Password_;
 private String primer_Nombre;
 private String segundo_Nombre;
@@ -51,6 +54,25 @@ private boolean Estado;
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;
         this.id_Partido = id_Partido;
+        this.Password_ = Password_;
+        this.primer_Nombre = primer_Nombre;
+        this.segundo_Nombre = segundo_Nombre;
+        this.tercer_Nombre = tercer_Nombre;
+        this.primer_Apellido = primer_Apellido;
+        this.segundo_Apellido = segundo_Apellido;
+        this.Foto = Foto;
+        this.EstadoVoto = EstadoVoto;
+        this.Estado = Estado;
+    }
+
+    public Persona(String id_Persona, int id_Tipo, String id_Tipo_Des, int id_Mesa, String id_Mesa_Des, int id_Partido, int id_Partido_Nom, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+        this.id_Persona = id_Persona;
+        this.id_Tipo = id_Tipo;
+        this.id_Tipo_Des = id_Tipo_Des;
+        this.id_Mesa = id_Mesa;
+        this.id_Mesa_Des = id_Mesa_Des;
+        this.id_Partido = id_Partido;
+        this.id_Partido_Nom = id_Partido_Nom;
         this.Password_ = Password_;
         this.primer_Nombre = primer_Nombre;
         this.segundo_Nombre = segundo_Nombre;
@@ -167,6 +189,30 @@ private boolean Estado;
 
     public void setEstado(boolean Estado) {
         this.Estado = Estado;
+    }
+
+    public String getId_Tipo_Des() {
+        return id_Tipo_Des;
+    }
+
+    public void setId_Tipo_Des(String id_Tipo_Des) {
+        this.id_Tipo_Des = id_Tipo_Des;
+    }
+
+    public String getId_Mesa_Des() {
+        return id_Mesa_Des;
+    }
+
+    public void setId_Mesa_Des(String id_Mesa_Des) {
+        this.id_Mesa_Des = id_Mesa_Des;
+    }
+
+    public int getId_Partido_Nom() {
+        return id_Partido_Nom;
+    }
+
+    public void setId_Partido_Nom(int id_Partido_Nom) {
+        this.id_Partido_Nom = id_Partido_Nom;
     }
 
     @Override

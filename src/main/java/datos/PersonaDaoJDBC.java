@@ -9,6 +9,8 @@ import java.util.*;
 public class PersonaDaoJDBC {
     private static final String SQL_SELECT = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado " 
             + "FROM Personas";
+    
+
             
 
     private static final String SQL_SELECT_BY_ID = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado "

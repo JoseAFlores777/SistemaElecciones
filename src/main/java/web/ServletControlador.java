@@ -44,7 +44,7 @@ public class ServletControlador extends HttpServlet{
         HttpSession sesion = request.getSession();
         sesion.setAttribute("personas", personas);
 //
-        response.sendRedirect("clientes.jsp");
+        response.sendRedirect("ControladorMenus?accion=Administradores");
 
      
     }
