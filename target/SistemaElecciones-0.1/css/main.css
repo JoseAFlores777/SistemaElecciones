@@ -513,4 +513,12 @@ input.input100 {
   }
 }
 
-
+input[type="file"] {
+    display: none !important;
+}
+.custom-file-upload {
+    border: 1px solid #ccc !important;
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    cursor: pointer !important;
+}
