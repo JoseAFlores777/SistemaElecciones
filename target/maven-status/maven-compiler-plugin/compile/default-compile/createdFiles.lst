@@ -1,7 +1,11 @@
 web/ServletControlador.class
+dominio/Partido.class
 web/ControladorMenus.class
 dominio/Persona.class
 datos/Conexion.class
 web/ControladorIMG.class
+web/ControladorIMGpartidos.class
+web/ServletControladorPartidos.class
 datos/PersonaDaoJDBC.class
+datos/PartidoDaoJDBC.class
 datos/Validar.class

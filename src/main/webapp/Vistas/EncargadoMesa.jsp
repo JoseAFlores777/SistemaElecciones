@@ -55,9 +55,10 @@
                                 <thead>
                                     <tr>
                                         <th style="width:5%;">#</th>
-                                        <th style="width:40%;">Nombre</th>
+                                        <th style="width:35%;">Nombre</th>
                                         <th style="width:25%">Cargo</th>
-                                        <th class="d-none d-md-table-cell" style="width:25%">Estado</th>
+                                        <th style="width:10%;">#Mesa</th>
+                                        <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -74,6 +75,7 @@
                                             </td>
 
                                             <td>${persona.getId_Tipo_Des()}</td>
+                                            <td>Mesa ${persona.getId_Mesa()}</td>
                                                                                             <c:if test="${persona.getEstadoDes()=='Activo'}">
                                                     <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${persona.getEstadoDes()}</span></td>
                                                     </c:if>
