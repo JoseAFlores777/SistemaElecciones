@@ -2,5 +2,6 @@ web/ServletControlador.class
 web/ControladorMenus.class
 dominio/Persona.class
 datos/Conexion.class
+web/ControladorIMG.class
 datos/PersonaDaoJDBC.class
 datos/Validar.class

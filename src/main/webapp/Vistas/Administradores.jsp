@@ -69,7 +69,7 @@
                                         <tr>
                                             <td>${status.count}</td>
                                             <td>
-                                                <img src="${persona.Foto}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
+                                                <img src="${pageContext.request.contextPath}/ControladorIMG?id=${persona.getId_Persona()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
                                             </td>
 
                                             <td>${persona.id_Tipo}</td>

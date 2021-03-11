@@ -30,7 +30,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ServletControlador?accion=" target="myFrame">
+                            <a class="sidebar-link" href="ServletControlador?accion=" >
                                 <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Administradores</span>
                             </a>
                         </li>
