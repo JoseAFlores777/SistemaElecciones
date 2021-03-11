@@ -19,6 +19,7 @@ public class ServletControlador extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String user = request.getParameter("user");
         String accion = request.getParameter("accion");
         if (accion != null) {
             switch (accion) {
@@ -39,7 +40,7 @@ public class ServletControlador extends HttpServlet{
 
     private void accionDefault(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Persona> personas = new PersonaDaoJDBC().listar();
+        List<Persona> personas = new PersonaDaoJDBC().listar(request.getParameter("user"));
         System.out.println("personas = " + personas);
         HttpSession sesion = request.getSession();
         sesion.setAttribute("personas", personas);

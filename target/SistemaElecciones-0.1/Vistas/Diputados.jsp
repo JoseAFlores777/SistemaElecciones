@@ -1,4 +1,5 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html lang="es">
 
@@ -46,66 +47,45 @@
         </div>
             <%--Fin de Titulo de Página--%>
 
-                        <div class="card">
+                        <div class="card" style="padding-top: 20px;">
 
-                            <table id="example" class="table display" style="margin-top: 20px;">
+                            <button type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</button>
+
+
+                            <table id="example" class="table display" style="margin-top:100%;">
                                 <thead>
                                     <tr>
-                                        <th style="width:40%;">Name</th>
-                                        <th style="width:25%">Phone Number</th>
-                                        <th class="d-none d-md-table-cell" style="width:25%">Date of Birth</th>
+                                        <th style="width:5%;">#</th>
+                                        <th style="width:40%;">Nombre</th>
+                                        <th style="width:25%">Cargo</th>
+                                        <th class="d-none d-md-table-cell" style="width:25%">Estado</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="adminkit-main/static/img/avatars/avatar-2.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> Vanessa Tucker
-                                        </td>
 
-                                        <td>864-348-0485</td>
-                                        <td class="d-none d-md-table-cell">June 21, 1961</td>
-                                        <td class="table-action">
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="adminkit-main/static/img/avatars/avatar-3.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">William Harris</td>
-                                        <td>914-939-2458</td>
-                                        <td class="d-none d-md-table-cell">May 15, 1948</td>
-                                        <td class="table-action">
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="adminkit-main/static/img/avatars/avatar-2.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">Sharon Lessman</td>
-                                        <td>704-993-5435</td>
-                                        <td class="d-none d-md-table-cell">September 14, 1965</td>
-                                        <td class="table-action">
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="adminkit-main/static/img/avatars/avatar-4.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">Christina Mason</td>
-                                        <td>765-382-8195</td>
-                                        <td class="d-none d-md-table-cell">April 2, 1971</td>
-                                        <td class="table-action">
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src="adminkit-main/static/img/avatars/avatar-5.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">Robin Schneiders</td>
-                                        <td>202-672-1407</td>
-                                        <td class="d-none d-md-table-cell">October 12, 1966</td>
-                                        <td class="table-action">
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
-                                    </tr>
+
+
+
+                                    <c:forEach var="persona" items="${personas}" varStatus="status" >
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td>
+                                                <img src="${pageContext.request.contextPath}/ControladorIMG?id=${persona.getId_Persona()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
+                                            </td>
+
+                                            <td>${persona.id_Tipo}</td>
+                                            <td class="d-none d-md-table-cell">$111</td>
+                                            <td class="table-action">
+                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+
+
+
+
                                 </tbody>
                             </table>
                         </div>

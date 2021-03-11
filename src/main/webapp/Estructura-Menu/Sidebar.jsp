@@ -30,22 +30,22 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ServletControlador?accion=" >
+                            <a class="sidebar-link" href="ServletControlador?user=5&accion=" >
                                 <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Administradores</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ControladorMenus?accion=Magistrados" target="myFrame">
+                            <a class="sidebar-link" href="ServletControlador?user=4&accion=" >
                                 <i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Magistrados</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ControladorMenus?accion=EncargadoMesa" target="myFrame">
+                            <a class="sidebar-link" href="ServletControlador?user=6&accion=" >
                                 <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">Encargados de Mesas </span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ControladorMenus?accion=Electores" target="myFrame">
+                            <a class="sidebar-link" href="ServletControlador?user=7&accion=" >
                                 <i class="align-middle" data-feather="users"></i> <span class="align-middle">Electores</span>
                             </a>
                         </li>
@@ -67,9 +67,9 @@
                                 <i class="far fa-user-circle"></i> <span class="align-middle">Candidatos</span>
                             </a>
                             <ul id="Candidatos" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-                                <li class="sidebar-item"><a class="sidebar-link" href="ControladorMenus?accion=Presidentes" target="myFrame" >Presidentes</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="ControladorMenus?accion=Alcaldes" target="myFrame">Alcaldes</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="ControladorMenus?accion=Diputados" target="myFrame">Diputados</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="ServletControlador?user=1&accion="  >Presidentes</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="ServletControlador?user=2&accion=" >Alcaldes</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="ServletControlador?user=3&accion=" >Diputados</a></li>
 
                             </ul>
                         </li>

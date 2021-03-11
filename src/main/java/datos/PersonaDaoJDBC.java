@@ -29,7 +29,13 @@ public class PersonaDaoJDBC {
 
     private static final String SQL_VALIDAR = "SELECT * FROM Personas WHERE idPersona=? AND Contra=?";
 
-    public List<Persona> listar() {
+    public List<Persona> listar(String user) {
+        
+        if (user.equals("7") ) {
+            user = "";
+        }else{
+        user= " WHERE idTipo="+user;
+        }
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -37,7 +43,7 @@ public class PersonaDaoJDBC {
         List<Persona> personas = new ArrayList<>();
         try {
             conn = Conexion.getConnection();
-            stmt = conn.prepareStatement(SQL_SELECT);
+            stmt = conn.prepareStatement(SQL_SELECT+user);
             rs = stmt.executeQuery();
             while (rs.next()) {
 
