@@ -30,11 +30,11 @@ public class PersonaDaoJDBC {
     private static final String SQL_VALIDAR = "SELECT * FROM Personas WHERE idPersona=? AND Contra=?";
 
     public List<Persona> listar(String user) {
-        
-        if (user.equals("7") ) {
+
+        if (user.equals("7")) {
             user = "";
-        }else{
-        user= " WHERE idTipo="+user;
+        } else {
+            user = " WHERE idTipo=" + user;
         }
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -43,7 +43,7 @@ public class PersonaDaoJDBC {
         List<Persona> personas = new ArrayList<>();
         try {
             conn = Conexion.getConnection();
-            stmt = conn.prepareStatement(SQL_SELECT+user);
+            stmt = conn.prepareStatement(SQL_SELECT + user);
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -74,8 +74,19 @@ public class PersonaDaoJDBC {
         return personas;
     }
 
-    public void listarIMG(String id, HttpServletResponse response) throws IOException {
-        String sql = "SELECT * FROM Personas WHERE idPersona=" + id;
+    //Tipo foto 1:foto de Perfil  2: Foto de Partido
+    public void listarIMG(String id, int tipoFoto, HttpServletResponse response) throws IOException {
+        String sql;
+        if (tipoFoto == 1) {
+            sql = "SELECT Foto FROM Personas WHERE idPersona=" + id;
+        } else {
+            sql = "SELECT T2.Bandera\n"
+                    + "FROM Personas T1\n"
+                    + "INNER JOIN Partidos T2\n"
+                    + "ON(T1.idPartido=T2.idPartido)\n"
+                    + "WHERE T1.idPersona =" + id;
+        }
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -86,21 +97,20 @@ public class PersonaDaoJDBC {
         BufferedOutputStream bufferedOutputStream = null;
 
         try {
-            outputStream=response.getOutputStream();
+            outputStream = response.getOutputStream();
             conn = Conexion.getConnection();
+
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {
 
-                inputStream = rs.getBinaryStream("Foto");
-                
-                
-                
+                inputStream = rs.getBinaryStream(1);
+
             }
-            bufferedInputStream=new BufferedInputStream(inputStream);
-            bufferedOutputStream =new BufferedOutputStream(outputStream);
-            int i=0;
-            while ((i=bufferedInputStream.read())!=-1) {                
+            bufferedInputStream = new BufferedInputStream(inputStream);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            int i = 0;
+            while ((i = bufferedInputStream.read()) != -1) {
                 bufferedOutputStream.write(i);
             }
         } catch (SQLException ex) {
@@ -110,7 +120,7 @@ public class PersonaDaoJDBC {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-        
+
     }
 
     public Persona encontrar(Persona persona) {
@@ -282,5 +292,45 @@ public class PersonaDaoJDBC {
         }
 
     }
+//1:Tipo->tipos 2:Tipo->Partidos 3:Tipo->EstadoVoto
+    public String Referencia(int id,int Tipo) {
+        String Referencia = null;
+        String sql = null;
+        
+        if (Tipo==1) {
+            sql = "SELECT Nombre FROM Tipos WHERE idTipo=" + id;
+        }else if(Tipo==2){
+        sql = "SELECT Nombre FROM Partidos WHERE idPartido=" + id;
+        }else if (Tipo==3){
+        sql = "SELECT Des FROM Tipos_EstadoVoto WHERE idTipos_EstadoVoto=" + id;
+        }
+
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Persona persona = null;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+  
+                Referencia = rs.getString(1);
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return Referencia;
+    }
+
+    
 
 }

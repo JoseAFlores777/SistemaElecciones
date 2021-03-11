@@ -1,6 +1,7 @@
 
 package dominio;
 
+import datos.PersonaDaoJDBC;
 import java.io.InputStream;
 
 
@@ -11,7 +12,7 @@ private String id_Tipo_Des;
 private int id_Mesa;
 private String id_Mesa_Des;
 private int id_Partido;
-private int id_Partido_Nom;
+private String id_Partido_Nom;
 private String Password_;
 private String primer_Nombre;
 private String segundo_Nombre;
@@ -19,7 +20,9 @@ private String tercer_Nombre;
 private String primer_Apellido;
 private String segundo_Apellido;
 private InputStream Foto;
+private InputStream Foto_Partido;
 private int EstadoVoto;
+private String EstadoVoto_Des;
 private boolean Estado;
 
     public Persona() {
@@ -65,7 +68,7 @@ private boolean Estado;
         this.Estado = Estado;
     }
 
-    public Persona(String id_Persona, int id_Tipo, String id_Tipo_Des, int id_Mesa, String id_Mesa_Des, int id_Partido, int id_Partido_Nom, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+    public Persona(String id_Persona, int id_Tipo, String id_Tipo_Des, int id_Mesa, String id_Mesa_Des, int id_Partido, String id_Partido_Nom, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
         this.id_Persona = id_Persona;
         this.id_Tipo = id_Tipo;
         this.id_Tipo_Des = id_Tipo_Des;
@@ -192,7 +195,9 @@ private boolean Estado;
     }
 
     public String getId_Tipo_Des() {
-        return id_Tipo_Des;
+        
+        return  new PersonaDaoJDBC().Referencia(getId_Tipo(),1);
+        
     }
 
     public void setId_Tipo_Des(String id_Tipo_Des) {
@@ -207,12 +212,38 @@ private boolean Estado;
         this.id_Mesa_Des = id_Mesa_Des;
     }
 
-    public int getId_Partido_Nom() {
-        return id_Partido_Nom;
+    public String getId_Partido_Nom() {
+       return  new PersonaDaoJDBC().Referencia(getId_Partido(),2);
     }
 
-    public void setId_Partido_Nom(int id_Partido_Nom) {
+    public void setId_Partido_Nom(String id_Partido_Nom) {
         this.id_Partido_Nom = id_Partido_Nom;
+    }
+
+    public InputStream getFoto_Partido() {
+        return Foto_Partido;
+    }
+
+    public void setFoto_Partido(InputStream Foto_Partido) {
+        this.Foto_Partido = Foto_Partido;
+    }
+
+    public String getEstadoVoto_Des() {
+        return new PersonaDaoJDBC().Referencia(getEstadoVoto(),3);
+    }
+
+    public void setEstadoVoto_Des(String EstadoVoto_Des) {
+        this.EstadoVoto_Des = EstadoVoto_Des;
+    }
+    
+    
+    public String getEstadoDes(){
+        if (isEstado()) {
+            return "Activo";
+        }else{
+        return "Inactivo";
+        }
+        
     }
 
     @Override
