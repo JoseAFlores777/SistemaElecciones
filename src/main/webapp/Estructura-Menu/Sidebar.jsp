@@ -56,7 +56,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="ControladorMenus?accion=Partidos" target="myFrame">
+                            <a class="sidebar-link" href="ServletControladorPartidos?accion=" >
                                 <i class="far fa-flag"></i> <span class="align-middle">Partidos Políticos</span>
                             </a>
                         </li>

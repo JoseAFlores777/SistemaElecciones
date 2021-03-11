@@ -60,7 +60,7 @@ public class PartidoDaoJDBC {
 
     //Tipo foto 1:foto de Perfil  2: Foto de Partido
     public void listarIMG(String id, HttpServletResponse response) throws IOException {
-        String sql = "SELECT Foto FROM Personas WHERE idPersona=" + id;
+        String sql = "SELECT Bandera FROM Partidos WHERE idPartido=" + id;
 
 
         Connection conn = null;
@@ -86,7 +86,7 @@ public class PartidoDaoJDBC {
             bufferedInputStream = new BufferedInputStream(inputStream);
             bufferedOutputStream = new BufferedOutputStream(outputStream);
             int i = 0;
-            while ((i = bufferedInputStream.read()) != -1) {
+            while ((i = bufferedInputStream.read()) !=-1) {
                 bufferedOutputStream.write(i);
             }
         } catch (SQLException ex) {

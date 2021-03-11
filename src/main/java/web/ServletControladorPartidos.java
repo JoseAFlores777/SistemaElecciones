@@ -39,7 +39,7 @@ public class ServletControladorPartidos extends HttpServlet {
 
     private void accionDefault(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
+        
         List<Partido> partidos = new PartidoDaoJDBC().listar();
         System.out.println("partidos = " + partidos);
         HttpSession sesion = request.getSession();
