@@ -7,9 +7,11 @@ import java.io.InputStream;
 import static java.lang.System.out;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+@MultipartConfig
 @WebServlet("/ServletControlador")
 public class ServletControlador extends HttpServlet {
 
@@ -66,7 +68,7 @@ public class ServletControlador extends HttpServlet {
         String id_Persona = request.getParameter("idPersona");
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
         request.setAttribute("persona", persona);
-        String jspEditar = "/WEB-INF/paginas/cliente/editarCliente.jsp";
+        String jspEditar = "/Modales/EditarPersona.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
 

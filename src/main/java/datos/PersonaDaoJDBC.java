@@ -17,7 +17,7 @@ public class PersonaDaoJDBC {
             + "FROM Personas";
 
     private static final String SQL_SELECT_BY_ID = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado "
-            + "FROM Personas WHERE idPersona = ?";
+            + "FROM Personas WHERE idPersona=?";
 
     private static final String SQL_INSERT = "INSERT INTO Personas(idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado )"
             + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -132,8 +132,8 @@ public class PersonaDaoJDBC {
             stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             stmt.setString(1, persona.getId_Persona());
             rs = stmt.executeQuery();
-            rs.absolute(1);//nos posicionamos en el primer registro devuelto
-
+//            rs.absolute(1);//nos posicionamos en el primer registro devuelto
+ while (rs.next()) {
             int id_Tipo = rs.getInt("idTipo");
             int id_Mesa = rs.getInt("idMesa");
             int id_Partido = rs.getInt("idPartido");
@@ -146,7 +146,7 @@ public class PersonaDaoJDBC {
             InputStream Foto = rs.getBinaryStream("Foto");
             int EstadoVoto = rs.getInt("Estado_Voto");
             boolean Estado = rs.getBoolean("Estado");
-
+            System.out.println("HOla estoy en editar");
             persona.setId_Tipo(id_Tipo);
             persona.setId_Mesa(id_Mesa);
             persona.setId_Partido(id_Partido);
@@ -159,7 +159,7 @@ public class PersonaDaoJDBC {
             persona.setFoto(Foto);
             persona.setEstadoVoto(EstadoVoto);
             persona.setEstado(Estado);
-
+ }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
