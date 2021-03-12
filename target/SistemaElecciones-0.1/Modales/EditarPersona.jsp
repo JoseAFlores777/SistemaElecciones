@@ -13,7 +13,7 @@
 
 
 
-                <form action="${pageContext.request.contextPath}/ServletControlador?accion=Ingresar" method="GET" class="login100-form validate-form">
+                <form  action="${pageContext.request.contextPath}/ServletControlador?accion=modificar&idPersona=${persona.getId_Persona()}" method="POST">
                     <div class="row">
                         <div class="col-md-7">
                             <div class="mb-3 col-md-10">
@@ -51,10 +51,10 @@
                             <div class="text-center">
                                 <img alt="Charles Hall" src="adminkit-main/static/img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                 <div class="mt-2">
-<label class="btn btn-primary">
-    <input type="file"/>
-    <i class="fas fa-upload"></i> Subir Imagen
-</label>
+                                    <label class="btn btn-primary">
+                                        <input type="file"/>
+                                        <i class="fas fa-upload"></i> Subir Imagen
+                                    </label>
                                 </div>
 
                             </div>
@@ -81,7 +81,7 @@
                                 <label class="form-label" for="inputState">Estado Voto</label>
                                 <select id="inputState" class="form-control">
                                     <option selected="">Choose...</option>
-                                    <option>...</option>
+                                 
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
