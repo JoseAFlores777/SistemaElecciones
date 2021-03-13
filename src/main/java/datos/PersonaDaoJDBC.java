@@ -116,7 +116,7 @@ public class PersonaDaoJDBC {
             bufferedInputStream = new BufferedInputStream(inputStream);
             bufferedOutputStream = new BufferedOutputStream(outputStream);
             int i = 0;
-            while ((i = bufferedInputStream.read()) != -1) {
+            while (( i=bufferedInputStream.read()) != -1) {
                 bufferedOutputStream.write(i);
             }
         } catch (SQLException ex) {

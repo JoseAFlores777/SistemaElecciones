@@ -132,6 +132,8 @@ public class ServletControlador extends HttpServlet {
             throws ServletException, IOException {
         Persona persona;
         //recuperamos los valores del formulario editarPersona
+        System.out.println("Aqui el valor de Foto");
+        System.out.println(request.getParameter("Foto"));
         String id_Persona = request.getParameter("idPersona");
         int id_Tipo = Integer.parseInt(request.getParameter("idTipo"));
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
@@ -143,6 +145,7 @@ public class ServletControlador extends HttpServlet {
         String primer_Apellido = request.getParameter("PrimerApellido");
         String segundo_Apellido = request.getParameter("SegundoApellido");
         Part part = request.getPart("Foto");
+        System.out.println(request.getPart("Foto"));
         InputStream Foto = part.getInputStream();
         int EstadoVoto = Integer.parseInt(request.getParameter("Estado_Voto"));
         boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
