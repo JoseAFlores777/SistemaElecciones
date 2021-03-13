@@ -37,6 +37,23 @@ private boolean Estado;
         this.Password_ = Password_;
     }
 
+    public Persona(String id_Persona, int id_Tipo, int id_Mesa, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+        this.id_Persona = id_Persona;
+        this.id_Tipo = id_Tipo;
+        this.id_Mesa = id_Mesa;
+        this.Password_ = Password_;
+        this.primer_Nombre = primer_Nombre;
+        this.segundo_Nombre = segundo_Nombre;
+        this.tercer_Nombre = tercer_Nombre;
+        this.primer_Apellido = primer_Apellido;
+        this.segundo_Apellido = segundo_Apellido;
+        this.Foto = Foto;
+        this.EstadoVoto = EstadoVoto;
+        this.Estado = Estado;
+    }
+
+
+
     public Persona(int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;

@@ -62,6 +62,7 @@ public class ServletControlador extends HttpServlet {
         }
     }
 
+
     private void editarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //recuperamos el idCliente
@@ -69,7 +70,7 @@ public class ServletControlador extends HttpServlet {
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
         request.setAttribute("persona", persona);
         String jspEditar = "/Modales/EditarPersona.jsp";
-        request.getRequestDispatcher(jspEditar).forward(request, response);
+       request.getRequestDispatcher(jspEditar).forward(request, response);
     }
 
     @Override
@@ -129,11 +130,12 @@ public class ServletControlador extends HttpServlet {
 
     private void modificarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Persona persona;
         //recuperamos los valores del formulario editarPersona
         String id_Persona = request.getParameter("idPersona");
         int id_Tipo = Integer.parseInt(request.getParameter("idTipo"));
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
-        int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
+        
         String Password_ = request.getParameter("Contra");
         String primer_Nombre = request.getParameter("PrimerNombre");
         String segundo_Nombre = request.getParameter("SegundoNombre");
@@ -144,16 +146,42 @@ public class ServletControlador extends HttpServlet {
         InputStream Foto = part.getInputStream();
         int EstadoVoto = Integer.parseInt(request.getParameter("Estado_Voto"));
         boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
-
+        
+        if (id_Tipo <=3) {
+int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
         //Creamos el objeto de Persona (modelo)
-        Persona persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);
+         persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);            
+        }else{
+          persona = new Persona(id_Persona, id_Tipo, id_Mesa, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);            
+        }
+        
+
 
         //Modificar el  objeto en la base de datos
         int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
         System.out.println("registrosModificados = " + registrosModificados);
 
         //Redirigimos hacia accion por default
-        this.accionDefault(request, response);
+//        this.accionDefault(request, response);
+        if (id_Tipo==1) {
+            response.sendRedirect("ServletControlador?user=1&accion=");
+        } else if (id_Tipo==2) {
+            response.sendRedirect("ServletControlador?user=2&accion=");
+        } else if (id_Tipo==3) {
+            response.sendRedirect("ServletControlador?user=3&accion=");
+        } else if (id_Tipo==4) {
+            response.sendRedirect("ServletControlador?user=4&accion=");
+        } else if (id_Tipo==5) {
+            response.sendRedirect("ServletControlador?user=5&accion=");
+        } else if (id_Tipo==6) {
+            response.sendRedirect("ServletControlador?user=6&accion=");
+        } else if (id_Tipo==7) {
+            response.sendRedirect("ServletControlador?user=7&accion=");
+        }
+    
+
+
+
     }
 
     private void eliminarPersona(HttpServletRequest request, HttpServletResponse response)

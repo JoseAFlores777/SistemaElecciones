@@ -22,7 +22,9 @@ public class PersonaDaoJDBC {
     private static final String SQL_INSERT = "INSERT INTO Personas(idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado )"
             + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    private static final String SQL_UPDATE = "UPDATE Personas SET  idTipo=?, idMesa=?, idPartido=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
+    private static final String SQL_UPDATE_CANDIDATOS = "UPDATE Personas SET  idTipo=?, idMesa=?, idPartido=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
+            + "WHERE idPersona=?";
+    private static final String SQL_UPDATE_USUARIOS = "UPDATE Personas SET  idTipo=?, idMesa=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
             + "WHERE idPersona=?";
 
     private static final String SQL_DELETE = "DELETE FROM Personas WHERE idPersona = ?";
@@ -133,33 +135,33 @@ public class PersonaDaoJDBC {
             stmt.setString(1, persona.getId_Persona());
             rs = stmt.executeQuery();
 //            rs.absolute(1);//nos posicionamos en el primer registro devuelto
- while (rs.next()) {
-            int id_Tipo = rs.getInt("idTipo");
-            int id_Mesa = rs.getInt("idMesa");
-            int id_Partido = rs.getInt("idPartido");
-            String Password_ = rs.getString("Contra");
-            String primer_Nombre = rs.getString("PrimerNombre");
-            String segundo_Nombre = rs.getString("SegundoNombre");
-            String tercer_Nombre = rs.getString("TercerNombre");
-            String primer_Apellido = rs.getString("PrimerApellido");
-            String segundo_Apellido = rs.getString("SegundoApellido");
-            InputStream Foto = rs.getBinaryStream("Foto");
-            int EstadoVoto = rs.getInt("Estado_Voto");
-            boolean Estado = rs.getBoolean("Estado");
-            System.out.println("HOla estoy en editar");
-            persona.setId_Tipo(id_Tipo);
-            persona.setId_Mesa(id_Mesa);
-            persona.setId_Partido(id_Partido);
-            persona.setPassword_(Password_);
-            persona.setPrimer_Nombre(primer_Nombre);
-            persona.setSegundo_Nombre(segundo_Nombre);
-            persona.setTercer_Nombre(tercer_Nombre);
-            persona.setPrimer_Apellido(primer_Apellido);
-            persona.setSegundo_Apellido(segundo_Apellido);
-            persona.setFoto(Foto);
-            persona.setEstadoVoto(EstadoVoto);
-            persona.setEstado(Estado);
- }
+            while (rs.next()) {
+                int id_Tipo = rs.getInt("idTipo");
+                int id_Mesa = rs.getInt("idMesa");
+                int id_Partido = rs.getInt("idPartido");
+                String Password_ = rs.getString("Contra");
+                String primer_Nombre = rs.getString("PrimerNombre");
+                String segundo_Nombre = rs.getString("SegundoNombre");
+                String tercer_Nombre = rs.getString("TercerNombre");
+                String primer_Apellido = rs.getString("PrimerApellido");
+                String segundo_Apellido = rs.getString("SegundoApellido");
+                InputStream Foto = rs.getBinaryStream("Foto");
+                int EstadoVoto = rs.getInt("Estado_Voto");
+                boolean Estado = rs.getBoolean("Estado");
+
+                persona.setId_Tipo(id_Tipo);
+                persona.setId_Mesa(id_Mesa);
+                persona.setId_Partido(id_Partido);
+                persona.setPassword_(Password_);
+                persona.setPrimer_Nombre(primer_Nombre);
+                persona.setSegundo_Nombre(segundo_Nombre);
+                persona.setTercer_Nombre(tercer_Nombre);
+                persona.setPrimer_Apellido(primer_Apellido);
+                persona.setSegundo_Apellido(segundo_Apellido);
+                persona.setFoto(Foto);
+                persona.setEstadoVoto(EstadoVoto);
+                persona.setEstado(Estado);
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -208,21 +210,38 @@ public class PersonaDaoJDBC {
         int rows = 0;
         try {
             conn = Conexion.getConnection();
-            stmt = conn.prepareStatement(SQL_UPDATE);
 
-            stmt.setInt(1, persona.getId_Tipo());
-            stmt.setInt(2, persona.getId_Mesa());
-            stmt.setInt(3, persona.getId_Partido());
-            stmt.setString(4, persona.getPassword_());
-            stmt.setString(5, persona.getPrimer_Nombre());
-            stmt.setString(6, persona.getSegundo_Nombre());
-            stmt.setString(7, persona.getTercer_Nombre());
-            stmt.setString(8, persona.getPrimer_Apellido());
-            stmt.setString(9, persona.getSegundo_Apellido());
-            stmt.setBlob(10, persona.getFoto());
-            stmt.setInt(11, persona.getEstadoVoto());
-            stmt.setBoolean(12, persona.isEstado());
-            stmt.setString(13, persona.getId_Persona());
+            if (persona.getId_Tipo() <= 3) {
+                stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS);
+
+                stmt.setInt(1, persona.getId_Tipo());
+                stmt.setInt(2, persona.getId_Mesa());
+                stmt.setInt(3, persona.getId_Partido());
+                stmt.setString(4, persona.getPassword_());
+                stmt.setString(5, persona.getPrimer_Nombre());
+                stmt.setString(6, persona.getSegundo_Nombre());
+                stmt.setString(7, persona.getTercer_Nombre());
+                stmt.setString(8, persona.getPrimer_Apellido());
+                stmt.setString(9, persona.getSegundo_Apellido());
+                stmt.setBlob(10, persona.getFoto());
+                stmt.setInt(11, persona.getEstadoVoto());
+                stmt.setBoolean(12, persona.isEstado());
+                stmt.setString(13, persona.getId_Persona());
+            } else {
+                stmt = conn.prepareStatement(SQL_UPDATE_USUARIOS);
+                stmt.setInt(1, persona.getId_Tipo());
+                stmt.setInt(2, persona.getId_Mesa());
+                stmt.setString(3, persona.getPassword_());
+                stmt.setString(4, persona.getPrimer_Nombre());
+                stmt.setString(5, persona.getSegundo_Nombre());
+                stmt.setString(6, persona.getTercer_Nombre());
+                stmt.setString(7, persona.getPrimer_Apellido());
+                stmt.setString(8, persona.getSegundo_Apellido());
+                stmt.setBlob(9, persona.getFoto());
+                stmt.setInt(10, persona.getEstadoVoto());
+                stmt.setBoolean(11, persona.isEstado());
+                stmt.setString(12, persona.getId_Persona());
+            }
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -293,19 +312,19 @@ public class PersonaDaoJDBC {
 
     }
 //1:Tipo->tipos 2:Tipo->Partidos 3:Tipo->EstadoVoto
-    public String Referencia(int id,int Tipo) {
+
+    public String Referencia(int id, int Tipo) {
         String Referencia = null;
         String sql = null;
-        
-        if (Tipo==1) {
+
+        if (Tipo == 1) {
             sql = "SELECT Nombre FROM Tipos WHERE idTipo=" + id;
-        }else if(Tipo==2){
-        sql = "SELECT Nombre FROM Partidos WHERE idPartido=" + id;
-        }else if (Tipo==3){
-        sql = "SELECT Des FROM Tipos_EstadoVoto WHERE idTipos_EstadoVoto=" + id;
+        } else if (Tipo == 2) {
+            sql = "SELECT Nombre FROM Partidos WHERE idPartido=" + id;
+        } else if (Tipo == 3) {
+            sql = "SELECT Des FROM Tipos_EstadoVoto WHERE idTipos_EstadoVoto=" + id;
         }
 
-        
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -317,7 +336,7 @@ public class PersonaDaoJDBC {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-  
+
                 Referencia = rs.getString(1);
 
             }
@@ -330,7 +349,5 @@ public class PersonaDaoJDBC {
         }
         return Referencia;
     }
-
-    
 
 }
