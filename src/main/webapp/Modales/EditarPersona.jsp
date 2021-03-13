@@ -95,7 +95,7 @@
                                                     <img alt="${persona.getNombreCompleto()}" src="${pageContext.request.contextPath}/ControladorIMG?TipoFoto=1&id=${persona.getId_Persona()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                                     <div class="mt-2">
                                                         <label class="btn btn-primary">
-                                                            <input type="file" name="Foto"  value="${persona.getFoto()}"/>
+                                                            <input type="file" name="Foto"/>
                                                             <i class="fas fa-upload"></i> Subir Imagen
                                                         </label>
                                                     </div>
@@ -149,25 +149,43 @@
                                                         <option>...</option>
                                                     </select>
                                                 </div>
-                                                        <c:if test="${persona.getId_Tipo()==1}">
-                                                <div class="mb-3 col-md-6">
-                                                    <label class="form-label" for="inputState">Partido</label>
-                                                    <select id="inputState" class="form-control" name="idPartido">
-                                                        <option value="${persona.getId_Partido_Nom()}">${persona.getId_Partido_Nom()}</option>
-                                                        <option>...</option>
-                                                    </select>
-                                                </div>
-                                                         </c:if>
+                                                <c:if test="${persona.getId_Tipo()<=3}">
+                                                    <div class="mb-3 col-md-6">
+                                                        <label class="form-label" for="inputState">Partido</label>
+                                                        <select id="inputState" class="form-control" name="idPartido">
+                                                            <option value="${persona.getId_Partido()}">${persona.getId_Partido_Nom()}</option>
+                                                            <option>...</option>
+                                                        </select>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                         </div>
 
 
                                         <div class="modal-footer">
 
+                                            <c:if test="${persona.getId_Tipo()==1}">
+                                                <a href="ControladorMenus?accion=Presidentes"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
+                                            <c:if test="${persona.getId_Tipo()==2}">
+                                                <a href="ControladorMenus?accion=Alcaldes"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
+                                            <c:if test="${persona.getId_Tipo()==3}">
+                                                <a href="ControladorMenus?accion=Diputados"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
+                                            <c:if test="${persona.getId_Tipo()==4}">
+                                                <a href="ControladorMenus?accion=Magistrados"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
                                             <c:if test="${persona.getId_Tipo()==5}">
                                                 <a href="ControladorMenus?accion=Administradores"  type="button" class="btn btn-secondary" >Cancelar</a>    
-                                                </c:if>
-                                            
+                                            </c:if>
+                                            <c:if test="${persona.getId_Tipo()==6}">
+                                                <a href="ControladorMenus?accion=EncargadoMesa"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
+                                            <c:if test="${persona.getId_Tipo()==7}">
+                                                <a href="ControladorMenus?accion=Electores"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                            </c:if>
+
                                             <button type="submit" class="btn btn-primary">Actualizar</button>
                                         </div>
 
