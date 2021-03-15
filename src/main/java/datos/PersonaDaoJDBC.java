@@ -63,7 +63,8 @@ public class PersonaDaoJDBC {
                 String tercer_Nombre = rs.getString("TercerNombre");
                 String primer_Apellido = rs.getString("PrimerApellido");
                 String segundo_Apellido = rs.getString("SegundoApellido");
-                InputStream Foto = rs.getBinaryStream("Foto");
+                String Foto = rs.getString("Foto");
+                
                 int EstadoVoto = rs.getInt("Estado_Voto");
                 boolean Estado = rs.getBoolean("Estado");
 
@@ -149,7 +150,8 @@ public class PersonaDaoJDBC {
                 String tercer_Nombre = rs.getString("TercerNombre");
                 String primer_Apellido = rs.getString("PrimerApellido");
                 String segundo_Apellido = rs.getString("SegundoApellido");
-                InputStream Foto = rs.getBinaryStream("Foto");
+                String Foto = rs.getString("Foto");
+                
                 int EstadoVoto = rs.getInt("Estado_Voto");
                 boolean Estado = rs.getBoolean("Estado");
 
@@ -194,7 +196,7 @@ public class PersonaDaoJDBC {
             stmt.setString(8, persona.getTercer_Nombre());
             stmt.setString(9, persona.getPrimer_Apellido());
             stmt.setString(10, persona.getSegundo_Apellido());
-            stmt.setBlob(11, persona.getFoto());
+            stmt.setString(11, persona.getFoto());
             stmt.setInt(12, persona.getEstadoVoto());
             stmt.setBoolean(13, persona.isEstado());
 
@@ -228,7 +230,7 @@ public class PersonaDaoJDBC {
                 stmt.setString(7, persona.getTercer_Nombre());
                 stmt.setString(8, persona.getPrimer_Apellido());
                 stmt.setString(9, persona.getSegundo_Apellido());
-                stmt.setBlob(10, persona.getFoto());
+                stmt.setString(10, persona.getFoto());
                 stmt.setInt(11, persona.getEstadoVoto());
                 stmt.setBoolean(12, persona.isEstado());
                 stmt.setString(13, persona.getId_Persona());
@@ -242,7 +244,7 @@ public class PersonaDaoJDBC {
                 stmt.setString(6, persona.getTercer_Nombre());
                 stmt.setString(7, persona.getPrimer_Apellido());
                 stmt.setString(8, persona.getSegundo_Apellido());
-                stmt.setBlob(9, persona.getFoto());
+                stmt.setString(9, persona.getFoto());
                 stmt.setInt(10, persona.getEstadoVoto());
                 stmt.setBoolean(11, persona.isEstado());
                 stmt.setString(12, persona.getId_Persona());

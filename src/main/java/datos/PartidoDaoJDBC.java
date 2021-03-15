@@ -41,7 +41,7 @@ public class PartidoDaoJDBC {
 
                 String Nombre = rs.getString("Nombre");
 
-                InputStream Bandera = rs.getBinaryStream("Bandera");
+                String Bandera = rs.getString("Bandera");
 
                 boolean Estado = rs.getBoolean("Estado");
 
@@ -112,7 +112,7 @@ public class PartidoDaoJDBC {
 
             String id_Partido = rs.getString("idPartido");
             String Nombre = rs.getString("Nombre");
-            InputStream Bandera = rs.getBinaryStream("Bandera");
+            String Bandera = rs.getString("Bandera");
             boolean Estado = rs.getBoolean("Estado");
 
             partido.setId_Partido(id_Partido);
@@ -139,7 +139,7 @@ public class PartidoDaoJDBC {
             stmt = conn.prepareStatement(SQL_INSERT);
 
             stmt.setString(1, partido.getNombre());
-            stmt.setBlob(2, partido.getBandera_());
+            stmt.setString(2, partido.getBandera_());
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -160,7 +160,7 @@ public class PartidoDaoJDBC {
             stmt = conn.prepareStatement(SQL_UPDATE);
 
             stmt.setString(1, partido.getNombre());
-            stmt.setBlob(2, partido.getBandera_());
+            stmt.setString(2, partido.getBandera_());
             stmt.setBoolean(3, partido.isEstado());
             stmt.setString(4, partido.getId_Partido());
 

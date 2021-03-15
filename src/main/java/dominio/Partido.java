@@ -6,7 +6,7 @@ public class Partido {
 
     private String id_Partido;
     private String Nombre;
-    private InputStream Bandera_;
+    private String Bandera_;
     private boolean Estado;
 
     public Partido() {
@@ -16,18 +16,18 @@ public class Partido {
         this.id_Partido = id_Partido;
     }
 
-    public Partido(String Nombre, InputStream Bandera_) {
+    public Partido(String Nombre, String Bandera_) {
         this.Nombre = Nombre;
         this.Bandera_ = Bandera_;
     }
 
-    public Partido(String Nombre, InputStream Bandera_, boolean Estado) {
+    public Partido(String Nombre, String Bandera_, boolean Estado) {
         this.Nombre = Nombre;
         this.Bandera_ = Bandera_;
         this.Estado = Estado;
     }
 
-    public Partido(String id_Partido, String Nombre, InputStream Bandera_, boolean Estado) {
+    public Partido(String id_Partido, String Nombre, String Bandera_, boolean Estado) {
         this.id_Partido = id_Partido;
         this.Nombre = Nombre;
         this.Bandera_ = Bandera_;
@@ -50,11 +50,11 @@ public class Partido {
         this.Nombre = Nombre;
     }
 
-    public InputStream getBandera_() {
+    public String getBandera_() {
         return Bandera_;
     }
 
-    public void setBandera_(InputStream Bandera_) {
+    public void setBandera_(String Bandera_) {
         this.Bandera_ = Bandera_;
     }
 

@@ -19,8 +19,8 @@ private String segundo_Nombre;
 private String tercer_Nombre;
 private String primer_Apellido;
 private String segundo_Apellido;
-private InputStream Foto;
-private InputStream Foto_Partido;
+private String Foto;
+private String Foto_Partido;
 private int EstadoVoto;
 private String EstadoVoto_Des;
 private boolean Estado;
@@ -37,7 +37,7 @@ private boolean Estado;
         this.Password_ = Password_;
     }
 
-    public Persona(String id_Persona, int id_Tipo, int id_Mesa, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+    public Persona(String id_Persona, int id_Tipo, int id_Mesa, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, String Foto, int EstadoVoto, boolean Estado) {
         this.id_Persona = id_Persona;
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;
@@ -54,7 +54,7 @@ private boolean Estado;
 
 
 
-    public Persona(int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+    public Persona(int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, String Foto, int EstadoVoto, boolean Estado) {
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;
         this.id_Partido = id_Partido;
@@ -69,7 +69,7 @@ private boolean Estado;
         this.Estado = Estado;
     }
 
-    public Persona(String id_Persona, int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+    public Persona(String id_Persona, int id_Tipo, int id_Mesa, int id_Partido, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, String Foto, int EstadoVoto, boolean Estado) {
         this.id_Persona = id_Persona;
         this.id_Tipo = id_Tipo;
         this.id_Mesa = id_Mesa;
@@ -85,7 +85,7 @@ private boolean Estado;
         this.Estado = Estado;
     }
 
-    public Persona(String id_Persona, int id_Tipo, String id_Tipo_Des, int id_Mesa, String id_Mesa_Des, int id_Partido, String id_Partido_Nom, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, InputStream Foto, int EstadoVoto, boolean Estado) {
+    public Persona(String id_Persona, int id_Tipo, String id_Tipo_Des, int id_Mesa, String id_Mesa_Des, int id_Partido, String id_Partido_Nom, String Password_, String primer_Nombre, String segundo_Nombre, String tercer_Nombre, String primer_Apellido, String segundo_Apellido, String Foto, int EstadoVoto, boolean Estado) {
         this.id_Persona = id_Persona;
         this.id_Tipo = id_Tipo;
         this.id_Tipo_Des = id_Tipo_Des;
@@ -187,11 +187,11 @@ private boolean Estado;
     public String getNombreCompleto() {
         return getPrimer_Nombre()+" "+getSegundo_Nombre()+" "+getTercer_Nombre()+" "+getPrimer_Apellido()+" "+getSegundo_Apellido();
     }
-    public InputStream getFoto() {
+    public String getFoto() {
         return Foto;
     }
 
-    public void setFoto(InputStream Foto) {
+    public void setFoto(String Foto) {
         this.Foto = Foto;
     }
 
@@ -237,11 +237,11 @@ private boolean Estado;
         this.id_Partido_Nom = id_Partido_Nom;
     }
 
-    public InputStream getFoto_Partido() {
+    public String getFoto_Partido() {
         return Foto_Partido;
     }
 
-    public void setFoto_Partido(InputStream Foto_Partido) {
+    public void setFoto_Partido(String Foto_Partido) {
         this.Foto_Partido = Foto_Partido;
     }
 

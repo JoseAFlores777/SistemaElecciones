@@ -85,8 +85,8 @@ public class ServletControladorPartidos extends HttpServlet {
         //recuperamos los valores del formulario agregarPersona
 
         String Nombre = request.getParameter("Nombre");
-        Part part = request.getPart("Bandera");
-        InputStream Bandera = part.getInputStream();
+        String Bandera = request.getParameter("Bandera");
+        
         
 
         //Creamos el objeto de Persona (modelo)
@@ -105,8 +105,8 @@ public class ServletControladorPartidos extends HttpServlet {
         //recuperamos los valores del formulario editarPersona
         String id_Partido = request.getParameter("idPartido");
         String Nombre = request.getParameter("Nombre");
-        Part part = request.getPart("Bandera");
-        InputStream Bandera = part.getInputStream();
+        String Bandera = request.getParameter("Bandera");
+        
         boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
 
         //Creamos el objeto de Persona (modelo)

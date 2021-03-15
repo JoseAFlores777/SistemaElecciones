@@ -92,7 +92,7 @@
                                             </div>                                                               
                                             <div class="col-md-4 me-1 ">
                                                 <div class="text-center">
-                                                    <img alt="${persona.getNombreCompleto()}" src="${pageContext.request.contextPath}/ControladorIMG?TipoFoto=1&id=${persona.getId_Persona()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
+                                                    <img alt="${persona.getNombreCompleto()}" src="${persona.getFoto()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                                     <div class="mt-2">
                                                         <label class="btn btn-primary">
                                                             <input type="file" name="Foto"/>
