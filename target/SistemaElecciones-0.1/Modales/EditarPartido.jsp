@@ -71,25 +71,33 @@
                                                     <label class="form-label" for="inputState">Estado Partido</label>
                                                     <select id="inputState" class="form-control" name="Estado" required value="${partido.getEstadoDes()}">
                                                         <option value="${partido.isEstado()}">${partido.getEstadoDes()}</option>
-                                                        <option>...</option>
+                                                        <c:if test="${partido.isEstado()=='True'}">
+                                                        <option value="False">Inactivo</option>
+                                                        </c:if>
+                                                        <c:if test="${partido.isEstado()=='False'}">
+                                                        <option value="True">Activo</option>
+                                                        </c:if>
+                                                        
+                                                        
+
                                                     </select>
                                                 </div>
 
 
                                             </div>
 
-                                                <div class="col-md-3 ms-4 ">
-                                                    <div class="text-center">
-                                                        <img id="Imagen" alt="${partido.getNombre()}" src="${pageContext.request.contextPath}/Imagenes/${partido.getBandera_()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
-                                                        <div class="mt-2">
-                                                            <label class="btn btn-primary">
-                                                                <input id="InputImagen" type="file" name="Bandera">
-                                                                <i class="fas fa-upload"></i> Subir Imagen
-                                                            </label>
-                                                        </div>
-
+                                            <div class="col-md-3 ms-4 ">
+                                                <div class="text-center">
+                                                    <img id="Imagen" alt="${partido.getNombre()}" src="${pageContext.request.contextPath}/Imagenes/${partido.getBandera_()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
+                                                    <div class="mt-2">
+                                                        <label class="btn btn-primary">
+                                                            <input id="InputImagen" type="file" name="Bandera">
+                                                            <i class="fas fa-upload"></i> Subir Imagen
+                                                        </label>
                                                     </div>
+
                                                 </div>
+                                            </div>
 
 
                                             <div class="modal-footer">

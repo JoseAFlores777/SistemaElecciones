@@ -1,6 +1,8 @@
 package web;
 
+import datos.PartidoDaoJDBC;
 import datos.PersonaDaoJDBC;
+import dominio.Partido;
 import dominio.Persona;
 import java.io.File;
 import java.io.IOException;
@@ -85,6 +87,8 @@ public class ServletControlador extends HttpServlet {
         //recuperamos el idCliente
         String id_Persona = request.getParameter("idPersona");
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
+        List<Partido> partidos = new PartidoDaoJDBC().listar(persona.getId_Partido());
+        request.setAttribute("Partidos", partidos);
         request.setAttribute("persona", persona);
         String jspEditar = "/Modales/EditarPersona.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);

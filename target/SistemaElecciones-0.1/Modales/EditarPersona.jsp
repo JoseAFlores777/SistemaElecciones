@@ -146,7 +146,12 @@
                                                     <label class="form-label" for="inputState">Estado Usuario</label>
                                                     <select id="inputState" class="form-control" name="Estado" required value="${persona.getEstadoDes()}">
                                                         <option value="${persona.isEstado()}">${persona.getEstadoDes()}</option>
-                                                        <option>...</option>
+                                                        <c:if test="${persona.isEstado()=='True'}">
+                                                            <option value="False">Inactivo</option>
+                                                        </c:if>
+                                                        <c:if test="${persona.isEstado()=='False'}">
+                                                            <option value="True">Activo</option>
+                                                        </c:if>
                                                     </select>
                                                 </div>
                                                 <c:if test="${persona.getId_Tipo()<=3}">
@@ -154,7 +159,10 @@
                                                         <label class="form-label" for="inputState">Partido</label>
                                                         <select id="inputState" class="form-control" name="idPartido">
                                                             <option value="${persona.getId_Partido()}">${persona.getId_Partido_Nom()}</option>
-                                                            <option>...</option>
+                                                            
+                                                            <c:forEach var="partido" items="${Partidos}" varStatus="status" >
+                                                            <option value="${partido.getId_Partido()}">${partido.getNombre()}</option>
+                                                            </c:forEach>
                                                         </select>
                                                     </div>
                                                 </c:if>

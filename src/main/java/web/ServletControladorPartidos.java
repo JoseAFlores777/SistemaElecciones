@@ -49,7 +49,7 @@ public class ServletControladorPartidos extends HttpServlet {
     private void accionDefault(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Partido> partidos = new PartidoDaoJDBC().listar();
+        List<Partido> partidos = new PartidoDaoJDBC().listar(0);
         System.out.println("partidos = " + partidos);
         HttpSession sesion = request.getSession();
         sesion.setAttribute("partidos", partidos);

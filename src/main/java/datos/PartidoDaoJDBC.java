@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class PartidoDaoJDBC {
 
     private static final String SQL_SELECT = "SELECT idPartido,Nombre,Bandera,Estado FROM Partidos";
+    private static final String SQL_SELECT_CON_EXCEPCION = "SELECT idPartido,Nombre,Bandera,Estado FROM Partidos WHERE idPartido !=";
 
     private static final String SQL_SELECT_BY_ID = "SELECT idPartido,Nombre,Bandera,Estado FROM Partidos WHERE idPartido = ? ";
 
@@ -24,7 +25,7 @@ public class PartidoDaoJDBC {
 
     private static final String SQL_DELETE = "DELETE FROM Partidos WHERE idPartido = ?";
 
-    public List<Partido> listar() {
+    public List<Partido> listar(int idExcepcion) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -33,7 +34,12 @@ public class PartidoDaoJDBC {
         List<Partido> partidos = new ArrayList<>();
         try {
             conn = Conexion.getConnection();
+            if (idExcepcion != 0) {
+                stmt = conn.prepareStatement(SQL_SELECT_CON_EXCEPCION+idExcepcion);
+            }else{
             stmt = conn.prepareStatement(SQL_SELECT);
+            }
+            
             rs = stmt.executeQuery();
             while (rs.next()) {
 
