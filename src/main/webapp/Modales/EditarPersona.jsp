@@ -117,7 +117,9 @@
                                                     <label class="form-label" for="inputState">Tipo Usuario</label>
                                                     <select id="inputState" class="form-control" name="idTipo" >
                                                         <option value="${persona.getId_Tipo()}">${persona.getId_Tipo_Des()}</option>
-                                                        <option>...</option>
+                                                            <c:forEach var="tipo" items="${Tipos}" varStatus="status" >
+                                                            <option value="${tipo.getId_Tipo()}">${tipo.getNombre()}</option>
+                                                            </c:forEach>
                                                     </select>
                                                 </div>
                                             </div>
@@ -128,7 +130,9 @@
                                                     <label class="form-label" for="inputState">Estado Voto</label>
                                                     <select id="inputState" class="form-control" name="Estado_Voto" >
                                                         <option value="${persona.getEstadoVoto()}">${persona.getEstadoVoto_Des()}</option>
-
+                                                            <c:forEach var="estadoVoto" items="${Estado_Voto}" varStatus="status" >
+                                                            <option value="${estadoVoto.getId_TipoEstadoVoto()}">${estadoVoto.getDescripcion()}</option>
+                                                            </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3 col-md-6">

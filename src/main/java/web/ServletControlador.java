@@ -2,8 +2,11 @@ package web;
 
 import datos.PartidoDaoJDBC;
 import datos.PersonaDaoJDBC;
+import datos.ReferenciasDaoJDBC;
 import dominio.Partido;
 import dominio.Persona;
+import dominio.TipoUsuarios;
+import dominio.Tipo_EstadoVoto;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -84,10 +87,19 @@ public class ServletControlador extends HttpServlet {
 
     private void editarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        int Tipo_Tipos =1;
         //recuperamos el idCliente
         String id_Persona = request.getParameter("idPersona");
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
+        
+        if (persona.getId_Tipo()>3) Tipo_Tipos=2; 
+        
         List<Partido> partidos = new PartidoDaoJDBC().listar(persona.getId_Partido());
+        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(persona.getId_Tipo(),Tipo_Tipos);
+        List<Tipo_EstadoVoto> Estado_Voto = new ReferenciasDaoJDBC().listarTipoEstadoVoto(persona.getEstadoVoto());
+        request.setAttribute("Estado_Voto", Estado_Voto);
+        request.setAttribute("Tipos", tipos);
         request.setAttribute("Partidos", partidos);
         request.setAttribute("persona", persona);
         String jspEditar = "/Modales/EditarPersona.jsp";

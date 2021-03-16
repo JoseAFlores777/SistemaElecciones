@@ -1,11 +1,14 @@
 web/ServletControlador.class
-dominio/Partido.class
 web/ControladorMenus.class
-dominio/Persona.class
 datos/Conexion.class
+datos/ReferenciasDaoJDBC.class
 web/ControladorIMG.class
-web/ControladorIMGpartidos.class
+dominio/Tipo_EstadoVoto.class
 web/ServletControladorPartidos.class
+dominio/TipoUsuarios.class
 datos/PersonaDaoJDBC.class
+dominio/Partido.class
+dominio/Persona.class
+web/ControladorIMGpartidos.class
 datos/PartidoDaoJDBC.class
 datos/Validar.class
