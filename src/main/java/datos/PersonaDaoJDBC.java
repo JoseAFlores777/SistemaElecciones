@@ -26,10 +26,7 @@ public class PersonaDaoJDBC {
             + "WHERE idPersona=?";
     private static final String SQL_UPDATE_USUARIOS = "UPDATE Personas SET  idTipo=?, idMesa=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
             + "WHERE idPersona=?";
-    private static final String SQL_UPDATE_CANDIDATOS_FOTO = "UPDATE Personas SET  idTipo=?, idMesa=?, idPartido=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Estado_Voto=?, Estado=?  "
-            + "WHERE idPersona=?";
-    private static final String SQL_UPDATE_USUARIOS_FOTO = "UPDATE Personas SET  idTipo=?, idMesa=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Estado_Voto=?, Estado=?  "
-            + "WHERE idPersona=?";
+
 
     private static final String SQL_DELETE = "DELETE FROM Personas WHERE idPersona = ?";
 
@@ -82,44 +79,32 @@ public class PersonaDaoJDBC {
     }
 
     //Tipo foto 1:foto de Perfil  2: Foto de Partido
-    public void listarIMG(String id, int tipoFoto, HttpServletResponse response) throws IOException {
-        String sql;
-        if (tipoFoto == 1) {
-            sql = "SELECT Foto FROM Personas WHERE idPersona=" + id;
-        } else {
-            sql = "SELECT T2.Bandera\n"
+    public String listarIMG(String id) throws IOException {
+        String sql = "SELECT T2.Bandera\n"
                     + "FROM Personas T1\n"
                     + "INNER JOIN Partidos T2\n"
                     + "ON(T1.idPartido=T2.idPartido)\n"
                     + "WHERE T1.idPersona =" + id;
-        }
+        
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        String Bandera = null;
 
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
 
         try {
-            outputStream = response.getOutputStream();
+            
             conn = Conexion.getConnection();
 
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {
 
-                inputStream = rs.getBinaryStream(1);
+                Bandera = rs.getString(1);
 
             }
-            bufferedInputStream = new BufferedInputStream(inputStream);
-            bufferedOutputStream = new BufferedOutputStream(outputStream);
-            int i = 0;
-            while (( i=bufferedInputStream.read()) != -1) {
-                bufferedOutputStream.write(i);
-            }
+
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -128,6 +113,7 @@ public class PersonaDaoJDBC {
             Conexion.close(conn);
         }
 
+        return Bandera;
     }
 
     public Persona encontrar(Persona persona) {
@@ -217,7 +203,7 @@ public class PersonaDaoJDBC {
         try {
             conn = Conexion.getConnection();
             
-            //if (persona.getFoto()==null) {
+
                             if (persona.getId_Tipo() <= 3) {
                 stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS);
 
@@ -249,41 +235,7 @@ public class PersonaDaoJDBC {
                 stmt.setBoolean(11, persona.isEstado());
                 stmt.setString(12, persona.getId_Persona());
             }
-            //}else{
 
-//            if (persona.getId_Tipo() <= 3) {
-//            
-//                stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS_FOTO);
-//
-//                stmt.setInt(1, persona.getId_Tipo());
-//                stmt.setInt(2, persona.getId_Mesa());
-//                stmt.setInt(3, persona.getId_Partido());
-//                stmt.setString(4, persona.getPassword_());
-//                stmt.setString(5, persona.getPrimer_Nombre());
-//                stmt.setString(6, persona.getSegundo_Nombre());
-//                stmt.setString(7, persona.getTercer_Nombre());
-//                stmt.setString(8, persona.getPrimer_Apellido());
-//                stmt.setString(9, persona.getSegundo_Apellido());
-//                
-//                stmt.setInt(10, persona.getEstadoVoto());
-//                stmt.setBoolean(11, persona.isEstado());
-//                stmt.setString(12, persona.getId_Persona());
-//            } else {
-//                stmt = conn.prepareStatement(SQL_UPDATE_USUARIOS_FOTO);
-//                stmt.setInt(1, persona.getId_Tipo());
-//                stmt.setInt(2, persona.getId_Mesa());
-//                stmt.setString(3, persona.getPassword_());
-//                stmt.setString(4, persona.getPrimer_Nombre());
-//                stmt.setString(5, persona.getSegundo_Nombre());
-//                stmt.setString(6, persona.getTercer_Nombre());
-//                stmt.setString(7, persona.getPrimer_Apellido());
-//                stmt.setString(8, persona.getSegundo_Apellido());
-//                
-//                stmt.setInt(9, persona.getEstadoVoto());
-//                stmt.setBoolean(10, persona.isEstado());
-//                stmt.setString(11, persona.getId_Persona());
-//            }
-//            }
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -390,5 +342,7 @@ public class PersonaDaoJDBC {
         }
         return Referencia;
     }
+
+
 
 }

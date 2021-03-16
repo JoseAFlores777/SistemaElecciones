@@ -1,19 +1,28 @@
 package web;
 
-
 import datos.PartidoDaoJDBC;
 import dominio.Partido;
+import java.io.File;
 
 import java.io.IOException;
 import java.io.InputStream;
 import static java.lang.System.out;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+@MultipartConfig
 @WebServlet("/ServletControladorPartidos")
 public class ServletControladorPartidos extends HttpServlet {
+    
+        private String pathFiles = "/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/webapp/Imagenes";
+    private File uploads = new File(pathFiles);
+    private String[] extens = {".ico", ".png", ".jpg", ".jpeg"};
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,14 +48,14 @@ public class ServletControladorPartidos extends HttpServlet {
 
     private void accionDefault(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         List<Partido> partidos = new PartidoDaoJDBC().listar();
         System.out.println("partidos = " + partidos);
         HttpSession sesion = request.getSession();
         sesion.setAttribute("partidos", partidos);
 
-            response.sendRedirect("ControladorMenus?accion=Partidos");
-    
+        response.sendRedirect("ControladorMenus?accion=Partidos");
+
     }
 
     private void editarPartido(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +64,7 @@ public class ServletControladorPartidos extends HttpServlet {
         String id_Partido = request.getParameter("idPartido");
         Partido partido = new PartidoDaoJDBC().encontrar(new Partido(id_Partido));
         request.setAttribute("partido", partido);
-        String jspEditar = "/WEB-INF/paginas/cliente/editarCliente.jsp";
+        String jspEditar = "/Modales/EditarPartido.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
 
@@ -70,6 +79,7 @@ public class ServletControladorPartidos extends HttpServlet {
                     break;
                 case "modificar":
                     this.modificarPartido(request, response);
+
                     break;
 
                 default:
@@ -86,8 +96,6 @@ public class ServletControladorPartidos extends HttpServlet {
 
         String Nombre = request.getParameter("Nombre");
         String Bandera = request.getParameter("Bandera");
-        
-        
 
         //Creamos el objeto de Persona (modelo)
         Partido partido = new Partido(Nombre, Bandera);
@@ -105,19 +113,35 @@ public class ServletControladorPartidos extends HttpServlet {
         //recuperamos los valores del formulario editarPersona
         String id_Partido = request.getParameter("idPartido");
         String Nombre = request.getParameter("Nombre");
-        String Bandera = request.getParameter("Bandera");
-        
+        Part part = request.getPart("Bandera");
+
         boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
 
-        //Creamos el objeto de Persona (modelo)
-        Partido partido = new Partido(id_Partido,Nombre,Bandera,Estado);
+        if (isExtension(part.getSubmittedFileName(), extens)) {
+            String Bandera = saveFile(part, uploads);
 
-        //Modificar el  objeto en la base de datos
-        int registrosModificados = new PartidoDaoJDBC().actualizar(partido);
-        System.out.println("registrosModificados = " + registrosModificados);
+            //Creamos el objeto de Persona (modelo)
+            Partido partido = new Partido(id_Partido, Nombre, Bandera, Estado);
+
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PartidoDaoJDBC().actualizar(partido);
+            System.out.println("registrosModificados = " + registrosModificados);
+
+        } else {
+
+            Partido par = new PartidoDaoJDBC().encontrar(new Partido(id_Partido));
+            String Bandera = par.getBandera_();
+            //Creamos el objeto de Persona (modelo)
+            Partido partido = new Partido(id_Partido, Nombre, Bandera, Estado);
+
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PartidoDaoJDBC().actualizar(partido);
+            System.out.println("registrosModificados = " + registrosModificados);
+
+        }
 
         //Redirigimos hacia accion por default
-        this.accionDefault(request, response);
+        response.sendRedirect("ServletControladorPartidos?accion=");
     }
 
     private void eliminarPartido(HttpServletRequest request, HttpServletResponse response)
@@ -126,7 +150,7 @@ public class ServletControladorPartidos extends HttpServlet {
         String id_Partido = request.getParameter("idPartido");
 
         //Creamos el objeto de Persona (modelo)
-         Partido partido = new Partido(id_Partido);
+        Partido partido = new Partido(id_Partido);
 
         //Eliminamos el  objeto en la base de datos
         int registrosModificados = new PartidoDaoJDBC().eliminar(partido);
@@ -135,6 +159,39 @@ public class ServletControladorPartidos extends HttpServlet {
         //Redirigimos hacia accion por default
         this.accionDefault(request, response);
     }
+    
+        private String saveFile(Part part, File pathUploads) {
+        String pathAbsolute = "";
+        String fileName=" ";
 
+        try {
+
+            Path path = Paths.get(part.getSubmittedFileName());
+             fileName = path.getFileName().toString();
+             
+            InputStream input = part.getInputStream();
+
+            if (input != null) {
+                File file = new File(pathUploads, fileName);
+                pathAbsolute = file.getAbsolutePath();
+                Files.copy(input, file.toPath());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fileName;
+    }
+
+    private boolean isExtension(String fileName, String[] extensions) {
+        for (String et : extensions) {
+            if (fileName.toLowerCase().endsWith(et)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

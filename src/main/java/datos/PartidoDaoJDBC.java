@@ -58,46 +58,7 @@ public class PartidoDaoJDBC {
         return partidos;
     }
 
-    //Tipo foto 1:foto de Perfil  2: Foto de Partido
-    public void listarIMG(String id, HttpServletResponse response) throws IOException {
-        String sql = "SELECT Bandera FROM Partidos WHERE idPartido=" + id;
 
-
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
-
-        try {
-            outputStream = response.getOutputStream();
-            conn = Conexion.getConnection();
-
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-
-                inputStream = rs.getBinaryStream(1);
-
-            }
-            bufferedInputStream = new BufferedInputStream(inputStream);
-            bufferedOutputStream = new BufferedOutputStream(outputStream);
-            int i = 0;
-            while ((i = bufferedInputStream.read()) !=-1) {
-                bufferedOutputStream.write(i);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace(System.out);
-        } finally {
-            Conexion.close(rs);
-            Conexion.close(stmt);
-            Conexion.close(conn);
-        }
-
-    }
 
     public Partido encontrar(Partido partido) {
         Connection conn = null;
@@ -108,8 +69,8 @@ public class PartidoDaoJDBC {
             stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
             stmt.setString(1, partido.getId_Partido());
             rs = stmt.executeQuery();
-            rs.absolute(1);//nos posicionamos en el primer registro devuelto
-
+            //rs.absolute(1);//nos posicionamos en el primer registro devuelto
+ while (rs.next()) {
             String id_Partido = rs.getString("idPartido");
             String Nombre = rs.getString("Nombre");
             String Bandera = rs.getString("Bandera");
@@ -119,7 +80,7 @@ public class PartidoDaoJDBC {
             partido.setNombre(Nombre);
             partido.setBandera_(Bandera);
             partido.setEstado(Estado);
-
+ }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {

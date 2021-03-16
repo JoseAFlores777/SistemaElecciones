@@ -52,7 +52,7 @@ public class ControladorIMGpartidos extends HttpServlet {
 
         String id = request.getParameter("id");
       
-        PartidoDao.listarIMG(id, response);
+        //PartidoDao.listarIMG(id, response);
 
     }
 

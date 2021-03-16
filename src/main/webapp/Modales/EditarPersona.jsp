@@ -61,7 +61,7 @@
                                             <div class="col-md-7">
                                                 <div class="mb-3 col-md-10">
                                                     <label class="form-label" for="inputFirstName">No. de Identidad</label>
-                                                    <input type="text" class="form-control" id="inputDNI" placeholder="Sin Guiones" name="idPersona" required value="${persona.getId_Persona()}">
+                                                    <input type="text" class="form-control" id="inputDNI" placeholder="Sin Guiones" name="idPersona" required value="${persona.getId_Persona()}" disabled>
                                                 </div>
 
                                                 <div class="col-md-12">
@@ -72,7 +72,7 @@
                                                         </div>
                                                         <div class="mb-3 col-md-5">
                                                             <label class="form-label" for="inputFirstName">Segundo Nombre</label>
-                                                            <input type="text" class="form-control" id="inputFirstName" placeholder="" name="SegundoNombre" required value="${persona.getSegundo_Nombre()}">
+                                                            <input type="text" class="form-control" id="inputFirstName" placeholder="" name="SegundoNombre"  value="${persona.getSegundo_Nombre()}">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,7 +80,7 @@
                                                     <div class="row">
                                                         <div class="mb-3 col-md-5">
                                                             <label class="form-label" for="inputFirstName">Tercer Nombre</label>
-                                                            <input type="text" class="form-control" id="inputFirstName" placeholder="" name="TercerNombre" required value="${persona.getTercer_Nombre()}">
+                                                            <input type="text" class="form-control" id="inputFirstName" placeholder="" name="TercerNombre"  value="${persona.getTercer_Nombre()}">
                                                         </div>
                                                         <div class="mb-3 col-md-5">
                                                             <label class="form-label" for="inputFirstName">Primer Apellido</label>
@@ -107,7 +107,7 @@
                                             <div class="row">
                                                 <div class="mb-3 col-md-6">
                                                     <label class="form-label" for="inputFirstName">Segundo Apellido</label>
-                                                    <input type="text" class="form-control" id="inputFirstName" placeholder="" name="SegundoApellido" required value="${persona.getSegundo_Apellido()}">
+                                                    <input type="text" class="form-control" id="inputFirstName" placeholder="" name="SegundoApellido"  value="${persona.getSegundo_Apellido()}">
                                                 </div>
                                                 <div class="mb-3 col-md-6">
                                                     <label class="form-label" for="inputFirstName">Password</label>

@@ -2,6 +2,7 @@
 package dominio;
 
 import datos.PersonaDaoJDBC;
+import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -237,8 +238,8 @@ private boolean Estado;
         this.id_Partido_Nom = id_Partido_Nom;
     }
 
-    public String getFoto_Partido() {
-        return Foto_Partido;
+    public String getFoto_Partido() throws IOException {
+        return  new PersonaDaoJDBC().listarIMG(getId_Persona());
     }
 
     public void setFoto_Partido(String Foto_Partido) {

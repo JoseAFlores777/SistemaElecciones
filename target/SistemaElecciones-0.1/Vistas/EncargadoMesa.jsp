@@ -71,7 +71,7 @@
                                         <tr>
                                             <td>${status.count}</td>
                                             <td>
-                                                <img src="${pageContext.request.contextPath}/ControladorIMG?TipoFoto=1&id=${persona.getId_Persona()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
+                                                <img src="${pageContext.request.contextPath}/Imagenes/${persona.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
                                             </td>
 
                                             <td>${persona.getId_Tipo_Des()}</td>

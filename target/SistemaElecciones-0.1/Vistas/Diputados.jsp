@@ -72,12 +72,12 @@
                                             <tr>
                                                 <td>${status.count}</td>
                                                 <td>
-                                                    <img src="${pageContext.request.contextPath}/ControladorIMG?TipoFoto=1&id=${persona.getId_Persona()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
+                                                    <img src="${pageContext.request.contextPath}/Imagenes/${persona.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${persona.primer_Nombre} ${persona.segundo_Nombre} ${persona.tercer_Nombre} ${persona.primer_Apellido} ${persona.segundo_Apellido}
                                                 </td>
 
 
                                                 <td>
-                                                    <img src="${pageContext.request.contextPath}/ControladorIMG?TipoFoto=2&id=${persona.getId_Persona()}" width="30" height="15" class="rounded mr-1" alt="Avatar">${persona.getId_Partido_Nom()}
+                                                    <img src="${pageContext.request.contextPath}/Imagenes/${persona.getFoto_Partido()}" width="38" height="23" class="rounded mr-1" alt="Avatar">${persona.getId_Partido_Nom()}
                                                 </td>
                                                 <c:if test="${persona.getEstadoDes()=='Activo'}">
                                                     <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${persona.getEstadoDes()}</span></td>

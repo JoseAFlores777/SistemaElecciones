@@ -51,7 +51,7 @@ PersonaDaoJDBC PersonaDao = new PersonaDaoJDBC();
         System.out.println("AQUIIIIIIIIII");
         String id = request.getParameter("id");
         int TipoFoto = Integer.parseInt(request.getParameter("TipoFoto"));
-        PersonaDao.listarIMG(id,TipoFoto, response);
+//        PersonaDao.listarIMG(id, response);
         
     }
 
