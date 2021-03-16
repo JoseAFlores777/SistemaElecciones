@@ -217,7 +217,7 @@ public class PersonaDaoJDBC {
         try {
             conn = Conexion.getConnection();
             
-            if (persona.getFoto()==null) {
+            //if (persona.getFoto()==null) {
                             if (persona.getId_Tipo() <= 3) {
                 stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS);
 
@@ -249,41 +249,41 @@ public class PersonaDaoJDBC {
                 stmt.setBoolean(11, persona.isEstado());
                 stmt.setString(12, persona.getId_Persona());
             }
-            }else{
+            //}else{
 
-            if (persona.getId_Tipo() <= 3) {
-            
-                stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS_FOTO);
-
-                stmt.setInt(1, persona.getId_Tipo());
-                stmt.setInt(2, persona.getId_Mesa());
-                stmt.setInt(3, persona.getId_Partido());
-                stmt.setString(4, persona.getPassword_());
-                stmt.setString(5, persona.getPrimer_Nombre());
-                stmt.setString(6, persona.getSegundo_Nombre());
-                stmt.setString(7, persona.getTercer_Nombre());
-                stmt.setString(8, persona.getPrimer_Apellido());
-                stmt.setString(9, persona.getSegundo_Apellido());
-                
-                stmt.setInt(10, persona.getEstadoVoto());
-                stmt.setBoolean(11, persona.isEstado());
-                stmt.setString(12, persona.getId_Persona());
-            } else {
-                stmt = conn.prepareStatement(SQL_UPDATE_USUARIOS_FOTO);
-                stmt.setInt(1, persona.getId_Tipo());
-                stmt.setInt(2, persona.getId_Mesa());
-                stmt.setString(3, persona.getPassword_());
-                stmt.setString(4, persona.getPrimer_Nombre());
-                stmt.setString(5, persona.getSegundo_Nombre());
-                stmt.setString(6, persona.getTercer_Nombre());
-                stmt.setString(7, persona.getPrimer_Apellido());
-                stmt.setString(8, persona.getSegundo_Apellido());
-                
-                stmt.setInt(9, persona.getEstadoVoto());
-                stmt.setBoolean(10, persona.isEstado());
-                stmt.setString(11, persona.getId_Persona());
-            }
-            }
+//            if (persona.getId_Tipo() <= 3) {
+//            
+//                stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS_FOTO);
+//
+//                stmt.setInt(1, persona.getId_Tipo());
+//                stmt.setInt(2, persona.getId_Mesa());
+//                stmt.setInt(3, persona.getId_Partido());
+//                stmt.setString(4, persona.getPassword_());
+//                stmt.setString(5, persona.getPrimer_Nombre());
+//                stmt.setString(6, persona.getSegundo_Nombre());
+//                stmt.setString(7, persona.getTercer_Nombre());
+//                stmt.setString(8, persona.getPrimer_Apellido());
+//                stmt.setString(9, persona.getSegundo_Apellido());
+//                
+//                stmt.setInt(10, persona.getEstadoVoto());
+//                stmt.setBoolean(11, persona.isEstado());
+//                stmt.setString(12, persona.getId_Persona());
+//            } else {
+//                stmt = conn.prepareStatement(SQL_UPDATE_USUARIOS_FOTO);
+//                stmt.setInt(1, persona.getId_Tipo());
+//                stmt.setInt(2, persona.getId_Mesa());
+//                stmt.setString(3, persona.getPassword_());
+//                stmt.setString(4, persona.getPrimer_Nombre());
+//                stmt.setString(5, persona.getSegundo_Nombre());
+//                stmt.setString(6, persona.getTercer_Nombre());
+//                stmt.setString(7, persona.getPrimer_Apellido());
+//                stmt.setString(8, persona.getSegundo_Apellido());
+//                
+//                stmt.setInt(9, persona.getEstadoVoto());
+//                stmt.setBoolean(10, persona.isEstado());
+//                stmt.setString(11, persona.getId_Persona());
+//            }
+//            }
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);

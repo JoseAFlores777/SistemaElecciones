@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.InputStream;
 import static java.lang.System.out;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Clock;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +27,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @MultipartConfig
 @WebServlet("/ServletControlador")
 public class ServletControlador extends HttpServlet {
+
+    //private String pathFiles = "img/uploads";
+    private String pathFiles = "/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/webapp/Imagenes";
+    private File uploads = new File(pathFiles);
+    private String[] extens = {".ico", ".png", ".jpg", ".jpeg"};
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -91,15 +99,14 @@ public class ServletControlador extends HttpServlet {
                 case "insertar":
                     this.insertarPersona(request, response);
                     break;
-                case "modificar":
-                {
+                case "modificar": {
                     try {
                         this.modificarPersona(request, response);
                     } catch (Exception ex) {
-                       ex.printStackTrace(System.out);
+                        ex.printStackTrace(System.out);
                     }
                 }
-                    break;
+                break;
 
                 case "Ingresar":
                     System.out.println("AQUI ESTOY");
@@ -147,56 +154,32 @@ public class ServletControlador extends HttpServlet {
     private void modificarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, FileUploadException, Exception {
         Persona persona;
-   
-        String Foto = "Hola";
+
         //recuperamos los valores del formulario editarPersona
+        System.out.println("Aqui el valor de Foto");
+        System.out.println(request.getParameter("Foto"));
 
-    System.out.println("Aqui");
-        FileItemFactory file = new DiskFileItemFactory();
-        ServletFileUpload fileUpload = new ServletFileUpload(file);
-        
-        List items = fileUpload.parseRequest(request);
-        //System.out.println(fileUploa);
-        System.out.println("No entré al for");
-        System.out.println(items);
-        
-        
-        for (int i = 0; i < items.size(); i++) {
-            System.out.println(" entré al for");
-            FileItem fileItem = (FileItem) items.get(i);
-            System.out.println("No entré al if");
-            if (!fileItem.isFormField()) {
-                //File f = new File("C:\\xampp\\htdocs\\img\\" + fileItem.getName());
-                File f = new File(System.getProperty("user.dir")+"\\src\\main\\webapp\\Imagenes\\"  + fileItem.getName());
-                System.out.println(System.getProperty("user.dir")+"\\src\\main\\webapp\\Imagenes\\"  + fileItem.getName());
-                //File f = new File("\\Users\\joseadolfoizaguirreflores\\Desktop\\ProyectoFinal_PrograIV\\Proyecto-SistemaElecciones\\SistemaElecciones\\src\\main\\webapp\\Imagenes\\"+ fileItem.getName());
-                ///Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/webapp/Imagenes
-                fileItem.write(f);
-                
-                 //Foto ="http://localhost/img/" + fileItem.getName();
-                 Foto = f.getAbsolutePath();
-                     //Foto = "http://localhost/img/"+ System.getProperty("user.dir")+"/src/main/webapp/Imagenes/"  + fileItem.getName();
-            }
-        }
-              
+        String id_Persona = request.getParameter("idPersona");
+        int id_Tipo = Integer.parseInt(request.getParameter("idTipo"));
+        int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
+        Part part = request.getPart("Foto");
+        String Password_ = request.getParameter("Contra");
+        String primer_Nombre = request.getParameter("PrimerNombre");
+        String segundo_Nombre = request.getParameter("SegundoNombre");
+        String tercer_Nombre = request.getParameter("TercerNombre");
+        String primer_Apellido = request.getParameter("PrimerApellido");
+        String segundo_Apellido = request.getParameter("SegundoApellido");
 
-            System.out.println("Aqui el valor de Foto");
-            System.out.println(request.getParameter("Foto"));
-            System.out.println(Foto);
-            String id_Persona = request.getParameter("idPersona");
-            int id_Tipo = Integer.parseInt(request.getParameter("idTipo"));
-            int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
+        int EstadoVoto = Integer.parseInt(request.getParameter("Estado_Voto"));
+        boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
 
-            String Password_ = request.getParameter("Contra");
-            String primer_Nombre = request.getParameter("PrimerNombre");
-            String segundo_Nombre = request.getParameter("SegundoNombre");
-            String tercer_Nombre = request.getParameter("TercerNombre");
-            String primer_Apellido = request.getParameter("PrimerApellido");
-            String segundo_Apellido = request.getParameter("SegundoApellido");
-            
+//        if (part == null) {
+//            System.out.println("No ha seleccionado un archivo");
+//            return;
+//        }
 
-            int EstadoVoto = Integer.parseInt(request.getParameter("Estado_Voto"));
-            boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
+        if (isExtension(part.getSubmittedFileName(), extens)) {
+            String Foto = saveFile(part, uploads);
 
             if (id_Tipo <= 3) {
                 int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
@@ -210,29 +193,45 @@ public class ServletControlador extends HttpServlet {
             int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
 
-            //Redirigimos hacia accion por default
-//        this.accionDefault(request, response);
-            if (id_Tipo == 1) {
-                response.sendRedirect("ServletControlador?user=1&accion=");
-            } else if (id_Tipo == 2) {
-                response.sendRedirect("ServletControlador?user=2&accion=");
-            } else if (id_Tipo == 3) {
-                response.sendRedirect("ServletControlador?user=3&accion=");
-            } else if (id_Tipo == 4) {
-                response.sendRedirect("ServletControlador?user=4&accion=");
-            } else if (id_Tipo == 5) {
-                response.sendRedirect("ServletControlador?user=5&accion=");
-            } else if (id_Tipo == 6) {
-                response.sendRedirect("ServletControlador?user=6&accion=");
-            } else if (id_Tipo == 7) {
-                response.sendRedirect("ServletControlador?user=7&accion=");
+        }else{
+        
+        Persona per = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
+        String Foto = per.getFoto();
+                    if (id_Tipo <= 3) {
+                int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
+                //Creamos el objeto de Persona (modelo)
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);
+            } else {
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);
             }
 
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
+            System.out.println("registrosModificados = " + registrosModificados);
+        
+        
+        
         }
 
-    
+        //Redirigimos hacia accion por default
+//        this.accionDefault(request, response);
+        if (id_Tipo == 1) {
+            response.sendRedirect("ServletControlador?user=1&accion=");
+        } else if (id_Tipo == 2) {
+            response.sendRedirect("ServletControlador?user=2&accion=");
+        } else if (id_Tipo == 3) {
+            response.sendRedirect("ServletControlador?user=3&accion=");
+        } else if (id_Tipo == 4) {
+            response.sendRedirect("ServletControlador?user=4&accion=");
+        } else if (id_Tipo == 5) {
+            response.sendRedirect("ServletControlador?user=5&accion=");
+        } else if (id_Tipo == 6) {
+            response.sendRedirect("ServletControlador?user=6&accion=");
+        } else if (id_Tipo == 7) {
+            response.sendRedirect("ServletControlador?user=7&accion=");
+        }
 
-    
+    }
 
     private void eliminarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -273,4 +272,39 @@ public class ServletControlador extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
+
+    private String saveFile(Part part, File pathUploads) {
+        String pathAbsolute = "";
+        String fileName=" ";
+
+        try {
+
+            Path path = Paths.get(part.getSubmittedFileName());
+             fileName = path.getFileName().toString();
+             
+            InputStream input = part.getInputStream();
+
+            if (input != null) {
+                File file = new File(pathUploads, fileName);
+                pathAbsolute = file.getAbsolutePath();
+                Files.copy(input, file.toPath());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fileName;
+    }
+
+    private boolean isExtension(String fileName, String[] extensions) {
+        for (String et : extensions) {
+            if (fileName.toLowerCase().endsWith(et)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
