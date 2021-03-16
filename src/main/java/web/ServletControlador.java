@@ -147,6 +147,7 @@ public class ServletControlador extends HttpServlet {
     private void modificarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, FileUploadException, Exception {
         Persona persona;
+   
         String Foto = "Hola";
         //recuperamos los valores del formulario editarPersona
 
@@ -155,9 +156,10 @@ public class ServletControlador extends HttpServlet {
         ServletFileUpload fileUpload = new ServletFileUpload(file);
         
         List items = fileUpload.parseRequest(request);
-        System.out.println("");
+        //System.out.println(fileUploa);
         System.out.println("No entré al for");
         System.out.println(items);
+        
         
         for (int i = 0; i < items.size(); i++) {
             System.out.println(" entré al for");

@@ -95,7 +95,7 @@
                                                     <img alt="${persona.getNombreCompleto()}" src="${persona.getFoto()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                                     <div class="mt-2">
                                                         <label class="btn btn-primary">
-                                                            <input type="file" name="Foto"/>
+                                                            <input type="file" name="Foto">
                                                             <i class="fas fa-upload"></i> Subir Imagen
                                                         </label>
                                                     </div>

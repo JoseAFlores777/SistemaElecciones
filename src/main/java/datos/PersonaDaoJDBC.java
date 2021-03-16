@@ -252,6 +252,7 @@ public class PersonaDaoJDBC {
             }else{
 
             if (persona.getId_Tipo() <= 3) {
+            
                 stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS_FOTO);
 
                 stmt.setInt(1, persona.getId_Tipo());
