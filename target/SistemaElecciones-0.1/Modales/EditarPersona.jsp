@@ -92,10 +92,10 @@
                                             </div>                                                               
                                             <div class="col-md-4 me-1 ">
                                                 <div class="text-center">
-                                                    <img alt="${persona.getNombreCompleto()}" src="${pageContext.request.contextPath}/Imagenes/${persona.getFoto()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
+                                                    <img id="Imagen" alt="${persona.getNombreCompleto()}" src="${pageContext.request.contextPath}/Imagenes/${persona.getFoto()}" class="rounded-circle img-responsive mt-2" width="128" height="128">
                                                     <div class="mt-2">
                                                         <label class="btn btn-primary">
-                                                            <input type="file" name="Foto">
+                                                            <input id="InputImagen" type="file" name="Foto">
                                                             <i class="fas fa-upload"></i> Subir Imagen
                                                         </label>
                                                     </div>
