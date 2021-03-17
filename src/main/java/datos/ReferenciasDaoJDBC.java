@@ -5,6 +5,7 @@
  */
 package datos;
 
+import dominio.Departamentos;
 import dominio.TipoUsuarios;
 import dominio.Tipo_EstadoVoto;
 import java.io.BufferedInputStream;
@@ -21,6 +22,7 @@ public class ReferenciasDaoJDBC {
 
     private static final String SQL_SELECT_tUSUARIOS_CON_EXCEPCION = "SELECT idTipo,Nombre FROM Tipos WHERE idTipo !=";
     private static final String SQL_SELECT_tESTADO_VOTO_CON_EXCEPCION = "SELECT idTipos_EstadoVoto,Des FROM Tipos_EstadoVoto WHERE idTipos_EstadoVoto !=";
+    private static final String SQL_SELECT_DEPTOS_CON_EXCEPCION = "SELECT idDepartamento,Nombre FROM Departamentos WHERE idDepartamento !=";
 
     public List<TipoUsuarios> listarTipoUsuarios(int idExcepcion,int Tipo_Tipos) {
         
@@ -97,6 +99,39 @@ public class ReferenciasDaoJDBC {
             Conexion.close(conn);
         }
         return Tipos;
+    }
+    public List<Departamentos> listarDepartamentos(int idExcepcion) {
+        
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Departamentos Depto = null;
+        List<Departamentos> Deptos = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+
+            stmt = conn.prepareStatement(SQL_SELECT_DEPTOS_CON_EXCEPCION + idExcepcion+" ORDER BY Nombre ASC");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int id_Departamento = rs.getInt("idDepartamento");
+
+                String Nombre = rs.getString("Nombre");
+
+                
+                Depto = new Departamentos(id_Departamento, Nombre);
+                Deptos.add(Depto);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return Deptos;
     }
 
 }

@@ -1,5 +1,6 @@
 
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="es">
 
     <head>
@@ -26,38 +27,82 @@
 
 
                     <div class="container-fluid p-0">
-    <%--Inicio de Titulo de Página--%>
-    <body>
-        <div class="row mb-2 mb-xl-3">
-            <div class="col-auto d-none d-sm-block">
-                <h3> Mesas</h3>
-            </div>
+                        <%--Inicio de Titulo de Página--%>
+                        <body>
+                            <div class="row mb-2 mb-xl-3">
+                                <div class="col-auto d-none d-sm-block">
+                                    <h3><strong>Mesas</strong> Electorales</h3>
+                                </div>
 
-            <div class="col-auto ml-auto text-right mt-n1">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-                        <li class="breadcrumb-item"><a href="#">Sistema De Elecciones</a></li>
-                        
-                        <li class="breadcrumb-item active" aria-current="page">Mesas</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-            <%--Fin de Titulo de Página--%>
+                                <div class="col-auto ml-auto text-right mt-n1">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                                            <li class="breadcrumb-item"><a href="#">Sistema De Elecciones</a></li>
+                                            <li class="breadcrumb-item"><a href="#">Mesas Electorales</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Mesas</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                            <%--Fin de Titulo de Página--%>
 
-                        <div class="card">
+                            <div class="card" style="padding-top: 20px;">
 
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                        </div>
+                                <button type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</button>
+
+
+                                <table id="example" class="table display" style="margin-top:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%;">#</th>
+                                            <th style="width:10%">Id de Mesa</th>
+                                            <th style="width:16%">Departamento</th>
+                                            <th style="width:17%;">Municipio</th>
+                                            <th style="width:30%;">Lugar De votacion</th>
+                                            <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+
+
+                                        <c:forEach var="mesa" items="${mesas}" varStatus="status" >
+                                            <tr>
+                                                <td>${status.count}</td>
+                                                <td>${mesa.getId_Mesa()}</td>
+                                                <td>${mesa.getDepto_Nom()}</td>
+                                                <td>${mesa.getId_Municipio_Nomb()}</td>
+                                                <td>${mesa.getNombre()}</td>
+                                                
+                                                <c:if test="${mesa.getEstadoDes()=='En Espera'}">
+                                                    <td><span class="badge bg-warning" >${mesa.getEstadoDes()}</span></td>
+                                                    </c:if>
+                                                <c:if test="${mesa.getEstadoDes()=='Cerrada'}">
+                                                    <td><span class="badge bg-secondary" >${mesa.getEstadoDes()}</span></td>
+                                                    </c:if>
+                                                <c:if test="${mesa.getEstadoDes()=='Abierta'}">
+                                                    <td><span class="badge bg-primary" >${mesa.getEstadoDes()}</span></td>
+                                                    </c:if>
+
+                                                
+                                            <td class="table-action">
+                                                <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye align-middle mr-2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>
+                                                <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                            </td>
+                                        </tr>
+
+
+                                    </c:forEach>
+
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
 
 
@@ -79,7 +124,6 @@
         <jsp:include page="/Estructura-Menu/html-scripts.jsp"/>  
     </body>
 </html>
-
 
 
 

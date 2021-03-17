@@ -4,11 +4,15 @@
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/web/ServletControladorPartidos.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/web/ServletControlador.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/datos/PartidoDaoJDBC.java
+/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/datos/MesaDaoJDBC.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/datos/Conexion.java
+/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/Mesa.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/Tipo_EstadoVoto.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/web/ControladorIMGpartidos.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/TipoUsuarios.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/datos/ReferenciasDaoJDBC.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/Persona.java
+/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/web/ServletControladorMesas.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/web/ControladorMenus.java
+/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/Departamentos.java
 /Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/java/dominio/Partido.java
