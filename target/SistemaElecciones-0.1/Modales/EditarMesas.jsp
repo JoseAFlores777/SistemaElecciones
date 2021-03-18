@@ -45,28 +45,59 @@
                             <div class="modal-content">
                                 <div class="modal-body">
 
-                                    <form  action="${pageContext.request.contextPath}/ServletControladorMesas?accion=modificar&idMesa=${mesa.getId_Mesa()}" method="POST" enctype="multipart/form-data">
+                                    <form  action="${pageContext.request.contextPath}/ServletControladorMesas?accion=modificar&idMesa=${mesa.getId_Mesa()}" method="POST" >
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-9">
                                                 <div class="mb-3 col-md-12">
                                                     <label class="form-label" for="inputFirstName">ID de la Mesa</label>
-                                                    <input type="text" class="form-control" id="inputDNI" placeholder="Sin Guiones" name="idPartido" required value="${mesa.getId_Mesa()}" disabled>
+                                                    <input type="text" class="form-control" id="inputDNI" placeholder="Sin Guiones" name="idMesa" required value="${mesa.getId_Mesa()}" disabled>
                                                 </div>
-
-                                                <div class="mb-3 col-md-12">
+                                                <div class="row">
+                                                <div class="mb-3 col-md-6">
                                                     <label class="form-label" for="inputState">Departamento</label>
-                                                    <select id="inputState" class="form-control" name="idTipo" >
+                                                    <select id="Deptos" class="form-control" onchange="combo_Municipios()" name="f_area">
                                                         <option value="${mesa.getID_Depto_Nom()}">${mesa.getDepto_Nom()}</option>
-                                                            <c:forEach var="Deptos" items="${Departamentos}" varStatus="status" >
+                                                        <c:forEach var="Deptos" items="${Departamentos}" varStatus="status" >
                                                             <option value="${Deptos.getId_Departamento()}">${Deptos.getNombre()}</option>
-                                                            </c:forEach>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
-                                                            
-                                                            
-                                                                                                            <div class="mb-3 col-md-12">
-                                                    <label class="form-label" for="inputFirstName">Nombre del Partido</label>
-                                                    <input type="text" class="form-control" id="inputFirstName" placeholder="" name="Nombre" required value="${partido.getNombre()}">
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="inputState">Municipio</label>
+                                                    <select id="i_municipios" class="form-control" name="idMunicipio" >
+                                                        <option value="${mesa.getId_Municipio()}">${mesa.getId_Municipio_Nomb()}</option>
+
+                                                    </select>
+                                                </div>
+                                                </div>
+
+
+                                                <div class="mb-3 col-md-12">
+                                                    <label class="form-label" for="inputFirstName">Centro de Votación</label>
+                                                    <input type="text" class="form-control" id="inputFirstName" placeholder="" name="Nombre" required value="${mesa.getNombre()}">
+                                                </div>
+                                                
+                                                <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="inputFirstName">Latitud</label>
+                                                    <input type="number" class="form-control" id="inputFirstName" placeholder="" name="Latitud" required value="${mesa.getLatitud()}">
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label" for="inputFirstName">Longitud</label>
+                                                    <input type="number" class="form-control" id="inputFirstName" placeholder="" name="Longitud" required value="${mesa.getLongitud()}">
+                                                </div>
+                                                </div>
+                                                
+                                                
+                                                
+                                                <div class="mb-3 col-md-12">
+                                                    <label class="form-label" for="inputState">Estado</label>
+                                                    <select id="Estado" class="form-control" onchange="CambioEstado()" name="Estado">
+                                                        <option value="${mesa.getEstado()}">${mesa.getEstadoDes()}</option>
+                                                        <c:forEach var="Estado" items="${Estados}" varStatus="status" >
+                                                            <option value="${Estado.getId_TipoEstadoMesa()}">${Estado.getDescripcion()}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
 
 
@@ -103,8 +134,58 @@
             </div>
 
         </div>
+                
+                
+                <template id="my-template">
+  <swal-title>
+    Save changes to "Untitled 1" before closing?
+  </swal-title>
+  <swal-icon type="warning" color="red"></swal-icon>
+  <swal-button type="confirm">
+    Save As
+  </swal-button>
+  <swal-button type="cancel">
+    Cancel
+  </swal-button>
+  <swal-button type="deny">
+    Close without Saving
+  </swal-button>
+  <swal-param name="allowEscapeKey" value="false" />
+  <swal-param
+    name="customClass"
+    value='{ "popup": "my-popup" }' />
+</template>
+                
+                
+                
+
+        <script>
 
 
+            function combo_Municipios() {
+                //alert("cambiar a select dependiente");
+//		$("#i_opc").val("1");
+//			$.post("comboD.jsp",$("#data").serialize(),function(data){$("#i_municipios").html(data);});
+                $("#i_municipios").empty();
+                $("#i_municipios").append('<option value="">-Elige un Municipio-</option>');
+                
+                let municipios = <%=session.getAttribute("municipiosJSON")%>;
+
+                for (var i = 0; i < municipios.length; i++) {
+                    if (municipios[i].id_Departamento == $("#Deptos").val()) {
+                        //console.log(municipios[i].Nombre);
+                        let Nombre = municipios[i].Nombre;
+                        let id = municipios[i].id_Municipio;
+                        console.log(Nombre);                       
+                        $("#i_municipios").append('<option value=' + id + '>' + Nombre + '</option>');
+
+                    }
+
+                }
+                
+            }
+
+        </script>
 
         <jsp:include page="/Estructura-Menu/html-scripts.jsp"/>  
     </body>

@@ -1,9 +1,12 @@
 package web;
 
+import com.google.gson.Gson;
 import datos.MesaDaoJDBC;
 import datos.ReferenciasDaoJDBC;
 import dominio.Departamentos;
 import dominio.Mesa;
+import dominio.Municipios;
+import dominio.Tipo_EstadoMesa;
 import java.io.File;
 
 import java.io.IOException;
@@ -60,11 +63,20 @@ public class ServletControladorMesas extends HttpServlet {
             throws ServletException, IOException {
         //recuperamos el idCliente
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
-        
+
         Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
         request.setAttribute("mesa", mesa);
         List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom());
+        List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios(mesa.getID_Depto_Nom());
+        List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
+        Gson gson = new Gson();
+
+        String JSON = gson.toJson(municipios);
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("municipiosJSON", JSON);
+
         request.setAttribute("Departamentos", Deptos);
+        request.setAttribute("Estados", EstadoMesa);
         String jspEditar = "/Modales/EditarMesas.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
@@ -116,25 +128,38 @@ public class ServletControladorMesas extends HttpServlet {
     private void modificarMesa(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //recuperamos los valores del formulario editarPersona
+        java.util.Date Apertura = null;
+        java.util.Date Cierre = null;
+        Mesa mesa;
 
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
+        System.out.println(request.getParameter("idMunicipio"));
         int id_Municipio = Integer.parseInt(request.getParameter("idMunicipio"));
         String Nombre = request.getParameter("Nombre");
         String Latitud = request.getParameter("Latitud");
         String Longitud = request.getParameter("Longitud");
-        java.sql.Date Apertura = Date.valueOf(request.getParameter("Apertura"));
-        java.sql.Date Cierre = Date.valueOf(request.getParameter("Cierre"));
         int Estado = Integer.parseInt(request.getParameter("Estado"));
 
+        if (Estado > 1) {
+            if (Estado == 2) {
+                Apertura = new java.util.Date();
+            }
+            if (Estado == 3) {
+                Cierre = new java.util.Date();
+            }
+            mesa = new Mesa(id_Mesa, id_Municipio, Nombre, Latitud, Longitud, Apertura, Cierre, Estado);
 
+        } else {
+            mesa = new Mesa(id_Mesa, id_Municipio, Nombre, Latitud, Longitud, Estado);
 
-            //Creamos el objeto de Persona (modelo)
-            Mesa mesa = new Mesa(id_Mesa, id_Municipio, Nombre, Latitud, Longitud, Apertura, Cierre, Estado);
+        }
 
-            //Modificar el  objeto en la base de datos
-            int registrosModificados = new MesaDaoJDBC().actualizar(mesa);
-            System.out.println("registrosModificados = " + registrosModificados);
-
+//        java.sql.Date Apertura = Date.valueOf(request.getParameter("Apertura"));
+//        java.sql.Date Cierre = Date.valueOf(request.getParameter("Cierre"));
+        //Creamos el objeto de Persona (modelo)
+        //Modificar el  objeto en la base de datos
+        int registrosModificados = new MesaDaoJDBC().actualizar(mesa);
+        System.out.println("registrosModificados = " + registrosModificados);
 
         //Redirigimos hacia accion por default
         response.sendRedirect("ServletControladorMesas?accion=");

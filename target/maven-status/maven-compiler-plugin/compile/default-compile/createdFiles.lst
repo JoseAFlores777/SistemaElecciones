@@ -8,9 +8,11 @@ dominio/Tipo_EstadoVoto.class
 web/ServletControladorPartidos.class
 dominio/TipoUsuarios.class
 datos/PersonaDaoJDBC.class
+dominio/Municipios.class
 dominio/Partido.class
 dominio/Persona.class
 web/ServletControladorMesas.class
+dominio/Tipo_EstadoMesa.class
 dominio/Departamentos.class
 dominio/Mesa.class
 web/ControladorIMGpartidos.class

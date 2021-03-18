@@ -75,7 +75,7 @@
                         </li>
 
                         <li class="sidebar-item" style="margin-bottom: 40px;">
-                            <a class="sidebar-link" href="ServletControladorMesas?accion="" target="myFrame">
+                            <a class="sidebar-link" href="ServletControladorMesas?accion="">
                                 <i class="fas fa-poll-h"></i> <span class="align-middle">Mesas Electorales</span>
                             </a>
                         </li>

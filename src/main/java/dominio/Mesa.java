@@ -1,7 +1,7 @@
 package dominio;
 
 import datos.MesaDaoJDBC;
-import java.sql.Date;
+import java.util.Date;
 
 public class Mesa {
 
@@ -50,6 +50,15 @@ public class Mesa {
         this.Longitud = Longitud;
         this.Apertura = Apertura;
         this.Cierre = Cierre;
+    }
+
+    public Mesa(int id_Mesa, int id_Municipio, String Nombre, String Latitud, String Longitud, int Estado) {
+        this.id_Mesa = id_Mesa;
+        this.id_Municipio = id_Municipio;
+        this.Nombre = Nombre;
+        this.Latitud = Latitud;
+        this.Longitud = Longitud;
+        this.Estado = Estado;
     }
 
     public int getId_Mesa() {

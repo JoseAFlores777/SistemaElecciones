@@ -1,5 +1,23 @@
 
 
+function CambioEstado() {
+ if ($('#Estado').val()=='Abierta'){
+    
+    Swal.fire({
+  template: '#my-template'
+})
+}   
+}
+
+
+
+
+
+
+
+
+
+
 
 $('#example').DataTable({
     dom: 'Bfrtip',

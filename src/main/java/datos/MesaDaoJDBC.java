@@ -113,12 +113,15 @@ public class MesaDaoJDBC {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
 
+            Timestamp Apertura = new Timestamp(mesa.getApertura().getTime());
+Timestamp Cierre = new Timestamp(mesa.getCierre().getTime());
+            
             stmt.setInt(1, mesa.getId_Municipio());
             stmt.setString(2, mesa.getNombre());
             stmt.setString(3, mesa.getLatitud());
             stmt.setString(4, mesa.getLongitud());
-            stmt.setDate(5, mesa.getApertura());
-            stmt.setDate(6, mesa.getCierre());
+            stmt.setTimestamp(5, Apertura);
+            stmt.setTimestamp(6, Cierre);
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -133,17 +136,31 @@ public class MesaDaoJDBC {
     public int actualizar(Mesa mesa) {
         Connection conn = null;
         PreparedStatement stmt = null;
+        Timestamp Apertura;
+        Timestamp Cierre;
+        
         int rows = 0;
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
+            
+            if (mesa.getApertura() != null) {
+ Apertura = new Timestamp(mesa.getApertura().getTime());
+            } else {
+                 Apertura=null;
+            }
+            if (mesa.getCierre() != null) {
+ Cierre = new Timestamp(mesa.getCierre().getTime());
+            } else {
+                 Cierre=null;
+            }
 
             stmt.setInt(1, mesa.getId_Municipio());
             stmt.setString(2, mesa.getNombre());
             stmt.setString(3, mesa.getLatitud());
             stmt.setString(4, mesa.getLongitud());
-            stmt.setDate(5, mesa.getApertura());
-            stmt.setDate(6, mesa.getCierre());
+            stmt.setTimestamp(5, Apertura);
+            stmt.setTimestamp(6, Cierre);
             stmt.setInt(7, mesa.getEstado());
             stmt.setInt(8, mesa.getId_Mesa());
 
