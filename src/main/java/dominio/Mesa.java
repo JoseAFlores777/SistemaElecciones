@@ -1,6 +1,7 @@
 package dominio;
 
 import datos.MesaDaoJDBC;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Mesa {
@@ -13,6 +14,7 @@ public class Mesa {
     private Date Apertura;
     private Date Cierre;
     private int Estado;
+    
 
     public Mesa() {
     }

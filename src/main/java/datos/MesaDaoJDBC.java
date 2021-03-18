@@ -21,7 +21,7 @@ public class MesaDaoJDBC {
 
     private static final String SQL_INSERT = "INSERT INTO Mesas (idMunicipio,Nombre,Latitud,Longitud,Apertura,Cierre) VALUES(?,?,?,?,?,?)";
 
-    private static final String SQL_UPDATE = "UPDATE Mesas SET idMunicipio=?,Nombre=?,Latitud=?,Longitud=?,Apertura=?,Cierre=?,Estado=?  WHERE idMesa=?";
+    private static final String SQL_UPDATE = "UPDATE Mesas SET idMunicipio=?,Nombre=?,Latitud=?,Longitud=?,Apertura=DATE_SUB(?, INTERVAL 6 HOUR),Cierre=DATE_SUB(?, INTERVAL 6 HOUR),Estado=?  WHERE idMesa=?";
 
     private static final String SQL_DELETE = "DELETE FROM Mesas WHERE idMesa = ?";
 
@@ -146,11 +146,15 @@ Timestamp Cierre = new Timestamp(mesa.getCierre().getTime());
             
             if (mesa.getApertura() != null) {
  Apertura = new Timestamp(mesa.getApertura().getTime());
+                System.out.println(Apertura.getHours());
+                System.out.println(Apertura.getMinutes());
+                System.out.println(Apertura.getSeconds());
             } else {
                  Apertura=null;
             }
             if (mesa.getCierre() != null) {
  Cierre = new Timestamp(mesa.getCierre().getTime());
+                Cierre.toLocalDateTime();
             } else {
                  Cierre=null;
             }
