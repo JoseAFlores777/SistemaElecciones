@@ -10,6 +10,7 @@
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="js/Validaciones.js"></script>
 <script src="adminkit-main/static/js/app.js"></script>
 

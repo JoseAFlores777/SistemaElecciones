@@ -20,7 +20,7 @@
         <title>Usuarios | Administradores</title>
     </head>
 
-    <body>
+    <body >
 
         <div class="wrapper">
             <jsp:include page="/Estructura-Menu/Sidebar.jsp"/>
@@ -52,7 +52,7 @@
 
                         <!-- Modal -->
                         <%-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--%>
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" >
                             <div class="modal-content">
                                 <div class="modal-body">
 
