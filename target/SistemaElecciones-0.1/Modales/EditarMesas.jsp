@@ -25,7 +25,7 @@
 
                         <div class="row mb-2 mb-xl-3">
                             <div class="col-auto d-none d-sm-block">
-                                <h3><strong>Modificar</strong> Mesa</h3>
+                                <h3><strong>Modificar</strong> Mesa ${mesa.getId_Mesa()}</h3>
                             </div>
 
                             <div class="col-auto ml-auto text-right mt-n1">
@@ -176,114 +176,14 @@
 
 
 
-        <script>
+        
 
-
-            function combo_Municipios() {
-                //alert("cambiar a select dependiente");
-//		$("#i_opc").val("1");
-//			$.post("comboD.jsp",$("#data").serialize(),function(data){$("#i_municipios").html(data);});
-                $("#i_municipios").empty();
-                $("#i_municipios").append('<option value="">-Elige un Municipio-</option>');
-
-                let municipios = <%=session.getAttribute("municipiosJSON")%>;
-
-                for (var i = 0; i < municipios.length; i++) {
-                    if (municipios[i].id_Departamento == $("#Deptos").val()) {
-                        //console.log(municipios[i].Nombre);
-                        let Nombre = municipios[i].Nombre;
-                        let id = municipios[i].id_Municipio;
-                        console.log(Nombre);
-                        $("#i_municipios").append('<option value=' + id + '>' + Nombre + '</option>');
-
-                    }
-
-                }
-
-            }
-
-        </script>
-
+        <jsp:include page="/Estructura-Menu/MunicipioComboDep.jsp"/>  
         <jsp:include page="/Estructura-Menu/html-scripts.jsp"/>  
 
 
         
-        <script type="text/javascript">
-
-            var Latitud = $("#Latitud").val();
-            var Longitud = $("#Longitud").val();
-            var IdMesa = $("#IdMesa").val();
-            var Depto = $('select[id="Deptos"] option:selected').text();
-            var  Municipio= $('select[id="i_municipios"] option:selected').text();
-            var  Lugar= $("#LugarVoto").val();
-            var  src= $("#IdMesa").val();
-
-
-            function mostrar_mapa(centinela, mesa) {
-
-
-                if (mesa > 0) {
-                    var ubicacion = new google.maps.LatLng(Latitud, Longitud);
-                } else {
-                    var ubicacion = new google.maps.LatLng(14.6203, -87.644);
-                }
-                //Ubicación inicial del mapa.
-                //Latitud y Longitud
-                //Parámetros Iniciales
-                var opciones = {zoom: 17, //acercamiento
-                    center: ubicacion,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP //Las posibles opciones son ROADMAP/SATELLITE/HYBRID/TERRA                    
-                };
-
-                //Creacion del mapa
-                var map = new google.maps.Map(document.getElementById("hybrid_map"), opciones);
-
-
-                //recuperar ubicacion donde hago click
-                var iw = new google.maps.InfoWindow(
-                        {content: '<b>Arrastre</b> el globo para definir<br/>la Nueva Ubicaci�n',
-                            position: ubicacion});
-                iw.open(map);
-                // configurar evento click sobre el mapa
-                map.addListener('click', function (mapsMouseEvent) {
-                    iw.close();
-                    iw = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
-                    iw.setContent(mapsMouseEvent.latLng.toString());
-                    iw.open(map);
-                });
-
-
-                if (centinela == 1) {
-                    //Colocar una marca sobre el Mapa
-                    mi_ubicacion = new google.maps.Marker({
-                        position: new google.maps.LatLng(Latitud, Longitud), //Posición de la marca
-                        icon: 'images/icons/Globo.png', //Imagen que aparecerá en la marca, debe estar en el server
-                        map: map, //Mapa donde estará la marca
-
-                        draggable: true,
-                        title: 'Mesa #' + IdMesa //Título all hacer un mouseover
-                    });
-
-                    mi_ubicacion.addListener('dragend', function (event) {
-
-                        $("#Latitud").val(this.getPosition().lat());
-                        $("#Longitud").val(this.getPosition().lng());
-                    });
-
-                    //Mostrar Información al hacer click en la marca
-                    var infowindow = new google.maps.InfoWindow({
-                        content: '<b>'+Lugar+'</b><br/>'+Depto+'<br/>'+Municipio+'<br/><b>Mesa #'+IdMesa+'</b>'
-                    });
-
-                    google.maps.event.addListener(mi_ubicacion, 'click', function () {
-                        //Calling the open method of the InfoWindow
-                        infowindow.open(map, mi_ubicacion);
-                    });
-                }
-                ;
-            }
-
-        </script>  
+        <jsp:include page="/Estructura-Menu/Mapa_Scripts.jsp"/>  
 
 
 

@@ -32,5 +32,13 @@
     padding: 6px 12px;
     cursor: pointer;
 }
+
+
+#example_wrapper{
+    margin-left: 15px !important;
+    margin-right:15px !important;
+}
+
+
             
         </style>
