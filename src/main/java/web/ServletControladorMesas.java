@@ -38,6 +38,9 @@ public class ServletControladorMesas extends HttpServlet {
                 case "eliminar":
                     this.eliminarMesa(request, response);
                     break;
+                case "ver":
+                    this.VerMesa(request, response);
+                    break;
 
                 default:
                     this.accionDefault(request, response);
@@ -78,6 +81,28 @@ public class ServletControladorMesas extends HttpServlet {
         request.setAttribute("Departamentos", Deptos);
         request.setAttribute("Estados", EstadoMesa);
         String jspEditar = "/Modales/EditarMesas.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+    }
+    
+    private void VerMesa(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperamos el idCliente
+        int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
+
+        Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
+        request.setAttribute("mesa", mesa);
+        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom());
+        List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios(mesa.getID_Depto_Nom());
+        List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
+        Gson gson = new Gson();
+
+        String JSON = gson.toJson(municipios);
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("municipiosJSON", JSON);
+
+        request.setAttribute("Departamentos", Deptos);
+        request.setAttribute("Estados", EstadoMesa);
+        String jspEditar = "/Modales/VistaMesa.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
 
