@@ -79,7 +79,7 @@
                                                 </td>
 
 
-                                                <td>Mesa ${persona.getId_Mesa()}</td>
+                                                <td><a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=ver&idMesa=${persona.getId_Mesa()}">Mesa ${persona.getId_Mesa()}</a></td>
 
                                                 <c:if test="${persona.getEstadoVoto_Des()=='Inhabilitado'}">
                                                     <td><span class="badge bg-secondary" >${persona.getEstadoVoto_Des()}</span></td>

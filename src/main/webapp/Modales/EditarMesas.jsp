@@ -125,7 +125,7 @@
                                             <div class="modal-footer">
 
 
-                                                <a href="ControladorMenus?accion=Partidos"  type="button" class="btn btn-secondary" >Cancelar</a>    
+                                                <a href="ControladorMenus?accion=Mesas"  type="button" class="btn btn-secondary" >Cancelar</a>    
 
 
                                                 <button type="submit" class="btn btn-primary">Actualizar</button>

@@ -1,4 +1,9 @@
 
+//TipoUsuario
+
+
+
+
 
 function CambioEstado() {
  if ($('#Estado').val()=='Abierta'){
@@ -14,12 +19,40 @@ function CambioEstado() {
 
 
 
+//$('#example').DataTable({
+//    dom: 'Bfrtip',
+//    buttons: [
+//        {
+//            extend: 'collection',
+//            className: 'btn btn-outline-secondary me-1',
+//            text: 'Exportar',
+//            buttons: [
+//                {
+//                    extend: 'excelHtml5',
+//                    text: '<i class="fas fa-file-excel"></i> Excel',
+//                    titleAttr: 'Export to Excel',
+//                    className: ' btn btn-export btn-outline-success m-1 d-grid gap-2 col-12 mx-auto'
+//
+//                },
+//                {
+//                    extend: 'pdfHtml5',
+//                    text: '<i class="fas fa-file-pdf"></i> PDF',
+//                    titleAttr: 'Export to PDF',
+//                    className: ' btn btn-export btn-outline-danger m-1 d-grid gap-2 col-12 mx-auto'
+//                },
+//                {
+//                    extend: 'print',
+//                    text: '<i class="fa fa-print"></i> Imprimir',
+//                    titleAttr: 'Print',
+//                    className: ' btn btn-export btn-outline-primary m-1 d-grid gap-2 col-12 mx-auto',
+//
+//                },
+//            ]
+//        }
+//    ]
+//});
 
-
-
-
-
-$('#example').DataTable({
+  $('table.display').DataTable({
     dom: 'Bfrtip',
     buttons: [
         {
@@ -51,6 +84,7 @@ $('#example').DataTable({
         }
     ]
 });
+
 
 $("button").removeClass("dt-button");
 

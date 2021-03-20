@@ -6,7 +6,16 @@
 
         <jsp:include page="/Estructura-Menu/Head-metas.jsp"/>
 
-        <title>Editar | Mesas</title>
+        <style>
+
+
+            #example_wrapper{
+                margin-top:38px !important;
+            }
+
+        </style>
+
+        <title>Información | Mesas</title>
     </head>
 
     <body onload="mostrar_mapa(1, 2)">
@@ -53,6 +62,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
+                                        <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" type="button" class="btn  btn-outline-success" style="margin-left:0%; margin-right: 25%; margin-bottom: 15px;"><i class="far fa-edit"></i> Editar Mesa</a>
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="Generales-tab" data-bs-toggle="tab" data-bs-target="#Generales" type="button" role="tab" aria-controls="Generales" aria-selected="true">Datos Generales</button>
@@ -77,8 +87,8 @@
                                                 <div class="col-12 col-lg-12">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <h5 class="card-title">Geoubicacion de Mesa ${mesa.getId_Mesa()}</h5>
-                                                            <h6 class="card-subtitle text-muted">Displays a mixture of normal and satellite views.</h6>
+                                                            <h1 class="card-title" style="font-size: 20px; text-align: center">Geoubicación de la Mesa Electoral #${mesa.getId_Mesa()}</h1>
+                                                            
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="content" id="hybrid_map" style="height: 300px;"></div>
@@ -154,8 +164,8 @@
                                                                                     <td><b><h3>Estado: </h3></b><span class="badge bg-primary" >${mesa.getEstadoDes()}</span><br><br>
                                                                                     </c:if>
 
-                                                                                <b><h4>Fecha de Apertura: </h4></b>${mesa.getApertura().getTime}<br><br>
-                                                                                <b><h4>Fecha de Cierre: </h4></b> ${mesa.getCierre().getTime}
+                                                                                    <b><h4>Fecha de Apertura: </h4></b>${mesa.getApertura2()}<br><br>
+                                                                                    <b><h4>Fecha de Cierre: </h4></b> ${mesa.getCierre2()}
 
 
                                                                             </div>
@@ -181,7 +191,64 @@
                                             <div class="tab-pane fade" id="Miembros" role="tabpanel" aria-labelledby="Miembros-tab">
 
 
-                                                Miembros
+
+
+
+                                               <table id="example" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%;">#</th>
+                                        <th style="width:35%;">Nombre</th>
+                                        <th style="width:25%">Cargo</th>
+                                        <th style="width:10%;">#Mesa</th>
+                                        <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+
+                                    <c:forEach var="MiembrosMesa" items="${MiembrosMesa}" varStatus="status" >
+                                        <tr>
+                                            <td>${status.count}</td>
+                                            <td>
+                                                <img src="${pageContext.request.contextPath}/Imagenes/${MiembrosMesa.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${MiembrosMesa.primer_Nombre} ${MiembrosMesa.segundo_Nombre} ${MiembrosMesa.tercer_Nombre} ${MiembrosMesa.primer_Apellido} ${MiembrosMesa.segundo_Apellido}
+                                            </td>
+
+                                            <td>${MiembrosMesa.getId_Tipo_Des()}</td>
+                                            <td>Mesa ${MiembrosMesa.getId_Mesa()}</td>
+                                                                                            <c:if test="${MiembrosMesa.getEstadoDes()=='Activo'}">
+                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${MiembrosMesa.getEstadoDes()}</span></td>
+                                                    </c:if>
+                                                <c:if test="${MiembrosMesa.getEstadoDes()=='Inactivo'}">
+                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-secondary" >${MiembrosMesa.getEstadoDes()}</span></td>
+                                                    </c:if>
+                                            <td class="table-action">
+                                                <a href="${pageContext.request.contextPath}/ServletControlador?accion=editar&idPersona=${MiembrosMesa.getId_Persona()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                            </td>
+                                        </tr>
+
+
+                                    </c:forEach>
+
+
+
+
+                                </tbody>
+                            </table>
+
+
+
+
+
+
+
+
+
+
 
 
                                             </div>
@@ -194,7 +261,86 @@
                                             <div class="tab-pane fade" id="Electores" role="tabpanel" aria-labelledby="Electores-tab">
 
 
-                                                Electores
+
+
+
+
+
+
+                                                <table id="example" class="display" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:5%;">#</th>
+                                                            <th style="width:15%">DNI</th>
+                                                            <th style="width:35%;">Nombre</th>
+                                                            <th style="width:10%;">#Mesa</th>
+                                                            <th style="width:15%;">Estado de Votación</th>
+
+                                                            <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+
+
+                                                        <c:forEach var="Elector" items="${Electores}" varStatus="status" >
+                                                            <tr>
+                                                                <td>${status.count}</td>
+                                                                <td>${Elector.getId_Persona()}</td>
+
+                                                                <td>
+                                                                    <img src="${pageContext.request.contextPath}/Imagenes/${Elector.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${Elector.primer_Nombre} ${Elector.segundo_Nombre} ${Elector.tercer_Nombre} ${Elector.primer_Apellido} ${Elector.segundo_Apellido}
+                                                                </td>
+
+
+                                                                <td>Mesa ${Elector.getId_Mesa()}</td>
+
+                                                                <c:if test="${Elector.getEstadoVoto_Des()=='Inhabilitado'}">
+                                                                    <td><span class="badge bg-secondary" >${Elector.getEstadoVoto_Des()}</span></td>
+                                                                    </c:if>
+                                                                    <c:if test="${Elector.getEstadoVoto_Des()=='Habilitado'}">
+                                                                    <td><span class="badge bg-primary" >${Elector.getEstadoVoto_Des()}</span></td>
+                                                                    </c:if>
+                                                                    <c:if test="${Elector.getEstadoVoto_Des()=='Ya Votó'}">
+                                                                    <td><span class="badge bg-success" >${Elector.getEstadoVoto_Des()}</span></td>
+                                                                    </c:if>
+                                                                    <c:if test="${Elector.getEstadoVoto_Des()=='No Votó'}">
+                                                                    <td><span class="badge bg-danger" >${Elector.getEstadoVoto_Des()}</span></td>
+                                                                    </c:if>
+
+                                                                <c:if test="${Elector.getEstadoDes()=='Activo'}">
+                                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${Elector.getEstadoDes()}</span></td>
+                                                                    </c:if>
+                                                                    <c:if test="${Elector.getEstadoDes()=='Inactivo'}">
+                                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-secondary" >${Elector.getEstadoDes()}</span></td>
+                                                                    </c:if>
+
+
+                                                                <td class="table-action">
+                                                                    <a href="${pageContext.request.contextPath}/ServletControlador?accion=editar&idPersona=${Elector.getId_Persona()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                                                </td>
+                                                            </tr>
+
+
+                                                        </c:forEach>
+
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+
+
+
+
+
 
 
                                             </div>
@@ -207,7 +353,41 @@
                                             <div class="tab-pane fade" id="Estadísticas" role="tabpanel" aria-labelledby="Estadísticas-tab">
 
 
-                                                Estadísticas
+
+
+
+
+
+
+
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 10px;">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link active" id="Partidos-tab" data-bs-toggle="tab" data-bs-target="#Partidos" type="button" role="tab" aria-controls="Partidos" aria-selected="true">Partidos</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="Presidentes-tab" data-bs-toggle="tab" data-bs-target="#Presidentes" type="button" role="tab" aria-controls="Presidentes" aria-selected="false">Presidentes</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="Diputados-tab" data-bs-toggle="tab" data-bs-target="#Diputados" type="button" role="tab" aria-controls="Diputados" aria-selected="false">Diputados</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="Alcaldes-tab" data-bs-toggle="tab" data-bs-target="#Alcaldes" type="button" role="tab" aria-controls="Alcaldes" aria-selected="false">Alcaldes</button>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="Partidos" role="tabpanel" aria-labelledby="Partidos-tab">...</div>
+                                                    <div class="tab-pane fade" id="Presidentes" role="tabpanel" aria-labelledby="Presidentes-tab">...</div>
+                                                    <div class="tab-pane fade" id="Diputados" role="tabpanel" aria-labelledby="Diputados-tab">...</div>
+                                                    <div class="tab-pane fade" id="Alcaldes" role="tabpanel" aria-labelledby="Alcaldes-tab">...</div>
+                                                </div>
+
+
+
+
+
+
+
+
 
 
                                             </div>

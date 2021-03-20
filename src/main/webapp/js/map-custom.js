@@ -4,6 +4,8 @@
 
         $(document).ready(function () {
 
+
+
             var selector_map = $('#google_map');
             var img_pin = selector_map.attr('data-pin');
             var data_map_x = selector_map.attr('data-map-x');

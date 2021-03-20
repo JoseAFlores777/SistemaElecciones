@@ -48,7 +48,7 @@
 
                         <div class="card" style="padding-top: 20px;">
 
-                            <button type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</button>
+                            <a  href="${pageContext.request.contextPath}/ServletControlador?accion=BuscarReferencias" type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</a>
 
 
                             <table id="example" class="table display" style="margin-top:100%;">

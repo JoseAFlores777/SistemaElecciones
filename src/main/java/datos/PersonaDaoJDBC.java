@@ -19,14 +19,15 @@ public class PersonaDaoJDBC {
     private static final String SQL_SELECT_BY_ID = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado "
             + "FROM Personas WHERE idPersona=?";
 
-    private static final String SQL_INSERT = "INSERT INTO Personas(idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado )"
-            + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_CANDIDATOS = "INSERT INTO Personas(idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto) "
+            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_USUARIOS = "INSERT INTO Personas(idPersona,idTipo,idMesa,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto) "
+            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
     private static final String SQL_UPDATE_CANDIDATOS = "UPDATE Personas SET  idTipo=?, idMesa=?, idPartido=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
             + "WHERE idPersona=?";
     private static final String SQL_UPDATE_USUARIOS = "UPDATE Personas SET  idTipo=?, idMesa=?, Contra=?, PrimerNombre=?, SegundoNombre=?, TercerNombre=?, PrimerApellido=?, SegundoApellido=?, Foto=?, Estado_Voto=?, Estado=?  "
             + "WHERE idPersona=?";
-
 
     private static final String SQL_DELETE = "DELETE FROM Personas WHERE idPersona = ?";
 
@@ -61,7 +62,7 @@ public class PersonaDaoJDBC {
                 String primer_Apellido = rs.getString("PrimerApellido");
                 String segundo_Apellido = rs.getString("SegundoApellido");
                 String Foto = rs.getString("Foto");
-                
+
                 int EstadoVoto = rs.getInt("Estado_Voto");
                 boolean Estado = rs.getBoolean("Estado");
 
@@ -81,20 +82,18 @@ public class PersonaDaoJDBC {
     //Tipo foto 1:foto de Perfil  2: Foto de Partido
     public String listarIMG(String id) throws IOException {
         String sql = "SELECT T2.Bandera\n"
-                    + "FROM Personas T1\n"
-                    + "INNER JOIN Partidos T2\n"
-                    + "ON(T1.idPartido=T2.idPartido)\n"
-                    + "WHERE T1.idPersona =" + id;
-        
+                + "FROM Personas T1\n"
+                + "INNER JOIN Partidos T2\n"
+                + "ON(T1.idPartido=T2.idPartido)\n"
+                + "WHERE T1.idPersona =" + id;
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String Bandera = null;
 
-
         try {
-            
+
             conn = Conexion.getConnection();
 
             stmt = conn.prepareStatement(sql);
@@ -137,7 +136,7 @@ public class PersonaDaoJDBC {
                 String primer_Apellido = rs.getString("PrimerApellido");
                 String segundo_Apellido = rs.getString("SegundoApellido");
                 String Foto = rs.getString("Foto");
-                
+
                 int EstadoVoto = rs.getInt("Estado_Voto");
                 boolean Estado = rs.getBoolean("Estado");
 
@@ -170,21 +169,36 @@ public class PersonaDaoJDBC {
         int rows = 0;
         try {
             conn = Conexion.getConnection();
-            stmt = conn.prepareStatement(SQL_INSERT);
 
-            stmt.setString(1, persona.getId_Persona());
-            stmt.setInt(2, persona.getId_Tipo());
-            stmt.setInt(3, persona.getId_Mesa());
-            stmt.setInt(4, persona.getId_Partido());
-            stmt.setString(5, persona.getPassword_());
-            stmt.setString(6, persona.getPrimer_Nombre());
-            stmt.setString(7, persona.getSegundo_Nombre());
-            stmt.setString(8, persona.getTercer_Nombre());
-            stmt.setString(9, persona.getPrimer_Apellido());
-            stmt.setString(10, persona.getSegundo_Apellido());
-            stmt.setString(11, persona.getFoto());
-            stmt.setInt(12, persona.getEstadoVoto());
-            stmt.setBoolean(13, persona.isEstado());
+            if (persona.getId_Tipo() <= 3) {
+                stmt = conn.prepareStatement(SQL_INSERT_CANDIDATOS);
+                stmt.setString(1, persona.getId_Persona());
+                stmt.setInt(2, persona.getId_Tipo());
+                stmt.setInt(3, persona.getId_Mesa());
+                stmt.setInt(4, persona.getId_Partido());
+                stmt.setString(5, persona.getPassword_());
+                stmt.setString(6, persona.getPrimer_Nombre());
+                stmt.setString(7, persona.getSegundo_Nombre());
+                stmt.setString(8, persona.getTercer_Nombre());
+                stmt.setString(9, persona.getPrimer_Apellido());
+                stmt.setString(10, persona.getSegundo_Apellido());
+                stmt.setString(11, persona.getFoto());
+
+            } else {
+                stmt = conn.prepareStatement(SQL_INSERT_USUARIOS);
+                stmt.setString(1, persona.getId_Persona());
+                stmt.setInt(2, persona.getId_Tipo());
+                stmt.setInt(3, persona.getId_Mesa());
+
+                stmt.setString(4, persona.getPassword_());
+                stmt.setString(5, persona.getPrimer_Nombre());
+                stmt.setString(6, persona.getSegundo_Nombre());
+                stmt.setString(7, persona.getTercer_Nombre());
+                stmt.setString(8, persona.getPrimer_Apellido());
+                stmt.setString(9, persona.getSegundo_Apellido());
+                stmt.setString(10, persona.getFoto());
+
+            }
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -202,9 +216,8 @@ public class PersonaDaoJDBC {
         int rows = 0;
         try {
             conn = Conexion.getConnection();
-            
 
-                            if (persona.getId_Tipo() <= 3) {
+            if (persona.getId_Tipo() <= 3) {
                 stmt = conn.prepareStatement(SQL_UPDATE_CANDIDATOS);
 
                 stmt.setInt(1, persona.getId_Tipo());
@@ -342,7 +355,5 @@ public class PersonaDaoJDBC {
         }
         return Referencia;
     }
-
-
 
 }

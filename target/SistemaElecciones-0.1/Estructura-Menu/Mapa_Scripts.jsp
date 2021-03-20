@@ -50,29 +50,32 @@
 
 
         //recuperar ubicacion donde hago click
-        var iw = new google.maps.InfoWindow(
-                {content: '<b>Arrastre</b> el globo para definir<br/>la Nueva Ubicaci�n',
-                    position: ubicacion});
-        iw.open(map);
+
         // configurar evento click sobre el mapa
-        map.addListener('click', function (mapsMouseEvent) {
-            iw.close();
-            iw = new google.maps.InfoWindow({position: mapsMouseEvent.latLng});
-            iw.setContent(mapsMouseEvent.latLng.toString());
-            iw.open(map);
-        });
 
 
         if (centinela == 1) {
-            //Colocar una marca sobre el Mapa
-            mi_ubicacion = new google.maps.Marker({
-                position: new google.maps.LatLng(Latitud, Longitud), //Posición de la marca
-                icon: 'images/icons/Globo3.png', //Imagen que aparecerá en la marca, debe estar en el server
-                map: map, //Mapa donde estará la marca
 
-                draggable: true,
-                title: 'Mesa #' + IdMesa //Título all hacer un mouseover
-            });
+
+            if (mesa == 2) {
+                //Colocar una marca sobre el Mapa
+                mi_ubicacion = new google.maps.Marker({
+                    position: new google.maps.LatLng(Latitud, Longitud), //Posición de la marca
+                    icon: 'images/icons/Globo3.png', //Imagen que aparecerá en la marca, debe estar en el server
+                    map: map, //Mapa donde estará la marca
+                    title: 'Mesa #' + IdMesa //Título all hacer un mouseover
+                });
+            } else {
+                //Colocar una marca sobre el Mapa
+                mi_ubicacion = new google.maps.Marker({
+                    position: new google.maps.LatLng(Latitud, Longitud), //Posición de la marca
+                    icon: 'images/icons/Globo3.png', //Imagen que aparecerá en la marca, debe estar en el server
+                    map: map, //Mapa donde estará la marca
+
+                    draggable: true,
+                    title: 'Mesa #' + IdMesa //Título all hacer un mouseover
+                });
+            }
 
             mi_ubicacion.addListener('dragend', function (event) {
 
@@ -102,6 +105,7 @@
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement("SELECT T1.idMesa,T1.idMunicipio,T3.Nombre,T2.Nombre,T1.Nombre,T1.Latitud,T1.Longitud,T1.Apertura,T1.Cierre,T1.Estado FROM Mesas AS T1 INNER JOIN Municipios AS T2 ON(T1.idMunicipio=T2.idMunicipio) INNER JOIN Departamentos AS T3 ON(T2.idDepartamento=T3.idDepartamento)");
@@ -119,6 +123,7 @@
                 Cierre = rs.getString(9);
                 Estado = rs.getString(10);
 
+
     %>
             mi_ubicacion<%=cont%> = new google.maps.Marker({
                 position: new google.maps.LatLng(<%=Latitud%>, <%=Longitud%>),
@@ -126,9 +131,22 @@
                 map: map,
                 title: 'Mesa #<%=idMesa%>'
             });
+            
+            
+
+            if (<%=Estado%> == "1") {
+                EstadotAG = "En Espera";
+                ClaseTag = "badge bg-warning";
+            } else if (<%=Estado%> == "2") {
+                EstadotAG = "Cerrada";
+                ClaseTag = "badge bg-secondary";
+            } else if (<%=Estado%> == "3") {
+                EstadotAG = "Abierta";
+                ClaseTag = "badge bg-primary";
+            }
 
             var infowindow<%=cont%> = new google.maps.InfoWindow({
-                content: '<b><%=NombreLugar%></b><br/><%=NombreDepto%><br/><%=NombreMuni%><br/><b>Mesa #<%=idMesa%></b>'
+                content: '<b><%=NombreLugar%></b><br/><%=NombreDepto%><br/><%=NombreMuni%><br/><b>Mesa #<%=idMesa%></b>  <span class="'+ClaseTag+'">'+EstadotAG+'</span>'
             });
 
             google.maps.event.addListener(mi_ubicacion<%=cont%>, 'click', function () {

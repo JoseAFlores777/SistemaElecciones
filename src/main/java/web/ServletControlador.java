@@ -1,8 +1,10 @@
 package web;
 
+import datos.MesaDaoJDBC;
 import datos.PartidoDaoJDBC;
 import datos.PersonaDaoJDBC;
 import datos.ReferenciasDaoJDBC;
+import dominio.Mesa;
 import dominio.Partido;
 import dominio.Persona;
 import dominio.TipoUsuarios;
@@ -50,6 +52,9 @@ public class ServletControlador extends HttpServlet {
                     break;
                 case "eliminar":
                     this.eliminarPersona(request, response);
+                    break;
+                case "BuscarReferencias":
+                    this.BuscarReferencias(request, response);
                     break;
 
                 default:
@@ -105,6 +110,23 @@ public class ServletControlador extends HttpServlet {
         String jspEditar = "/Modales/EditarPersona.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
+    
+    private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        
+        List<Partido> partidos = new PartidoDaoJDBC().listar(0);
+        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(0,3);
+        List<Mesa> mesas = new MesaDaoJDBC().listar(0);
+        
+        
+        request.setAttribute("Mesas", mesas);
+        request.setAttribute("Tipos", tipos);
+        request.setAttribute("Partidos", partidos);
+        
+        String jspEditar = "/Modales/AgregarPersona.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -139,32 +161,84 @@ public class ServletControlador extends HttpServlet {
 
     private void insertarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //recuperamos los valores del formulario agregarPersona
+        Persona persona;
+
+        //recuperamos los valores del formulario editarPersona
+        System.out.println("Aqui el valor de Foto");
+        System.out.println(request.getParameter("Foto"));
 
         String id_Persona = request.getParameter("idPersona");
         int id_Tipo = Integer.parseInt(request.getParameter("idTipo"));
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
-        int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
+        Part part = request.getPart("Foto");
         String Password_ = request.getParameter("Contra");
         String primer_Nombre = request.getParameter("PrimerNombre");
         String segundo_Nombre = request.getParameter("SegundoNombre");
         String tercer_Nombre = request.getParameter("TercerNombre");
         String primer_Apellido = request.getParameter("PrimerApellido");
         String segundo_Apellido = request.getParameter("SegundoApellido");
-        String Foto = request.getParameter("Foto");
 
-        int EstadoVoto = Integer.parseInt(request.getParameter("Estado_Voto"));
-        boolean Estado = Boolean.parseBoolean(request.getParameter("Estado"));
 
-        //Creamos el objeto de Persona (modelo)
-        Persona persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);
 
-        //Insertamos el nuevo objeto en la base de datos
-        int registrosModificados = new PersonaDaoJDBC().insertar(persona);
-        System.out.println("registrosModificados = " + registrosModificados);
+//        if (part == null) {
+//            System.out.println("No ha seleccionado un archivo");
+//            return;
+//        }
+
+        if (isExtension(part.getSubmittedFileName(), extens)) {
+            String Foto = saveFile(part, uploads);
+
+            if (id_Tipo <= 3) {
+                int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
+                //Creamos el objeto de Persona (modelo)
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto);
+            } else {
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto);
+            }
+
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PersonaDaoJDBC().insertar(persona);
+            System.out.println("registrosModificados = " + registrosModificados);
+
+        }
+        
+        else{
+        
+        
+        String Foto = "SinFoto.png";
+                    if (id_Tipo <= 3) {
+                int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
+                //Creamos el objeto de Persona (modelo)
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto);
+            } else {
+                persona = new Persona(id_Persona, id_Tipo, id_Mesa, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto);
+            }
+
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PersonaDaoJDBC().insertar(persona);
+            System.out.println("registrosModificados = " + registrosModificados);
+        
+        
+        
+        }
 
         //Redirigimos hacia accion por default
-        this.accionDefault(request, response);
+//        this.accionDefault(request, response);
+        if (id_Tipo == 1) {
+            response.sendRedirect("ServletControlador?user=1&accion=");
+        } else if (id_Tipo == 2) {
+            response.sendRedirect("ServletControlador?user=2&accion=");
+        } else if (id_Tipo == 3) {
+            response.sendRedirect("ServletControlador?user=3&accion=");
+        } else if (id_Tipo == 4) {
+            response.sendRedirect("ServletControlador?user=4&accion=");
+        } else if (id_Tipo == 5) {
+            response.sendRedirect("ServletControlador?user=5&accion=");
+        } else if (id_Tipo == 6) {
+            response.sendRedirect("ServletControlador?user=6&accion=");
+        } else if (id_Tipo == 7) {
+            response.sendRedirect("ServletControlador?user=7&accion=");
+        }
     }
 
     private void modificarPersona(HttpServletRequest request, HttpServletResponse response)

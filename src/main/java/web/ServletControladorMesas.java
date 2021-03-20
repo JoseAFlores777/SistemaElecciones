@@ -6,6 +6,7 @@ import datos.ReferenciasDaoJDBC;
 import dominio.Departamentos;
 import dominio.Mesa;
 import dominio.Municipios;
+import dominio.Persona;
 import dominio.Tipo_EstadoMesa;
 import java.io.File;
 
@@ -16,7 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -91,16 +95,13 @@ public class ServletControladorMesas extends HttpServlet {
 
         Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
         request.setAttribute("mesa", mesa);
-        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom());
-        List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios(mesa.getID_Depto_Nom());
+        List<Persona> Electores = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(),1);
+        List<Persona> MiembrosMesa = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(),2);
+        
         List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
-        Gson gson = new Gson();
 
-        String JSON = gson.toJson(municipios);
-        HttpSession sesion = request.getSession();
-        sesion.setAttribute("municipiosJSON", JSON);
-
-        request.setAttribute("Departamentos", Deptos);
+        request.setAttribute("Electores", Electores);
+        request.setAttribute("MiembrosMesa", MiembrosMesa);
         request.setAttribute("Estados", EstadoMesa);
         String jspEditar = "/Modales/VistaMesa.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
@@ -113,12 +114,26 @@ public class ServletControladorMesas extends HttpServlet {
         if (accion != null) {
             switch (accion) {
                 case "insertar":
-                    this.insertarMesa(request, response);
+                {
+                    try {
+                        this.insertarMesa(request, response);
+                    } catch (ParseException ex) {
+                       ex.printStackTrace(System.out);
+                    }
+                }
                     break;
+
                 case "modificar":
-                    this.modificarMesa(request, response);
+                {
+                    try {
+                        this.modificarMesa(request, response);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace(System.out);
+                    }
+                }
 
                     break;
+
 
                 default:
                     this.accionDefault(request, response);
@@ -129,7 +144,7 @@ public class ServletControladorMesas extends HttpServlet {
     }
 
     private void insertarMesa(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         //recuperamos los valores del formulario agregarPersona
 
         int id_Municipio = Integer.parseInt(request.getParameter("idMunicipio"));
@@ -151,7 +166,7 @@ public class ServletControladorMesas extends HttpServlet {
     }
 
     private void modificarMesa(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException {
         //recuperamos los valores del formulario editarPersona
         java.util.Date Apertura = null;
         java.util.Date Cierre = null;
