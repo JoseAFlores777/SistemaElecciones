@@ -28,6 +28,14 @@ public class Mesa {
         this.id_Mesa = id_Mesa;
     }
 
+    public Mesa(int id_Municipio, String Nombre, String Latitud, String Longitud) {
+               
+        this.id_Municipio = id_Municipio;
+        this.Nombre = Nombre;
+        this.Latitud = Latitud;
+        this.Longitud = Longitud;
+    }
+
     public String getApertura2() {
         return Apertura2;
     }

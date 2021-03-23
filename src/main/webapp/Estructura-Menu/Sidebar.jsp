@@ -3,8 +3,14 @@
                     <a class="sidebar-brand" href="">
                         <span class="align-middle">Sistema de Elecciones</span>
                     </a>
+                    
 
                     <ul class="sidebar-nav">
+                        <li class="sidebar-header">
+                            
+                            <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-secondary" target="_blank">Realizar Mi Voto</a>                                
+                            
+                        </li>
                         <li class="sidebar-header">
                             Vistas
                         </li>

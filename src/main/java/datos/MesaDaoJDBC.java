@@ -22,7 +22,7 @@ public class MesaDaoJDBC {
     private static final String SQL_SELECT_BY_ID = "SELECT idMesa,idMunicipio,Nombre,Latitud,Longitud,Apertura,Cierre,Estado FROM Mesas WHERE idMesa=? ";
     private static final String SQL_SELECT_BY_ID_Forma = "SELECT idMesa,idMunicipio,Nombre,Latitud,Longitud,Date_format(Apertura,'%d-%b-%y %h:%i:%s %p') as Apertura,Date_format(Cierre,'%d-%b-%y %h:%i:%s %p') as Cierre,Estado FROM Mesas WHERE idMesa=? ";
 
-    private static final String SQL_INSERT = "INSERT INTO Mesas (idMunicipio,Nombre,Latitud,Longitud,Apertura,Cierre) VALUES(?,?,?,?,?,?)";
+    private static final String SQL_INSERT = "INSERT INTO Mesas (idMunicipio,Nombre,Latitud,Longitud) VALUES(?,?,?,?)";
 
     private static final String SQL_UPDATE = "UPDATE Mesas SET idMunicipio=?,Nombre=?,Latitud=?,Longitud=?,Apertura=DATE_SUB(?, INTERVAL 6 HOUR),Cierre=DATE_SUB(?, INTERVAL 6 HOUR),Estado=?  WHERE idMesa=?";
 
@@ -122,15 +122,12 @@ public class MesaDaoJDBC {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
 
-            Timestamp Apertura = new Timestamp(mesa.getApertura().getTime());
-Timestamp Cierre = new Timestamp(mesa.getCierre().getTime());
+
             
             stmt.setInt(1, mesa.getId_Municipio());
             stmt.setString(2, mesa.getNombre());
             stmt.setString(3, mesa.getLatitud());
             stmt.setString(4, mesa.getLongitud());
-            stmt.setTimestamp(5, Apertura);
-            stmt.setTimestamp(6, Cierre);
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {

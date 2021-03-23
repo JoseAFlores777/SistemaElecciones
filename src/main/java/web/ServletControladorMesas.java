@@ -45,6 +45,9 @@ public class ServletControladorMesas extends HttpServlet {
                 case "ver":
                     this.VerMesa(request, response);
                     break;
+                case "BuscarReferencias":
+                    this.BuscarReferencias(request, response);
+                    break;
 
                 default:
                     this.accionDefault(request, response);
@@ -73,8 +76,8 @@ public class ServletControladorMesas extends HttpServlet {
 
         Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
         request.setAttribute("mesa", mesa);
-        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom());
-        List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios(mesa.getID_Depto_Nom());
+        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom(),true);
+        List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios();
         List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
         Gson gson = new Gson();
 
@@ -151,19 +154,40 @@ public class ServletControladorMesas extends HttpServlet {
         String Nombre = request.getParameter("Nombre");
         String Latitud = request.getParameter("Latitud");
         String Longitud = request.getParameter("Longitud");
-        java.sql.Date Apertura = Date.valueOf(request.getParameter("Apertura"));
-        java.sql.Date Cierre = Date.valueOf(request.getParameter("Cierre"));
+
 
         //Creamos el objeto de Persona (modelo)
-        Mesa mesa = new Mesa(id_Municipio, Nombre, Latitud, Longitud, Apertura, Cierre);
+        Mesa mesa = new Mesa(id_Municipio, Nombre, Latitud, Longitud);
 
         //Insertamos el nuevo objeto en la base de datos
         int registrosModificados = new MesaDaoJDBC().insertar(mesa);
         System.out.println("registrosModificados = " + registrosModificados);
 
         //Redirigimos hacia accion por default
-        this.accionDefault(request, response);
+        response.sendRedirect("ServletControladorMesas?accion=");
     }
+    
+    
+        private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(0,false);
+  
+          List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios();
+        
+        Gson gson = new Gson();
+
+        String JSON = gson.toJson(municipios);
+        HttpSession sesion = request.getSession();
+        
+        sesion.setAttribute("municipiosJSON", JSON);
+        request.setAttribute("Departamentos", Deptos);
+        String jspEditar = "/Modales/AgregarMesa.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+    }
+    
+    
+    
 
     private void modificarMesa(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {

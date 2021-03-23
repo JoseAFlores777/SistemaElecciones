@@ -138,11 +138,11 @@
                 EstadotAG = "En Espera";
                 ClaseTag = "badge bg-warning";
             } else if (<%=Estado%> == "2") {
-                EstadotAG = "Cerrada";
-                ClaseTag = "badge bg-secondary";
-            } else if (<%=Estado%> == "3") {
                 EstadotAG = "Abierta";
                 ClaseTag = "badge bg-primary";
+            } else if (<%=Estado%> == "3") {
+                EstadotAG = "Cerrada";
+                ClaseTag = "badge bg-secondary";
             }
 
             var infowindow<%=cont%> = new google.maps.InfoWindow({

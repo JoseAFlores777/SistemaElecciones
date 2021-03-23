@@ -36,9 +36,8 @@
                                 <div class="col-auto ml-auto text-right mt-n1">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-                                            <li class="breadcrumb-item"><a href="#">Sistema De Elecciones</a></li>
-                                            <li class="breadcrumb-item"><a href="#">Elecciones</a></li>
-                                            <li class="breadcrumb-item"><a href="#">Candidatos</a></li>
+                                            <li class="breadcrumb-item"><a href="ControladorMenus?accion=Dashboard">Inicio</a></li>
+                                            
                                             <li class="breadcrumb-item active" aria-current="page">Alcaldes</li>
                                         </ol>
                                     </nav>
@@ -48,7 +47,7 @@
 
                             <div class="card" style="padding-top: 20px;">
 
-                                <button type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</button>
+                              <a  href="${pageContext.request.contextPath}/ServletControlador?accion=BuscarReferencias&user=2" type="button" class="btn  btn-outline-success" style="margin-left:25%; margin-right: 25%; margin-bottom: 10px;"><i class="fas fa-plus"></i> Agregar</a>
 
 
                                 <table id="example" class="table display" style="margin-top:100%;">

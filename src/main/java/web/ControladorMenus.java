@@ -68,6 +68,9 @@ public class ControladorMenus extends HttpServlet {
             case "Mesas":
                 request.getRequestDispatcher("Vistas/Mesas.jsp").forward(request, response);
                 break;
+            case "Votaciones":
+                request.getRequestDispatcher("Vistas/Votacion.jsp").forward(request, response);
+                break;
         }
     }
 

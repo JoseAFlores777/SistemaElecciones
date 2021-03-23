@@ -113,15 +113,26 @@ public class ServletControlador extends HttpServlet {
     
     private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+int user =  Integer.parseInt(request.getParameter("user"));
+        System.out.println(user);
+List<Partido> partidos;
+        if (user == 1) {
+            System.out.println("entre en 1");
+            partidos = new ReferenciasDaoJDBC().listarPatidosSinPresidente();
+            
+        }else{
+            System.out.println("entre en todos");
+        partidos = new PartidoDaoJDBC().listar(0);
+        }
         
-        List<Partido> partidos = new PartidoDaoJDBC().listar(0);
+        
         List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(0,3);
         List<Mesa> mesas = new MesaDaoJDBC().listar(0);
         
         
         request.setAttribute("Mesas", mesas);
         request.setAttribute("Tipos", tipos);
+        
         request.setAttribute("Partidos", partidos);
         
         String jspEditar = "/Modales/AgregarPersona.jsp";

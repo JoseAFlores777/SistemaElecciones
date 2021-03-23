@@ -1,6 +1,7 @@
 web/ServletControlador.class
 web/ControladorMenus.class
 datos/Conexion.class
+dominio/Voto.class
 datos/ReferenciasDaoJDBC.class
 datos/MesaDaoJDBC.class
 web/ControladorIMG.class
@@ -8,6 +9,7 @@ dominio/Tipo_EstadoVoto.class
 web/ServletControladorPartidos.class
 dominio/TipoUsuarios.class
 datos/PersonaDaoJDBC.class
+datos/VotoDaoJDBC.class
 dominio/Municipios.class
 dominio/Partido.class
 dominio/Persona.class
@@ -15,6 +17,7 @@ web/ServletControladorMesas.class
 dominio/Tipo_EstadoMesa.class
 dominio/Departamentos.class
 dominio/Mesa.class
+web/ServletControladorVotos.class
 web/ControladorIMGpartidos.class
 datos/PartidoDaoJDBC.class
 datos/Validar.class

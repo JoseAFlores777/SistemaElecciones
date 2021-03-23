@@ -35,6 +35,7 @@ public class PartidoDaoJDBC {
         try {
             conn = Conexion.getConnection();
             if (idExcepcion != 0) {
+                
                 stmt = conn.prepareStatement(SQL_SELECT_CON_EXCEPCION+idExcepcion);
             }else{
             stmt = conn.prepareStatement(SQL_SELECT);

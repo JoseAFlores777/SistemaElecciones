@@ -19,8 +19,8 @@ import javax.servlet.http.*;
 @MultipartConfig
 @WebServlet("/ServletControladorPartidos")
 public class ServletControladorPartidos extends HttpServlet {
-    
-        private String pathFiles = "/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/webapp/Imagenes";
+
+    private String pathFiles = "/Users/joseadolfoizaguirreflores/Desktop/ProyectoFinal_PrograIV/Proyecto-SistemaElecciones/SistemaElecciones/src/main/webapp/Imagenes";
     private File uploads = new File(pathFiles);
     private String[] extens = {".ico", ".png", ".jpg", ".jpeg"};
 
@@ -36,6 +36,10 @@ public class ServletControladorPartidos extends HttpServlet {
                     break;
                 case "eliminar":
                     this.eliminarPartido(request, response);
+                    break;
+                case "Agregar":
+                           String jspEditar = "/Modales/AgregarPartido.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
                     break;
 
                 default:
@@ -95,17 +99,33 @@ public class ServletControladorPartidos extends HttpServlet {
         //recuperamos los valores del formulario agregarPersona
 
         String Nombre = request.getParameter("Nombre");
-        String Bandera = request.getParameter("Bandera");
 
+        Part part = request.getPart("Bandera");
         //Creamos el objeto de Persona (modelo)
-        Partido partido = new Partido(Nombre, Bandera);
 
-        //Insertamos el nuevo objeto en la base de datos
-        int registrosModificados = new PartidoDaoJDBC().insertar(partido);
-        System.out.println("registrosModificados = " + registrosModificados);
+        if (isExtension(part.getSubmittedFileName(), extens)) {
+            String Bandera = saveFile(part, uploads);
 
-        //Redirigimos hacia accion por default
-        this.accionDefault(request, response);
+            Partido partido = new Partido(Nombre, Bandera);
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PartidoDaoJDBC().insertar(partido);
+            System.out.println("registrosModificados = " + registrosModificados);
+
+        } else {
+
+            String Bandera = "SinFoto.png";
+            Partido partido = new Partido(Nombre, Bandera);
+
+            //Modificar el  objeto en la base de datos
+            int registrosModificados = new PartidoDaoJDBC().insertar(partido);
+            System.out.println("registrosModificados = " + registrosModificados);
+
+        }
+        
+        response.sendRedirect("ServletControladorPartidos?accion=");
+        
+        
+
     }
 
     private void modificarPartido(HttpServletRequest request, HttpServletResponse response)
@@ -159,16 +179,16 @@ public class ServletControladorPartidos extends HttpServlet {
         //Redirigimos hacia accion por default
         this.accionDefault(request, response);
     }
-    
-        private String saveFile(Part part, File pathUploads) {
+
+    private String saveFile(Part part, File pathUploads) {
         String pathAbsolute = "";
-        String fileName=" ";
+        String fileName = " ";
 
         try {
 
             Path path = Paths.get(part.getSubmittedFileName());
-             fileName = path.getFileName().toString();
-             
+            fileName = path.getFileName().toString();
+
             InputStream input = part.getInputStream();
 
             if (input != null) {

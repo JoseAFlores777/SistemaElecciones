@@ -36,8 +36,8 @@
             <div class="col-auto ml-auto text-right mt-n1">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-                        <li class="breadcrumb-item"><a href="#">Sistema De Elecciones</a></li>
-                        <li class="breadcrumb-item"><a href="#">Vistas</a></li>
+                        <li class="breadcrumb-item"><a href="ControladorMenus?accion=Dashboard">Inicio</a></li>
+                        
                         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                     </ol>
                 </nav>
