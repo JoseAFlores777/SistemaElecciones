@@ -1,12 +1,17 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="datos.Conexion"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="dominio.Persona"%>
 <%
     Persona usuario = new Persona();
-    
-    usuario = (Persona)session.getAttribute("credencial");
-            System.out.println(usuario.getNombreCompleto());
-String Nombre = usuario.getNombreCompleto();
-String Foto = usuario.getFoto();
-    
+
+    usuario = (Persona) session.getAttribute("credencial");
+    System.out.println(usuario.getNombreCompleto());
+    String Nombre = usuario.getNombreCompleto();
+    String Foto = usuario.getFoto();
+
 
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,14 +27,44 @@ String Foto = usuario.getFoto();
         <style>
 
 
-            #example_wrapper{
-                margin-top:38px !important;
+            #container {
+                height: 400px;
+                width: 100%;
             }
-            
-            #chartdiv,#chartdiv1,#chartdiv2,#chartdiv3 {
-  width: 100%;
-  height: 500px;
-}
+
+            .highcharts-figure, .highcharts-data-table table {
+                min-width: 320px; 
+                max-width: 800px;
+                margin: 1em auto;
+            }
+
+            .highcharts-data-table table {
+                font-family: Verdana, sans-serif;
+                border-collapse: collapse;
+                border: 1px solid #EBEBEB;
+                margin: 10px auto;
+                text-align: center;
+                width: 100%;
+                max-width: 500px;
+            }
+            .highcharts-data-table caption {
+                padding: 1em 0;
+                font-size: 1.2em;
+                color: #555;
+            }
+            .highcharts-data-table th {
+                font-weight: 600;
+                padding: 0.5em;
+            }
+            .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+                padding: 0.5em;
+            }
+            .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+                background: #f8f8f8;
+            }
+            .highcharts-data-table tr:hover {
+                background: #f1f7ff;
+            }
 
         </style>
 
@@ -81,13 +116,12 @@ String Foto = usuario.getFoto();
                                 <div class="card">
                                     <div class="card-header">
                                         <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" type="button" class="btn  btn-outline-success" style=" margin-bottom: 15px;"><i class="far fa-edit"></i> Editar Mesa</a>
-                                       
-                                                                            <%
-                                    if (usuario.getId_Tipo()==6) {%>
-                                             <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-outline-secondary" style="margin-left: 5px; margin-bottom: 15px;" target="_blank">Realizar Mi Voto</a>                                
+
+                                        <%                                                                                if (usuario.getId_Tipo() == 6) {%>
+                                        <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-outline-secondary" style="margin-left: 5px; margin-bottom: 15px;" target="_blank">Realizar Mi Voto</a>                                
                                         <%}%>
-                                        
-                                       
+
+
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="Generales-tab" data-bs-toggle="tab" data-bs-target="#Generales" type="button" role="tab" aria-controls="Generales" aria-selected="true">Datos Generales</button>
@@ -113,7 +147,7 @@ String Foto = usuario.getFoto();
                                                     <div class="card">
                                                         <div class="card-header">
                                                             <h1 class="card-title" style="font-size: 20px; text-align: center">Geoubicación de la Mesa Electoral #${mesa.getId_Mesa()}</h1>
-                                                            
+
                                                         </div>
                                                         <div class="card-body">
                                                             <div class="content" id="hybrid_map" style="height: 300px;"></div>
@@ -219,51 +253,51 @@ String Foto = usuario.getFoto();
 
 
 
-                                               <table id="example" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%;">#</th>
-                                        <th style="width:35%;">Nombre</th>
-                                        <th style="width:25%">Cargo</th>
-                                        <th style="width:10%;">#Mesa</th>
-                                        <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                                <table id="example" class="display" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:5%;">#</th>
+                                                            <th style="width:35%;">Nombre</th>
+                                                            <th style="width:25%">Cargo</th>
+                                                            <th style="width:10%;">#Mesa</th>
+                                                            <th class="d-none d-md-table-cell" style="width:10%">Estado</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
 
 
 
-                                    <c:forEach var="MiembrosMesa" items="${MiembrosMesa}" varStatus="status" >
-                                        <tr>
-                                            <td>${status.count}</td>
-                                            <td>
-                                                <img src="${pageContext.request.contextPath}/Imagenes/${MiembrosMesa.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${MiembrosMesa.primer_Nombre} ${MiembrosMesa.segundo_Nombre} ${MiembrosMesa.tercer_Nombre} ${MiembrosMesa.primer_Apellido} ${MiembrosMesa.segundo_Apellido}
-                                            </td>
+                                                        <c:forEach var="MiembrosMesa" items="${MiembrosMesa}" varStatus="status" >
+                                                            <tr>
+                                                                <td>${status.count}</td>
+                                                                <td>
+                                                                    <img src="${pageContext.request.contextPath}/Imagenes/${MiembrosMesa.getFoto()}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> ${MiembrosMesa.primer_Nombre} ${MiembrosMesa.segundo_Nombre} ${MiembrosMesa.tercer_Nombre} ${MiembrosMesa.primer_Apellido} ${MiembrosMesa.segundo_Apellido}
+                                                                </td>
 
-                                            <td>${MiembrosMesa.getId_Tipo_Des()}</td>
-                                            <td>Mesa ${MiembrosMesa.getId_Mesa()}</td>
-                                                                                            <c:if test="${MiembrosMesa.getEstadoDes()=='Activo'}">
-                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${MiembrosMesa.getEstadoDes()}</span></td>
-                                                    </c:if>
-                                                <c:if test="${MiembrosMesa.getEstadoDes()=='Inactivo'}">
-                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-secondary" >${MiembrosMesa.getEstadoDes()}</span></td>
-                                                    </c:if>
-                                            <td class="table-action">
-                                                <a href="${pageContext.request.contextPath}/ServletControlador?accion=editar&idPersona=${MiembrosMesa.getId_Persona()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                            </td>
-                                        </tr>
-
-
-                                    </c:forEach>
+                                                                <td>${MiembrosMesa.getId_Tipo_Des()}</td>
+                                                                <td>Mesa ${MiembrosMesa.getId_Mesa()}</td>
+                                                                <c:if test="${MiembrosMesa.getEstadoDes()=='Activo'}">
+                                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-success" >${MiembrosMesa.getEstadoDes()}</span></td>
+                                                                    </c:if>
+                                                                    <c:if test="${MiembrosMesa.getEstadoDes()=='Inactivo'}">
+                                                                    <td class="d-none d-md-table-cell" ><span class="badge bg-secondary" >${MiembrosMesa.getEstadoDes()}</span></td>
+                                                                    </c:if>
+                                                                <td class="table-action">
+                                                                    <a href="${pageContext.request.contextPath}/ServletControlador?accion=editar&idPersona=${MiembrosMesa.getId_Persona()}" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                                                    <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                                                </td>
+                                                            </tr>
 
 
+                                                        </c:forEach>
 
 
-                                </tbody>
-                            </table>
+
+
+                                                    </tbody>
+                                                </table>
 
 
 
@@ -400,25 +434,36 @@ String Foto = usuario.getFoto();
                                                     </li>
                                                 </ul>
                                                 <div class="tab-content" id="myTabContent">
-                                                    <div class="tab-pane fade show active" id="Partidos" role="tabpanel" aria-labelledby="Partidos-tab">...
-                                                    
-                                                    
-                                                    <div id="chartdiv1"></div>
-                                                    
-                                                    
-                                                    
+                                                    <div class="tab-pane fade show active" id="Partidos" role="tabpanel" aria-labelledby="Partidos-tab">
+
+
+                                                        <figure class="highcharts-figure">
+                                                            <div id="container"></div>
+                                                            <p class="highcharts-description">
+                                                                Chart with buttons to modify options, showing how options can be changed
+                                                                on the fly. This flexibility allows for more dynamic charts.
+                                                            </p>
+
+                                                            <button id="plain">Plain</button>
+                                                            <button id="inverted">Inverted</button>
+                                                            <button id="polar">Polar</button>
+                                                        </figure>
+
+
+
                                                     </div>
-                                                    <div class="tab-pane fade" id="Presidentes" role="tabpanel" aria-labelledby="Presidentes-tab">...
-                                                    
-                                                    <div id="chartdiv"></div>
-                                                    
-                                                    
+                                                    <div class="tab-pane fade" id="Presidentes" role="tabpanel" aria-labelledby="Presidentes-tab">
+
+
+
+
+
                                                     </div>
                                                     <div class="tab-pane fade" id="Diputados" role="tabpanel" aria-labelledby="Diputados-tab">...
-                                                    <div id="chartdiv2"></div>
+
                                                     </div>
                                                     <div class="tab-pane fade" id="Alcaldes" role="tabpanel" aria-labelledby="Alcaldes-tab">...
-                                                    <div id="chartdiv3"></div>
+
                                                     </div>
                                                 </div>
 
@@ -493,320 +538,142 @@ String Foto = usuario.getFoto();
 
         <jsp:include page="/Estructura-Menu/Mapa_Scripts.jsp"/>  
 
+
+
+
+        <%
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            String Partidos = "", Votos = "", VotosP = "", VotosD = "", VotosA = "", Presidente = "", Diputado = "", Alcalde = "";
+            try {
+                conn = Conexion.getConnection();
+                stmt = conn.prepareStatement("SELECT T2.Nombre, SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Partidos AS T2 ON(T2.idPartido=T1.idPartido) WHERE T1.idMesa=" + usuario.getId_Mesa() + " GROUP BY T2.Nombre;");
+                rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Partidos += "'" + rs.getString(1) + "',";
+                    Votos += "" + rs.getString(2) + ",";
+
+                }
+
+                //quitar la ultima coma de las cadenas
+                Partidos = Partidos.substring(0, Partidos.length() - 1);
+                Votos = Votos.substring(0, Votos.length() - 1);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                Conexion.close(rs);
+                Conexion.close(stmt);
+                Conexion.close(conn);
+            }
+
+
+        %>
+
+        <%            try {
+                conn = Conexion.getConnection();
+                stmt = conn.prepareStatement("SELECT CONCAT(T2.PrimerNombre,' ',T2.SegundoNombre,' ',T2.PrimerApellido,' ',T2.SegundoApellido), SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Personas AS T2 ON(T2.idPersona=T1.idPersona) WHERE T1.idMesa=" + usuario.getId_Mesa() + " AND T1.idTipo=1 GROUP BY T2.idPersona;");
+                rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Presidente += "'" + rs.getString(1) + "',";
+                    VotosP += "" + rs.getString(2) + ",";
+
+                }
+
+                //quitar la ultima coma de las cadenas
+                Presidente = Presidente.substring(0, Presidente.length() - 1);
+                VotosP = VotosP.substring(0, VotosP.length() - 1);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace(System.out);
+            } finally {
+                Conexion.close(rs);
+                Conexion.close(stmt);
+                Conexion.close(conn);
+            }
+
+
+        %>
+
+
+
+
+
         <script>
-            
-            
-            
-            
-         am4core.useTheme(am4themes_animated);
-// Themes end
 
-var chart = am4core.create("chartdiv1", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-chart.data = [
-  {
-    country: "Partido Nacional",
-    visits: 23725
-  },
-  {
-    country: "Partido Liberal de Honduras",
-    visits: 23725
-  },
-  {
-    country: "Partido Innovación y unidad",
-    visits: 1809
-  },
-  {
-    country: "Partido Democracia Cristiana",
-    visits: 1322
-  },
-  {
-    country: "Partido Unificación Democrática",
-    visits: 1122
-  },
-  {
-    country: "Partido Anticorrupción",
-    visits: 1114
-  },
-  {
-    country: "Partido Libertad y Refundación",
-    visits: 984
-  },
-  
-];
+            const chart = Highcharts.chart('container', {
+                title: {
+                    text: 'Estadística de Partidos Políticos'
+                },
+                subtitle: {
+                    text: 'Conteo de Votos Por Partido'
+                },
+                xAxis: {
+                    categories: [<%=Partidos%>],
+                    // Pongo el título para el eje de las 'X'
+                    title: {
+                        text: 'Partidos'
+                    }
+                }, yAxis: {
+                    // Pongo el título para el eje de las 'Y'
+                    title: {
+                        text: 'Nº Votos'
+                    }
+                },
+                series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: [<%=Votos%>],
+                        showInLegend: false
+                    }]
+            });
 
-var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.dataFields.category = "country";
-categoryAxis.renderer.minGridDistance = 40;
-categoryAxis.fontSize = 11;
 
-var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxis.min = 0;
-valueAxis.max = 24000;
-valueAxis.strictMinMax = true;
-valueAxis.renderer.minGridDistance = 30;
-// axis break
-var axisBreak = valueAxis.axisBreaks.create();
-axisBreak.startValue = 2100;
-axisBreak.endValue = 22900;
-//axisBreak.breakSize = 0.005;
+            document.getElementById('plain').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: false,
+                        polar: false
+                    },
+                    subtitle: {
+                        text: 'Plain'
+                    }
+                });
+            });
 
-// fixed axis break
-var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
+            document.getElementById('inverted').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: true,
+                        polar: false
+                    },
+                    subtitle: {
+                        text: 'Inverted'
+                    }
+                });
+            });
 
-// make break expand on hover
-var hoverState = axisBreak.states.create("hover");
-hoverState.properties.breakSize = 1;
-hoverState.properties.opacity = 0.1;
-hoverState.transitionDuration = 1500;
+            document.getElementById('polar').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: false,
+                        polar: true
+                    },
+                    subtitle: {
+                        text: 'Polar'
+                    }
+                });
+            });
 
-axisBreak.defaultState.transitionDuration = 1000;
-/*
-// this is exactly the same, but with events
-axisBreak.events.on("over", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-    1500,
-    am4core.ease.sinOut
-  );
-});
-axisBreak.events.on("out", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-    1000,
-    am4core.ease.quadOut
-  );
-});*/
 
-var series = chart.series.push(new am4charts.ColumnSeries());
-series.dataFields.categoryX = "country";
-series.dataFields.valueY = "visits";
-series.columns.template.tooltipText = "{valueY.value}";
-series.columns.template.tooltipY = 0;
-series.columns.template.strokeOpacity = 0;
 
-// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-series.columns.template.adapter.add("fill", function(fill, target) {
-  return chart.colors.getIndex(target.dataItem.index);
-});   
-            
-            
-            
-            
-            
-        </script>
-        <script>
-            
-            
-            
-            
-         am4core.useTheme(am4themes_animated);
-// Themes end
 
-var chart = am4core.create("chartdiv2", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-chart.data = [
-  {
-    country: "Partido Nacional",
-    visits: 23725
-  },
-  {
-    country: "Partido Liberal de Honduras",
-    visits: 23725
-  },
-  {
-    country: "Partido Innovación y unidad",
-    visits: 1809
-  },
-  {
-    country: "Partido Democracia Cristiana",
-    visits: 1322
-  },
-  {
-    country: "Partido Unificación Democrática",
-    visits: 1122
-  },
-  {
-    country: "Partido Anticorrupción",
-    visits: 1114
-  },
-  {
-    country: "Partido Libertad y Refundación",
-    visits: 984
-  },
-  
-];
 
-var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.dataFields.category = "country";
-categoryAxis.renderer.minGridDistance = 40;
-categoryAxis.fontSize = 11;
-
-var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxis.min = 0;
-valueAxis.max = 24000;
-valueAxis.strictMinMax = true;
-valueAxis.renderer.minGridDistance = 30;
-// axis break
-var axisBreak = valueAxis.axisBreaks.create();
-axisBreak.startValue = 2100;
-axisBreak.endValue = 22900;
-//axisBreak.breakSize = 0.005;
-
-// fixed axis break
-var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
-
-// make break expand on hover
-var hoverState = axisBreak.states.create("hover");
-hoverState.properties.breakSize = 1;
-hoverState.properties.opacity = 0.1;
-hoverState.transitionDuration = 1500;
-
-axisBreak.defaultState.transitionDuration = 1000;
-/*
-// this is exactly the same, but with events
-axisBreak.events.on("over", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-    1500,
-    am4core.ease.sinOut
-  );
-});
-axisBreak.events.on("out", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-    1000,
-    am4core.ease.quadOut
-  );
-});*/
-
-var series = chart.series.push(new am4charts.ColumnSeries());
-series.dataFields.categoryX = "country";
-series.dataFields.valueY = "visits";
-series.columns.template.tooltipText = "{valueY.value}";
-series.columns.template.tooltipY = 0;
-series.columns.template.strokeOpacity = 0;
-
-// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-series.columns.template.adapter.add("fill", function(fill, target) {
-  return chart.colors.getIndex(target.dataItem.index);
-});   
-            
-            
-            
-            
-            
-        </script>
-        <script>
-            
-            
-            
-            
-         am4core.useTheme(am4themes_animated);
-// Themes end
-
-var chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-chart.data = [
-  {
-    country: "Partido Nacional",
-    visits: 23725
-  },
-  {
-    country: "Partido Liberal de Honduras",
-    visits: 23725
-  },
-  {
-    country: "Partido Innovación y unidad",
-    visits: 1809
-  },
-  {
-    country: "Partido Democracia Cristiana",
-    visits: 1322
-  },
-  {
-    country: "Partido Unificación Democrática",
-    visits: 1122
-  },
-  {
-    country: "Partido Anticorrupción",
-    visits: 1114
-  },
-  {
-    country: "Partido Libertad y Refundación",
-    visits: 984
-  },
-  
-];
-
-var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.dataFields.category = "country";
-categoryAxis.renderer.minGridDistance = 40;
-categoryAxis.fontSize = 11;
-
-var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxis.min = 0;
-valueAxis.max = 24000;
-valueAxis.strictMinMax = true;
-valueAxis.renderer.minGridDistance = 30;
-// axis break
-var axisBreak = valueAxis.axisBreaks.create();
-axisBreak.startValue = 2100;
-axisBreak.endValue = 22900;
-//axisBreak.breakSize = 0.005;
-
-// fixed axis break
-var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);
-axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height
-
-// make break expand on hover
-var hoverState = axisBreak.states.create("hover");
-hoverState.properties.breakSize = 1;
-hoverState.properties.opacity = 0.1;
-hoverState.transitionDuration = 1500;
-
-axisBreak.defaultState.transitionDuration = 1000;
-/*
-// this is exactly the same, but with events
-axisBreak.events.on("over", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 1 }, { property: "opacity", to: 0.1 }],
-    1500,
-    am4core.ease.sinOut
-  );
-});
-axisBreak.events.on("out", function() {
-  axisBreak.animate(
-    [{ property: "breakSize", to: 0.005 }, { property: "opacity", to: 1 }],
-    1000,
-    am4core.ease.quadOut
-  );
-});*/
-
-var series = chart.series.push(new am4charts.ColumnSeries());
-series.dataFields.categoryX = "country";
-series.dataFields.valueY = "visits";
-series.columns.template.tooltipText = "{valueY.value}";
-series.columns.template.tooltipY = 0;
-series.columns.template.strokeOpacity = 0;
-
-// as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-series.columns.template.adapter.add("fill", function(fill, target) {
-  return chart.colors.getIndex(target.dataItem.index);
-});   
-            
-            
-            
-            
-            
         </script>
 
 

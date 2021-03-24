@@ -23,6 +23,17 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
 
+
+<%--Scripts de Highcharts--%>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
+
 <link href="adminkit-main/static/css/app.css" rel="stylesheet">
 
 <style>
