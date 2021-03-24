@@ -33,6 +33,7 @@ public class ReferenciasDaoJDBC {
 private static final String SQL_SELECT_tESTADO_MESA_CON_EXCEPCION = "SELECT idTipos_EstadoMesa,Des FROM idTipos_EstadoMesa WHERE idTipos_EstadoMesa !=";
 private static final String SQL_SELECT_PERSONAS_POR_MESA = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado FROM Personas WHERE idMesa=";
 private static final String SQL_SELECT_PARTIDOS_SIN_PRESIDENTE = "SELECT idPartido,Nombre,Bandera,Estado FROM Partidos WHERE idPartido NOT IN (SELECT T1.idPartido FROM Partidos AS T1 INNER JOIN Personas AS T2 ON(T1.idPartido=T2.idPartido) WHERE T2.IdTipo = 1) ";
+
     
 
 

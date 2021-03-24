@@ -1,4 +1,18 @@
-<nav id="sidebar" class="sidebar">
+<%@page import="dominio.Persona"%>
+<%
+    Persona usuario = new Persona();
+    
+    usuario = (Persona)session.getAttribute("credencial");
+            System.out.println(usuario.getNombreCompleto());
+String Nombre = usuario.getNombreCompleto();
+String Foto = usuario.getFoto();
+    
+
+%>
+
+                                    <%
+                                    if (usuario.getId_Tipo()==5) {%>
+                                           <nav id="sidebar" class="sidebar">
                 <div class="sidebar-content js-simplebar">
                     <a class="sidebar-brand" href="">
                         <span class="align-middle">Sistema de Elecciones</span>
@@ -8,7 +22,7 @@
                     <ul class="sidebar-nav">
                         <li class="sidebar-header">
                             
-                            <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-secondary" target="_blank">Realizar Mi Voto</a>                                
+                            <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-outline-secondary" style="margin-left: 31px;" target="_blank">Realizar Mi Voto</a>                                
                             
                         </li>
                         <li class="sidebar-header">
@@ -91,3 +105,4 @@
 
                 </div>
             </nav>
+                                        <%}%>

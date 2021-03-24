@@ -1,4 +1,22 @@
+<%@page import="dominio.Persona"%>
+<%
+    Persona usuario = new Persona();
+    
+    usuario = (Persona)session.getAttribute("credencial");
+            System.out.println(usuario.getNombreCompleto());
+    if (usuario.getId_Tipo()==4) {
+            
+        }else if (usuario.getId_Tipo()==6){
+        response.sendRedirect("ServletControladorMesas?accion=ver&idMesa="+usuario.getId_Mesa());
+    
+    }else if (usuario.getId_Tipo()==7){
+        response.sendRedirect("ServletControladorVotos?accion=verPortada");
+    
+    }
+    
 
+%>
+  
 
 <html lang="es">
 
@@ -30,7 +48,11 @@
     <body>
         <div class="row mb-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
-                <h3><strong>Vistas</strong> Dashboard</h3>
+                <h3><strong>Vistas</strong> Dashboard</h3><br><br>
+                                                                                            <%
+                                    if (usuario.getId_Tipo()==4) {%>
+                                             <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-outline-secondary" style="margin-left: 5px; margin-bottom: 15px;" target="_blank">Realizar Mi Voto</a>                                
+                                        <%}%>
             </div>
 
             <div class="col-auto ml-auto text-right mt-n1">

@@ -71,6 +71,18 @@ public class ControladorMenus extends HttpServlet {
             case "Votaciones":
                 request.getRequestDispatcher("Vistas/Votacion.jsp").forward(request, response);
                 break;
+            case "MesaCerrada":
+                response.sendRedirect("Vistas/Info_MesaCerrada.jsp");
+    
+                break;
+            case "Inhabilitado":
+                response.sendRedirect("Vistas/Info_UsuarioNoHabilitado.jsp");
+    
+                break;
+            case "YaVoto":
+                response.sendRedirect("Vistas/Info_YaVoto.jsp");
+    
+                break;
         }
     }
 

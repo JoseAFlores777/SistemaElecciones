@@ -1,4 +1,22 @@
+<%@page import="dominio.Persona"%>
+<%
+    Persona usuario = new Persona();
+    
+    usuario = (Persona)session.getAttribute("credencial");
+            System.out.println(usuario.getNombreCompleto());
+    if (usuario.getId_Tipo()==4) {
+            request.getRequestDispatcher("ControladorMenus?accion=Dashboard").forward(request, response);
+        }else if (usuario.getId_Tipo()==6){
+        response.sendRedirect("ServletControladorMesas?accion=ver&idMesa="+usuario.getId_Mesa());
+    
+    }else if (usuario.getId_Tipo()==7){
+        response.sendRedirect("ServletControladorVotos?accion=verPortada");
+    
+    }
+    
 
+%>
+  
 <%@page import="datos.Conexion"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>

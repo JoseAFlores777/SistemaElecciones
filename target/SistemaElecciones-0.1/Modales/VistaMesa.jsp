@@ -1,3 +1,14 @@
+<%@page import="dominio.Persona"%>
+<%
+    Persona usuario = new Persona();
+    
+    usuario = (Persona)session.getAttribute("credencial");
+            System.out.println(usuario.getNombreCompleto());
+String Nombre = usuario.getNombreCompleto();
+String Foto = usuario.getFoto();
+    
+
+%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="es">
@@ -69,7 +80,14 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" type="button" class="btn  btn-outline-success" style="margin-left:0%; margin-right: 25%; margin-bottom: 15px;"><i class="far fa-edit"></i> Editar Mesa</a>
+                                        <a href="${pageContext.request.contextPath}/ServletControladorMesas?accion=editar&idMesa=${mesa.getId_Mesa()}" type="button" class="btn  btn-outline-success" style=" margin-bottom: 15px;"><i class="far fa-edit"></i> Editar Mesa</a>
+                                       
+                                                                            <%
+                                    if (usuario.getId_Tipo()==6) {%>
+                                             <a href="ServletControladorVotos?accion=verPortada" type="button" class="btn btn-outline-secondary" style="margin-left: 5px; margin-bottom: 15px;" target="_blank">Realizar Mi Voto</a>                                
+                                        <%}%>
+                                        
+                                       
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="Generales-tab" data-bs-toggle="tab" data-bs-target="#Generales" type="button" role="tab" aria-controls="Generales" aria-selected="true">Datos Generales</button>

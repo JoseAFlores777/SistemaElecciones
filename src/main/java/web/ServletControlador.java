@@ -92,16 +92,18 @@ public class ServletControlador extends HttpServlet {
 
     private void editarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        int Tipo_Tipos =1;
+
+        int Tipo_Tipos = 1;
         //recuperamos el idCliente
         String id_Persona = request.getParameter("idPersona");
         Persona persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
-        
-        if (persona.getId_Tipo()>3) Tipo_Tipos=2; 
-        
+
+        if (persona.getId_Tipo() > 3) {
+            Tipo_Tipos = 2;
+        }
+
         List<Partido> partidos = new PartidoDaoJDBC().listar(persona.getId_Partido());
-        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(persona.getId_Tipo(),Tipo_Tipos);
+        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(persona.getId_Tipo(), Tipo_Tipos);
         List<Tipo_EstadoVoto> Estado_Voto = new ReferenciasDaoJDBC().listarTipoEstadoVoto(persona.getEstadoVoto());
         request.setAttribute("Estado_Voto", Estado_Voto);
         request.setAttribute("Tipos", tipos);
@@ -110,31 +112,29 @@ public class ServletControlador extends HttpServlet {
         String jspEditar = "/Modales/EditarPersona.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
-    
+
     private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-int user =  Integer.parseInt(request.getParameter("user"));
+        int user = Integer.parseInt(request.getParameter("user"));
         System.out.println(user);
-List<Partido> partidos;
+        List<Partido> partidos;
         if (user == 1) {
             System.out.println("entre en 1");
             partidos = new ReferenciasDaoJDBC().listarPatidosSinPresidente();
-            
-        }else{
+
+        } else {
             System.out.println("entre en todos");
-        partidos = new PartidoDaoJDBC().listar(0);
+            partidos = new PartidoDaoJDBC().listar(0);
         }
-        
-        
-        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(0,3);
+
+        List<TipoUsuarios> tipos = new ReferenciasDaoJDBC().listarTipoUsuarios(0, 3);
         List<Mesa> mesas = new MesaDaoJDBC().listar(0);
-        
-        
+
         request.setAttribute("Mesas", mesas);
         request.setAttribute("Tipos", tipos);
-        
+
         request.setAttribute("Partidos", partidos);
-        
+
         String jspEditar = "/Modales/AgregarPersona.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
@@ -189,13 +189,10 @@ List<Partido> partidos;
         String primer_Apellido = request.getParameter("PrimerApellido");
         String segundo_Apellido = request.getParameter("SegundoApellido");
 
-
-
 //        if (part == null) {
 //            System.out.println("No ha seleccionado un archivo");
 //            return;
 //        }
-
         if (isExtension(part.getSubmittedFileName(), extens)) {
             String Foto = saveFile(part, uploads);
 
@@ -211,13 +208,10 @@ List<Partido> partidos;
             int registrosModificados = new PersonaDaoJDBC().insertar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
 
-        }
-        
-        else{
-        
-        
-        String Foto = "SinFoto.png";
-                    if (id_Tipo <= 3) {
+        } else {
+
+            String Foto = "SinFoto.png";
+            if (id_Tipo <= 3) {
                 int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
                 //Creamos el objeto de Persona (modelo)
                 persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto);
@@ -228,9 +222,7 @@ List<Partido> partidos;
             //Modificar el  objeto en la base de datos
             int registrosModificados = new PersonaDaoJDBC().insertar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
-        
-        
-        
+
         }
 
         //Redirigimos hacia accion por default
@@ -278,7 +270,6 @@ List<Partido> partidos;
 //            System.out.println("No ha seleccionado un archivo");
 //            return;
 //        }
-
         if (isExtension(part.getSubmittedFileName(), extens)) {
             String Foto = saveFile(part, uploads);
 
@@ -294,11 +285,11 @@ List<Partido> partidos;
             int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
 
-        }else{
-        
-        Persona per = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
-        String Foto = per.getFoto();
-                    if (id_Tipo <= 3) {
+        } else {
+
+            Persona per = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
+            String Foto = per.getFoto();
+            if (id_Tipo <= 3) {
                 int id_Partido = Integer.parseInt(request.getParameter("idPartido"));
                 //Creamos el objeto de Persona (modelo)
                 persona = new Persona(id_Persona, id_Tipo, id_Mesa, id_Partido, Password_, primer_Nombre, segundo_Nombre, tercer_Nombre, primer_Apellido, segundo_Apellido, Foto, EstadoVoto, Estado);
@@ -309,9 +300,7 @@ List<Partido> partidos;
             //Modificar el  objeto en la base de datos
             int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
-        
-        
-        
+
         }
 
         //Redirigimos hacia accion por default
@@ -363,7 +352,8 @@ List<Partido> partidos;
         int Ingreso = new PersonaDaoJDBC().validar(persona);
         System.out.println(Ingreso);
         if (Ingreso == 1) {
-
+            persona = new PersonaDaoJDBC().encontrar(new Persona(id_Persona));
+            
             HttpSession sesion = request.getSession();
             sesion.setAttribute("credencial", persona);
 
@@ -376,13 +366,13 @@ List<Partido> partidos;
 
     private String saveFile(Part part, File pathUploads) {
         String pathAbsolute = "";
-        String fileName=" ";
+        String fileName = " ";
 
         try {
 
             Path path = Paths.get(part.getSubmittedFileName());
-             fileName = path.getFileName().toString();
-             
+            fileName = path.getFileName().toString();
+
             InputStream input = part.getInputStream();
 
             if (input != null) {

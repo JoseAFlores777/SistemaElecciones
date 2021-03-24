@@ -28,6 +28,7 @@ public class MesaDaoJDBC {
 
     private static final String SQL_DELETE = "DELETE FROM Mesas WHERE idMesa = ?";
     private static final String SQL_Lengua = "SET lc_time_names = 'es_ES'";
+    private static final String SQL_Estado_Mesa = "SELECT Estado FROM Mesas WHERE idMesa=";
 
     public List<Mesa> listar(int idExcepcion) {
 
@@ -230,6 +231,34 @@ public class MesaDaoJDBC {
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Referencia = rs.getString(1);
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return Referencia;
+    }
+    
+    public String ObtenerEstadoMesa(int id) {
+        String Referencia = null;
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Mesa mesa = null;
+
+        try {
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement(SQL_Estado_Mesa+id);
             rs = stmt.executeQuery();
 
             while (rs.next()) {

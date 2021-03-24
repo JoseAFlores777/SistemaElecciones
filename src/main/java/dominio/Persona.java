@@ -1,6 +1,7 @@
 
 package dominio;
 
+import datos.MesaDaoJDBC;
 import datos.PersonaDaoJDBC;
 import java.io.IOException;
 import java.io.InputStream;
@@ -260,6 +261,9 @@ private boolean Estado;
 
     public String getId_Mesa_Des() {
         return id_Mesa_Des;
+    }
+    public String getId_Mesa_Estado() {
+        return new MesaDaoJDBC().ObtenerEstadoMesa(getId_Mesa());
     }
 
     public void setId_Mesa_Des(String id_Mesa_Des) {
