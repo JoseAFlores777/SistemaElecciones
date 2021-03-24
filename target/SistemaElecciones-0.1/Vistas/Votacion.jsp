@@ -1,25 +1,27 @@
 <%@page import="dominio.Persona"%>
 <%
     Persona usuario = new Persona();
-    
-    usuario = (Persona)session.getAttribute("credencial");
-            System.out.println(usuario.getNombreCompleto());
-            System.out.println(usuario.getId_Mesa_Estado());
-            System.out.println(usuario.getEstadoVoto());
-if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
-        response.sendRedirect("ControladorMenus?accion=MesaCerrada");
-    }else{
 
-    if (usuario.getEstadoVoto()==1) {
+    usuario = (Persona) session.getAttribute("credencial");
+    System.out.println(usuario.getNombreCompleto());
+    System.out.println(usuario.getId_Mesa_Estado());
+    System.out.println(usuario.getId_Mesa());
+    System.out.println(usuario.getId_Persona());
+    System.out.println(usuario.getEstadoVoto());
+    if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
+        response.sendRedirect("ControladorMenus?accion=MesaCerrada");
+    } else {
+
+        if (usuario.getEstadoVoto() == 1) {
             response.sendRedirect("ControladorMenus?accion=Inhabilitado");
-        }else if(usuario.getEstadoVoto()==3){
-        response.sendRedirect("ControladorMenus?accion=YaVoto");
+        } else if (usuario.getEstadoVoto() == 3) {
+            response.sendRedirect("ControladorMenus?accion=YaVoto");
         }
-}
-    
+    }
+
 
 %>
-  
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="es">
@@ -31,7 +33,10 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
         <title>Votación</title>
 
         <style>
-
+            .FotoCandidato{
+                max-width: 100% !important;
+                height: 200px !important;
+            }
 
         </style>
 
@@ -57,7 +62,7 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
                         </div>
                     </div>
 
-                    <form action="" method="POST">
+                    <form action="${pageContext.request.contextPath}/ServletControladorVotos?accion=insertar&idMesa=<%=usuario.getId_Mesa()%>&idVotante=<%=usuario.getId_Persona()%>" method="POST">
                         <div class="accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne">
@@ -70,25 +75,27 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
 
                                         <div class="container-fluid overflow-auto">
                                             <div class="row flex-nowrap">
-                                                
-                                                
-                                                
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
 
-                                                            <div class="form-check" >
-                                                                <input class="Presidente form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
+                                                <c:forEach var="presidente" items="${Presidentes}" varStatus="status" >
+                                                    <div  class="col-3" style="width: 233px;">
+                                                        <div class="card" style="width: 13rem;">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${presidente.getFoto_Partido()}" style="height: 117px" class="card-img-top" alt="...">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${presidente.getFoto()}" class=" card-img-top img-fluid rounded FotoCandidato" alt="...">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title" style="font-size: 100%; text-align: center"><b>${presidente.getNombreCompleto()}</b></h5>
 
-                                                                </label>
+                                                                <div class="form-check" >
+                                                                    <input class="Presidente form-check-input"  type="checkbox" name="idPersona" value="${presidente.getId_Persona()}" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </c:forEach>
+
+
 
 
 
@@ -99,8 +106,8 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -108,191 +115,68 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
                                     </button>
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">                            
-                                        <div class="row">
-                                            <div class="col-2" style="height: 550px;">
-                                                <div class="card" style="height: 100%" >
+                                    <div class="accordion-body">     
 
-                                                    <div class="card-body row " style="height: 100%; align-content: center; background-color: #ededed">
-                                                        <h5 style="font-size: 26px; text-align: center;"><b>Partido Liberal de Honduras</b></h5>
+                                        <c:forEach var="partido" items="${Partidos}" varStatus="status" >
+                                            <div class="row">
+                                                <div class="col-2" style="height: 550px;">
+                                                    <div class="card" style="height: 100%" >
+
+                                                        <div class="card-body row " style="height: 100%; align-content: center; background-color: #ededed">
+                                                            <h5 style="font-size: 26px; text-align: center;"><b>${partido.getNombre()}</b></h5>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-10 container-fluid overflow-auto">
+                                                    <div class="row flex-nowrap">
+                                                        <c:forEach var="diputado" items="${Diputados}" varStatus="status" >
+
+                                                            <c:if test="${diputado.getId_Partido()== partido.getId_Partido()}">
+                                                    <div  class="col-3" style="width: 233px;">
+                                                        <div class="card" style="width: 13rem;">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${diputado.getFoto_Partido()}" style="height: 117px" class="card-img-top" alt="...">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${diputado.getFoto()}" class=" card-img-top img-fluid rounded FotoCandidato" alt="...">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title" style="font-size: 100%; text-align: center"><b>${diputado.getNombreCompleto()}</b></h5>
+
+                                                                <div class="form-check" >
+                                                                    <input class="Diputado form-check-input"  type="checkbox" name="idPersona" value="${diputado.getId_Persona()}" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
+                                                                    <label class="form-check-label" for="defaultCheck1">
+
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                            </c:if>
+
+
+
+                                                        </c:forEach>
+
 
                                                     </div>
 
                                                 </div>
                                             </div>
-                                            <div class="col-10 container-fluid overflow-auto">
-                                                <div class="row flex-nowrap">
-                                                    
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                    
+                                        </c:forEach>
 
 
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-2" style="height: 550px;">
-                                                <div class="card" style="height: 100%" >
-
-                                                    <div class="card-body row " style="height: 100%; align-content: center; background-color: #ededed">
-                                                        <h5 style="font-size: 26px; text-align: center;"><b>Partido Liberal de Honduras</b></h5>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-10 container-fluid overflow-auto">
-                                                <div class="row flex-nowrap">
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div  class="col-3" style="width: 233px;">
-                                                        <div class="card" style="width: 13rem;">
-                                                            <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                            <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                                <div class="form-check" >
-                                                                    <input class="Diputado form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                    <label class="form-check-label" for="defaultCheck1">
-
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
 
-                                                </div>
 
-                                            </div>
-                                        </div>
+
+
+
+
+
+
+
+
+
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -306,106 +190,25 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
                                     <div class="accordion-body">
                                         <div class="container-fluid overflow-auto">
 
-
-
-
                                             <div class="row flex-nowrap">
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
+                                                <c:forEach var="alcalde" items="${Alcaldes}" varStatus="status" >
+                                                    <div  class="col-3" style="width: 233px;">
+                                                        <div class="card" style="width: 13rem;">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${alcalde.getFoto_Partido()}" style="height: 117px" class="card-img-top" alt="...">
+                                                            <img src="${pageContext.request.contextPath}/Imagenes/${alcalde.getFoto()}" class=" card-img-top img-fluid rounded FotoCandidato" alt="...">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title" style="font-size: 100%; text-align: center"><b>${alcalde.getNombreCompleto()}</b></h5>
 
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
+                                                                <div class="form-check" >
+                                                                    <input class="Alcalde form-check-input"  type="checkbox" name="idPersona" value="${alcalde.getId_Persona()}" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
+                                                                    <label class="form-check-label" for="defaultCheck1">
 
-                                                                </label>
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div  class="col-3" style="width: 233px;">
-                                                    <div class="card" style="width: 13rem;">
-                                                        <img src="Imagenes/liberal@4x.png" style="height: 117px" class="card-img-top" alt="...">
-                                                        <img src="Imagenes/Foto_Perfil.png" class="card-img-top img-fluid rounded" alt="...">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title" style="font-size: 16px; text-align: center"><b>JOSÉ ADOLFO IZAGUIRRE FLORES</b></h5>
-
-                                                            <div class="form-check" >
-                                                                <input class="Alcalde form-check-input"  type="checkbox" value="" id="defaultCheck1" style="width: 110;height: 110;margin-left: auto;">
-                                                                <label class="form-check-label" for="defaultCheck1">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </c:forEach>
 
 
                                             </div>
@@ -443,8 +246,7 @@ if (Integer.parseInt(usuario.getId_Mesa_Estado()) != 2) {
         <script language="javascript">
             $(document).ready(function () {
 
-            <%
-                int p = 1;
+            <%                int p = 1;
                 int d = 3;
                 int a = 1;
 

@@ -246,6 +246,8 @@ public class ServletControlador extends HttpServlet {
 
     private void modificarPersona(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, FileUploadException, Exception {
+        
+        String id_Credencial = request.getParameter("idCredencial");
         Persona persona;
 
         //recuperamos los valores del formulario editarPersona
@@ -300,6 +302,12 @@ public class ServletControlador extends HttpServlet {
             //Modificar el  objeto en la base de datos
             int registrosModificados = new PersonaDaoJDBC().actualizar(persona);
             System.out.println("registrosModificados = " + registrosModificados);
+            
+            if (id_Credencial.equals(id_Persona) ) {
+                System.out.println("HOLAAAAAAAAAAA");
+                HttpSession sesion = request.getSession();
+            sesion.setAttribute("credencial", persona);
+            }
 
         }
 

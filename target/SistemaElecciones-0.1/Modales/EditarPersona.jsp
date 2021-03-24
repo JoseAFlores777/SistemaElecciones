@@ -1,5 +1,17 @@
+<%@page import="dominio.Persona"%>
+<%
+    Persona usuario = new Persona();
+
+    usuario = (Persona) session.getAttribute("credencial");
+    System.out.println(usuario.getNombreCompleto());
+    System.out.println(usuario.getId_Mesa_Estado());
+    System.out.println(usuario.getId_Mesa());
+    System.out.println(usuario.getId_Persona());
+    System.out.println(usuario.getEstadoVoto());
 
 
+
+%>
 
 
 
@@ -56,7 +68,7 @@
                             <div class="modal-content">
                                 <div class="modal-body">
 
-                                    <form  action="${pageContext.request.contextPath}/ServletControlador?accion=modificar&idPersona=${persona.getId_Persona()}" method="POST" enctype="multipart/form-data">
+                                    <form  action="${pageContext.request.contextPath}/ServletControlador?accion=modificar&idPersona=${persona.getId_Persona()}&idCredencial=<%=usuario.getId_Persona()%>" method="POST" enctype="multipart/form-data">
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <div class="mb-3 col-md-10">

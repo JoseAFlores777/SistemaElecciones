@@ -2,11 +2,13 @@ package web;
 
 import com.google.gson.Gson;
 import datos.MesaDaoJDBC;
+import datos.PersonaDaoJDBC;
 import datos.ReferenciasDaoJDBC;
 import datos.VotoDaoJDBC;
 import dominio.Departamentos;
 import dominio.Mesa;
 import dominio.Municipios;
+import dominio.Partido;
 import dominio.Persona;
 import dominio.Tipo_EstadoMesa;
 import dominio.Voto;
@@ -46,7 +48,8 @@ public class ServletControladorVotos extends HttpServlet {
                     this.eliminarMesa(request, response);
                     break;
                 case "verPortada":
-                    response.sendRedirect("ControladorMenus?accion=Votaciones");
+                    this.BuscarReferencias(request, response);
+//                    response.sendRedirect("ControladorMenus?accion=Votaciones");
                     break;
                 case "BuscarReferencias":
                     this.BuscarReferencias(request, response);
@@ -79,7 +82,7 @@ public class ServletControladorVotos extends HttpServlet {
 
         Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
         request.setAttribute("mesa", mesa);
-        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom(),true);
+        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(mesa.getID_Depto_Nom(), true);
         List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios();
         List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
         Gson gson = new Gson();
@@ -93,7 +96,7 @@ public class ServletControladorVotos extends HttpServlet {
         String jspEditar = "/Modales/EditarMesas.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
-    
+
     private void VerMesa(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //recuperamos el idCliente
@@ -101,9 +104,9 @@ public class ServletControladorVotos extends HttpServlet {
 
         Mesa mesa = new MesaDaoJDBC().encontrar(new Mesa(id_Mesa));
         request.setAttribute("mesa", mesa);
-        List<Persona> Electores = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(),1);
-        List<Persona> MiembrosMesa = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(),2);
-        
+        List<Persona> Electores = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(), 1);
+        List<Persona> MiembrosMesa = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(), 2);
+
         List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
 
         request.setAttribute("Electores", Electores);
@@ -119,20 +122,18 @@ public class ServletControladorVotos extends HttpServlet {
         String accion = request.getParameter("accion");
         if (accion != null) {
             switch (accion) {
-                case "insertar":
-                {
+                case "insertar": {
                     try {
                         this.insertarVoto(request, response);
                     } catch (ParseException ex) {
-                       ex.printStackTrace(System.out);
+                        ex.printStackTrace(System.out);
                     } catch (SQLException ex) {
-                   ex.printStackTrace();
+                        ex.printStackTrace();
+                    }
                 }
-                }
-                    break;
+                break;
 
-                case "modificar":
-                {
+                case "modificar": {
                     try {
                         this.modificarMesa(request, response);
                     } catch (ParseException ex) {
@@ -140,8 +141,7 @@ public class ServletControladorVotos extends HttpServlet {
                     }
                 }
 
-                    break;
-
+                break;
 
                 default:
                     this.accionDefault(request, response);
@@ -153,50 +153,41 @@ public class ServletControladorVotos extends HttpServlet {
 
     private void insertarVoto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException, SQLException {
+        String string = null;
         //recuperamos los valores del formulario agregarPersona
-
-        int id_Municipio = Integer.parseInt(request.getParameter("idMunicipio"));
-        String Nombre = request.getParameter("Nombre");
-        String Latitud = request.getParameter("Latitud");
-        String Longitud = request.getParameter("Longitud");
-        
-        String id_Persona = request.getParameter("idPersona");
         int id_Mesa = Integer.parseInt(request.getParameter("idMesa"));
+        String id_Votante = request.getParameter("idVotante");
+        String[] id_Personas = request.getParameterValues("idPersona");
 
+        for (String id : id_Personas) {
+            System.out.println(id);
+            //Creamos el objeto de Persona (modelo)
+            Voto voto = new Voto(id_Mesa, id);
 
-        //Creamos el objeto de Persona (modelo)
-        Voto voto = new Voto(id_Mesa, id_Persona);
-        
-
-        //Insertamos el nuevo objeto en la base de datos
-        int registrosModificados = new VotoDaoJDBC().insertar(voto);
-        System.out.println("registrosModificados = " + registrosModificados);
-
+            //Insertamos el nuevo objeto en la base de datos
+            int registrosModificados = new VotoDaoJDBC().insertar(voto);
+            System.out.println("registrosModificados = " + registrosModificados);
+        }
+        new VotoDaoJDBC().actualizarEstadoVoto(id_Votante);
         //Redirigimos hacia accion por default
-        response.sendRedirect("ServletControladorMesas?accion=");
+        response.sendRedirect("index.jsp");
     }
-    
-    
-        private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
+
+    private void BuscarReferencias(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Departamentos> Deptos = new ReferenciasDaoJDBC().listarDepartamentos(0,false);
-  
-          List<Municipios> municipios = new ReferenciasDaoJDBC().listarMunicipios();
-        
-        Gson gson = new Gson();
+        List<Partido> Partidos = new ReferenciasDaoJDBC().listarPartidosConDiputados();
+        List<Persona> Presidentes = new PersonaDaoJDBC().listar("1");
+        List<Persona> Alcaldes = new PersonaDaoJDBC().listar("2");
+        List<Persona> Diputados = new PersonaDaoJDBC().listar("3");
 
-        String JSON = gson.toJson(municipios);
-        HttpSession sesion = request.getSession();
-        
-        sesion.setAttribute("municipiosJSON", JSON);
-        request.setAttribute("Departamentos", Deptos);
-        String jspEditar = "/Modales/AgregarMesa.jsp";
+        request.setAttribute("Partidos", Partidos);
+        request.setAttribute("Presidentes", Presidentes);
+        request.setAttribute("Alcaldes", Alcaldes);
+        request.setAttribute("Diputados", Diputados);
+        String jspEditar = "/Vistas/Votacion.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
     }
-    
-    
-    
 
     private void modificarMesa(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {

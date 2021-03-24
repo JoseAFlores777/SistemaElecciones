@@ -61,7 +61,7 @@ public class Voto {
     }
 
     public int getId_Tipo() {
-        return id_Tipo;
+        return Integer.parseInt(new VotoDaoJDBC().Referencia(getId_Persona(),5));
     }
     public String getTipo_Des() {
         return new VotoDaoJDBC().Referencia(String.valueOf(getId_Tipo()),1);

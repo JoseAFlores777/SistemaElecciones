@@ -25,6 +25,8 @@ public class VotoDaoJDBC {
     private static final String SQL_UPDATE_VOTO = "UPDATE Votos SET Votos = Votos +1 WHERE idVoto=?";
 
     private static final String SQL_DELETE = "DELETE FROM Personas WHERE idPersona = ?";
+    
+    private static final String SQL_UPDATE_ESTADO_VOTO_ELECTOR = "UPDATE Personas SET Estado_Voto = 3 WHERE idPersona=?";
 
 //Referencia Tipo: 1-> Listar por Partido 2->Listar Por Mesa 3->Listar Por candidato
     public List<Voto> listar(String id, int Tipo) {
@@ -100,12 +102,12 @@ public class VotoDaoJDBC {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-        int rows = stmt.executeUpdate();
+        
 
-        if (rows > 0) {
+        if (id_Voto > 0) {
             return id_Voto;
         } else {
-            return rows;
+            return 0;
         }
 
     }
@@ -127,8 +129,8 @@ public class VotoDaoJDBC {
                 stmt.setInt(2, voto.getId_Partido());
                 stmt.setInt(3, voto.getId_Tipo());
                 stmt.setString(4, voto.getId_Persona());
-                stmt.setInt(5, voto.getVotos());
-
+                stmt.setInt(5, 1);
+                System.out.println(voto.getId_Mesa()+"/"+voto.getId_Partido()+"/"+voto.getId_Tipo()+"/"+voto.getId_Persona()+"/"+1);
                 rows = stmt.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace(System.out);
@@ -151,6 +153,27 @@ public class VotoDaoJDBC {
             stmt = conn.prepareStatement(SQL_UPDATE_VOTO);
 
             stmt.setInt(1, idVoto);
+
+
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return rows;
+    }
+    public int actualizarEstadoVoto(String idPersona) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        int rows = 0;
+        try {
+            conn = Conexion.getConnection();
+
+            stmt = conn.prepareStatement(SQL_UPDATE_ESTADO_VOTO_ELECTOR);
+
+            stmt.setString(1, idPersona);
 
 
             rows = stmt.executeUpdate();
@@ -195,6 +218,8 @@ public class VotoDaoJDBC {
             sql = "SELECT CONCAT(PrimerNombre,' ',SegundoNombre,' ',PrimerApellido,' ',SegundoApellido) From Personas WHERE idPersona=" + id;
         } else if (Tipo == 4) {
             sql = "SELECT idPartido FROM Personas WHERE idPersona =" + id;
+        } else if (Tipo == 5) {
+            sql = "SELECT idTipo FROM Personas WHERE idPersona=" + id;
         }
 
         Connection conn = null;

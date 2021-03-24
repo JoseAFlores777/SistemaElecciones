@@ -33,9 +33,46 @@ public class ReferenciasDaoJDBC {
 private static final String SQL_SELECT_tESTADO_MESA_CON_EXCEPCION = "SELECT idTipos_EstadoMesa,Des FROM idTipos_EstadoMesa WHERE idTipos_EstadoMesa !=";
 private static final String SQL_SELECT_PERSONAS_POR_MESA = "SELECT idPersona,idTipo,idMesa,idPartido,Contra,PrimerNombre,SegundoNombre,TercerNombre,PrimerApellido,SegundoApellido,Foto,Estado_Voto,Estado FROM Personas WHERE idMesa=";
 private static final String SQL_SELECT_PARTIDOS_SIN_PRESIDENTE = "SELECT idPartido,Nombre,Bandera,Estado FROM Partidos WHERE idPartido NOT IN (SELECT T1.idPartido FROM Partidos AS T1 INNER JOIN Personas AS T2 ON(T1.idPartido=T2.idPartido) WHERE T2.IdTipo = 1) ";
+private static final String SQL_SELECT_PARTIDOS_CON_DIPUTADOS = "SELECT T1.idPartido,T1.Nombre,T1.Bandera,T1.Estado FROM Partidos AS T1 INNER JOIN Personas AS T2 ON(T2.idPartido=T1.idPartido) WHERE T2.idTipo=3 ORDER BY idPartido ASC";
+
 
     
+public List<Partido> listarPartidosConDiputados() {
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Partido partido = null;
+        List<Partido> partidos = new ArrayList<>();
+        try {
+            conn = Conexion.getConnection();
+
+                stmt = conn.prepareStatement(SQL_SELECT_PARTIDOS_CON_DIPUTADOS);
+      
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String id_Partido = rs.getString("idPartido");
+
+                String Nombre = rs.getString("Nombre");
+
+                String Bandera = rs.getString("Bandera");
+
+                boolean Estado = rs.getBoolean("Estado");
+
+                partido = new Partido(id_Partido, Nombre, Bandera, Estado);
+                partidos.add(partido);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
+        }
+        return partidos;
+    }
 
 public List<Partido> listarPatidosSinPresidente() {
 
