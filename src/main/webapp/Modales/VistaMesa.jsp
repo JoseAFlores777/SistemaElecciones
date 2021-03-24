@@ -1,3 +1,4 @@
+<%@page import="dominio.Mesa"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="datos.Conexion"%>
 <%@page import="java.sql.ResultSet"%>
@@ -6,8 +7,10 @@
 <%@page import="dominio.Persona"%>
 <%
     Persona usuario = new Persona();
+    Mesa mesa = new Mesa();
 
     usuario = (Persona) session.getAttribute("credencial");
+    mesa = (Mesa) session.getAttribute("mesa");
     System.out.println(usuario.getNombreCompleto());
     String Nombre = usuario.getNombreCompleto();
     String Foto = usuario.getFoto();
@@ -546,9 +549,10 @@
             PreparedStatement stmt = null;
             ResultSet rs = null;
             String Partidos = "", Votos = "", VotosP = "", VotosD = "", VotosA = "", Presidente = "", Diputado = "", Alcalde = "";
+            
             try {
                 conn = Conexion.getConnection();
-                stmt = conn.prepareStatement("SELECT T2.Nombre, SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Partidos AS T2 ON(T2.idPartido=T1.idPartido) WHERE T1.idMesa=" + usuario.getId_Mesa() + " GROUP BY T2.Nombre;");
+                stmt = conn.prepareStatement("SELECT T2.Nombre, SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Partidos AS T2 ON(T2.idPartido=T1.idPartido) WHERE T1.idMesa=" + mesa.getId_Mesa() + " GROUP BY T2.Nombre;");
                 rs = stmt.executeQuery();
 
                 while (rs.next()) {
@@ -574,7 +578,7 @@
 
         <%            try {
                 conn = Conexion.getConnection();
-                stmt = conn.prepareStatement("SELECT CONCAT(T2.PrimerNombre,' ',T2.SegundoNombre,' ',T2.PrimerApellido,' ',T2.SegundoApellido), SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Personas AS T2 ON(T2.idPersona=T1.idPersona) WHERE T1.idMesa=" + usuario.getId_Mesa() + " AND T1.idTipo=1 GROUP BY T2.idPersona;");
+                stmt = conn.prepareStatement("SELECT CONCAT(T2.PrimerNombre,' ',T2.SegundoNombre,' ',T2.PrimerApellido,' ',T2.SegundoApellido), SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Personas AS T2 ON(T2.idPersona=T1.idPersona) WHERE T1.idMesa=" + mesa.getId_Mesa() + " AND T1.idTipo=1 GROUP BY T2.idPersona;");
                 rs = stmt.executeQuery();
 
                 while (rs.next()) {

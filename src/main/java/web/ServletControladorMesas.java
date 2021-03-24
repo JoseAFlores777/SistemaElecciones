@@ -102,7 +102,8 @@ public class ServletControladorMesas extends HttpServlet {
         List<Persona> MiembrosMesa = new ReferenciasDaoJDBC().listarPesrsonaMesa(mesa.getId_Mesa(),2);
         
         List<Tipo_EstadoMesa> EstadoMesa = new ReferenciasDaoJDBC().listarTipoEstadoMesa(mesa.getEstado());
-
+                HttpSession sesion = request.getSession();
+            sesion.setAttribute("mesa", mesa);
         request.setAttribute("Electores", Electores);
         request.setAttribute("MiembrosMesa", MiembrosMesa);
         request.setAttribute("Estados", EstadoMesa);
