@@ -30,7 +30,7 @@
         <style>
 
 
-            #container {
+            #container,#PresidentesChart,#DiputadosChart,#AlcaldesChart {
                 height: 400px;
                 width: 100%;
             }
@@ -74,7 +74,7 @@
         <title>Información | Mesas</title>
     </head>
 
-    <body onload="mostrar_mapa(1, 2)">
+    <body onload="mostrar_mapa(1,2)">
 
         <div class="wrapper">
             <jsp:include page="/Estructura-Menu/Sidebar.jsp"/>
@@ -458,15 +458,45 @@
                                                     <div class="tab-pane fade" id="Presidentes" role="tabpanel" aria-labelledby="Presidentes-tab">
 
 
+                                                        <figure class="highcharts-figure">
+                                                            <div id="PresidentesChart"></div>
+                                                            <p class="highcharts-description">
+                                                                Chart with buttons to modify options, showing how options can be changed
+                                                                on the fly. This flexibility allows for more dynamic charts.
+                                                            </p>
 
+                                                            <button id="plain2">Plain</button>
+                                                            <button id="inverted2">Inverted</button>
+                                                            <button id="polar2">Polar</button>
+                                                        </figure>
 
 
                                                     </div>
                                                     <div class="tab-pane fade" id="Diputados" role="tabpanel" aria-labelledby="Diputados-tab">...
+                                                        <figure class="highcharts-figure">
+                                                            <div id="DiputadosChart"></div>
+                                                            <p class="highcharts-description">
+                                                                Chart with buttons to modify options, showing how options can be changed
+                                                                on the fly. This flexibility allows for more dynamic charts.
+                                                            </p>
 
+                                                            <button id="plain3">Plain</button>
+                                                            <button id="inverted3">Inverted</button>
+                                                            <button id="polar3">Polar</button>
+                                                        </figure>
                                                     </div>
                                                     <div class="tab-pane fade" id="Alcaldes" role="tabpanel" aria-labelledby="Alcaldes-tab">...
+                                                        <figure class="highcharts-figure">
+                                                            <div id="AlcaldesChart"></div>
+                                                            <p class="highcharts-description">
+                                                                Chart with buttons to modify options, showing how options can be changed
+                                                                on the fly. This flexibility allows for more dynamic charts.
+                                                            </p>
 
+                                                            <button id="plain4">Plain</button>
+                                                            <button id="inverted4">Inverted</button>
+                                                            <button id="polar4">Polar</button>
+                                                        </figure>
                                                     </div>
                                                 </div>
 
@@ -538,147 +568,14 @@
         <jsp:include page="/Estructura-Menu/html-scripts.jsp"/>  
 
 
-
+        
         <jsp:include page="/Estructura-Menu/Mapa_Scripts.jsp"/>  
 
-
-
-
-        <%
-            Connection conn = null;
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-            String Partidos = "", Votos = "", VotosP = "", VotosD = "", VotosA = "", Presidente = "", Diputado = "", Alcalde = "";
-            
-            try {
-                conn = Conexion.getConnection();
-                stmt = conn.prepareStatement("SELECT T2.Nombre, SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Partidos AS T2 ON(T2.idPartido=T1.idPartido) WHERE T1.idMesa=" + mesa.getId_Mesa() + " GROUP BY T2.Nombre;");
-                rs = stmt.executeQuery();
-
-                while (rs.next()) {
-                    Partidos += "'" + rs.getString(1) + "',";
-                    Votos += "" + rs.getString(2) + ",";
-
-                }
-
-                //quitar la ultima coma de las cadenas
-                Partidos = Partidos.substring(0, Partidos.length() - 1);
-                Votos = Votos.substring(0, Votos.length() - 1);
-
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            } finally {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                Conexion.close(conn);
-            }
-
-
-        %>
-
-        <%            try {
-                conn = Conexion.getConnection();
-                stmt = conn.prepareStatement("SELECT CONCAT(T2.PrimerNombre,' ',T2.SegundoNombre,' ',T2.PrimerApellido,' ',T2.SegundoApellido), SUM(T1.Votos) FROM Votos AS  T1 INNER JOIN Personas AS T2 ON(T2.idPersona=T1.idPersona) WHERE T1.idMesa=" + mesa.getId_Mesa() + " AND T1.idTipo=1 GROUP BY T2.idPersona;");
-                rs = stmt.executeQuery();
-
-                while (rs.next()) {
-                    Presidente += "'" + rs.getString(1) + "',";
-                    VotosP += "" + rs.getString(2) + ",";
-
-                }
-
-                //quitar la ultima coma de las cadenas
-                Presidente = Presidente.substring(0, Presidente.length() - 1);
-                VotosP = VotosP.substring(0, VotosP.length() - 1);
-
-            } catch (SQLException ex) {
-                ex.printStackTrace(System.out);
-            } finally {
-                Conexion.close(rs);
-                Conexion.close(stmt);
-                Conexion.close(conn);
-            }
-
-
-        %>
+<jsp:include page="/Estructura-Menu/Charts_Script_Mesa.jsp"/>  
 
 
 
 
-
-        <script>
-
-
-            const chart = Highcharts.chart('container', {
-                title: {
-                    text: 'Estadística de Partidos Políticos'
-                },
-                subtitle: {
-                    text: 'Conteo de Votos Por Partido'
-                },
-                xAxis: {
-                    categories: [<%=Partidos%>],
-                    // Pongo el título para el eje de las 'X'
-                    title: {
-                        text: 'Partidos'
-                    }
-                }, yAxis: {
-                    // Pongo el título para el eje de las 'Y'
-                    title: {
-                        text: 'Nº Votos'
-                    }
-                },
-                series: [{
-                        type: 'column',
-                        colorByPoint: true,
-                        data: [<%=Votos%>],
-                        showInLegend: false
-                    }]
-            });
-
-
-            document.getElementById('plain').addEventListener('click', () => {
-                chart.update({
-                    chart: {
-                        inverted: false,
-                        polar: false
-                    },
-                    subtitle: {
-                        text: 'Plain'
-                    }
-                });
-            });
-
-            document.getElementById('inverted').addEventListener('click', () => {
-                chart.update({
-                    chart: {
-                        inverted: true,
-                        polar: false
-                    },
-                    subtitle: {
-                        text: 'Inverted'
-                    }
-                });
-            });
-
-            document.getElementById('polar').addEventListener('click', () => {
-                chart.update({
-                    chart: {
-                        inverted: false,
-                        polar: true
-                    },
-                    subtitle: {
-                        text: 'Polar'
-                    }
-                });
-            });
-
-
-
-
-
-
-        </script>
 
 
     </body>

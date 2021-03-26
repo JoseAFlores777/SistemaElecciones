@@ -68,7 +68,7 @@
         <div class="mainbox">
             <div class="err">Ya Votaste</div>
 
-            <div class="msg">Al parecer ya has ejercido sufrajio</p>No puedes Votar Dos Veces</div>
+            <div class="msg">Al parecer ya has Votado</p>Este Proceso solo se hace una vez</div>
         </div>
     </body>
 </head>
